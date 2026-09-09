@@ -1,0 +1,1101 @@
+{
+  "generated_at": "2026-09-09T09:58:30.934Z",
+  "score": 1733,
+  "groups": [
+    {
+      "tutorial_id": "T11",
+      "label": "Tut 11 · Mon 10am-12pm · BHB 1160",
+      "when": "Mon 10-10:30am",
+      "location": "BHB 1160",
+      "members": [
+        {
+          "id": "f8a043da-008d-46dc-9bf2-8542146a92b7",
+          "name": "Ellery Huang",
+          "is_vet": true,
+          "got_choice": 1,
+          "load": 3
+        },
+        {
+          "id": "a312826e-41db-4ce7-bcf7-1333a387e9b9",
+          "name": "Joseph Hoffmann",
+          "is_vet": true,
+          "got_choice": 9,
+          "load": 3
+        },
+        {
+          "id": "6f6035be-c5a2-4c22-b0e5-93909d63f67c",
+          "name": "Kenn Surya",
+          "is_vet": false,
+          "got_choice": 7,
+          "load": 4
+        },
+        {
+          "id": "818250c3-6ba4-4907-8c90-178b025ad502",
+          "name": "Washiella Jessica",
+          "is_vet": true,
+          "got_choice": 1,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T22",
+      "label": "Tut 22 · Mon 2-4pm · BHB 3280",
+      "when": "Mon 2-2:30pm",
+      "location": "BHB 3280",
+      "members": [
+        {
+          "id": "27c22a7a-1bc7-4654-9262-7dc5d2aa9c35",
+          "name": "Jovan Jonathan",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "6f6035be-c5a2-4c22-b0e5-93909d63f67c",
+          "name": "Kenn Surya",
+          "is_vet": false,
+          "got_choice": 8,
+          "load": 4
+        },
+        {
+          "id": "86211254-e6e6-479b-a10c-9e05a806cf9a",
+          "name": "Le Nguyen",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "3a822381-9c0e-47cd-b74a-484757ed8651",
+          "name": "Mary Tran",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 3
+        },
+        {
+          "id": "542b1f5d-0bd1-48e3-b765-83d5ece85814",
+          "name": "Phan Nguyen",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T13",
+      "label": "Tut 13 · Mon 3-5pm · BHB 3240",
+      "when": "Mon 3-3:30pm",
+      "location": "BHB 3240",
+      "members": [
+        {
+          "id": "f8a043da-008d-46dc-9bf2-8542146a92b7",
+          "name": "Ellery Huang",
+          "is_vet": true,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "6b273e08-3aa2-4cdd-b727-6715d08a2b1c",
+          "name": "Hongming Hu",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "2f6c9369-2f0f-468c-9153-f3a3e4c8f937",
+          "name": "Irfan Ahsan",
+          "is_vet": true,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "27c22a7a-1bc7-4654-9262-7dc5d2aa9c35",
+          "name": "Jovan Jonathan",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "3a822381-9c0e-47cd-b74a-484757ed8651",
+          "name": "Mary Tran",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "818250c3-6ba4-4907-8c90-178b025ad502",
+          "name": "Washiella Jessica",
+          "is_vet": true,
+          "got_choice": 2,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T21",
+      "label": "Tut 21 · Mon 4-6pm · BHB 3003",
+      "when": "Mon 4-4:30pm",
+      "location": "BHB 3003",
+      "members": [
+        {
+          "id": "f8a043da-008d-46dc-9bf2-8542146a92b7",
+          "name": "Ellery Huang",
+          "is_vet": true,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "2f6c9369-2f0f-468c-9153-f3a3e4c8f937",
+          "name": "Irfan Ahsan",
+          "is_vet": true,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "6f6035be-c5a2-4c22-b0e5-93909d63f67c",
+          "name": "Kenn Surya",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 4
+        },
+        {
+          "id": "86211254-e6e6-479b-a10c-9e05a806cf9a",
+          "name": "Le Nguyen",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "542b1f5d-0bd1-48e3-b765-83d5ece85814",
+          "name": "Phan Nguyen",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "818250c3-6ba4-4907-8c90-178b025ad502",
+          "name": "Washiella Jessica",
+          "is_vet": true,
+          "got_choice": 3,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T33",
+      "label": "Tut 33 · Mon 6-8pm · BHB 3280",
+      "when": "Mon 6-6:30pm",
+      "location": "BHB 3280",
+      "members": [
+        {
+          "id": "9e1134fe-cd99-4375-a636-3e7c24613cf9",
+          "name": "Flynn Russell",
+          "is_vet": true,
+          "got_choice": 7,
+          "load": 3
+        },
+        {
+          "id": "6b273e08-3aa2-4cdd-b727-6715d08a2b1c",
+          "name": "Hongming Hu",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "c5fd23a7-5c8d-420c-bea2-21e800210490",
+          "name": "Nikemie Dimitrov",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T14",
+      "label": "Tut 14 · Tue 8-10am · BHB 1140",
+      "when": "Tue 8-8:30am",
+      "location": "BHB 1140",
+      "members": [
+        {
+          "id": "be6c6bfb-af7a-46f3-be2a-d4e692af8356",
+          "name": "Alyssa Hodge",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "b3b4521e-9585-4452-aa4b-5a6e9b2d39f4",
+          "name": "Emily Dawson-Taylor",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 2
+        },
+        {
+          "id": "dbc57002-bfce-4cf3-977a-24e6c2b0e54a",
+          "name": "Gemma Rodham",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 3
+        },
+        {
+          "id": "c53411a5-7c9d-4da2-af2b-8df6320aacec",
+          "name": "Imani Qureshi",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 3
+        },
+        {
+          "id": "c5fd23a7-5c8d-420c-bea2-21e800210490",
+          "name": "Nikemie Dimitrov",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "d6337265-e9ee-46e1-bd03-84523f325c2e",
+          "name": "Rohan Howard",
+          "is_vet": true,
+          "got_choice": 2,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T02",
+      "label": "Tut 02 · Tue 10am-12pm · Institute N297",
+      "when": "Tue 10-10:30am",
+      "location": "Institute N297",
+      "members": [
+        {
+          "id": "be6c6bfb-af7a-46f3-be2a-d4e692af8356",
+          "name": "Alyssa Hodge",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "c0856f20-d9a2-4ce6-99d9-12762807b3d9",
+          "name": "Dylan Simpson",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 3
+        },
+        {
+          "id": "9e1134fe-cd99-4375-a636-3e7c24613cf9",
+          "name": "Flynn Russell",
+          "is_vet": true,
+          "got_choice": 1,
+          "load": 3
+        },
+        {
+          "id": "a2760a56-b98e-4e9d-ad40-ef217182b623",
+          "name": "Laam Cheung",
+          "is_vet": false,
+          "got_choice": 6,
+          "load": 3
+        },
+        {
+          "id": "86211254-e6e6-479b-a10c-9e05a806cf9a",
+          "name": "Le Nguyen",
+          "is_vet": false,
+          "got_choice": 6,
+          "load": 3
+        },
+        {
+          "id": "040ed810-0a1a-4f6a-a3a9-09fe27302bd4",
+          "name": "Peimin Zheng",
+          "is_vet": false,
+          "got_choice": 6,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T07",
+      "label": "Tut 07 · Tue 11:30am-1:30pm · BHB 1080",
+      "when": "Tue 11:30am-12pm",
+      "location": "BHB 1080",
+      "members": [
+        {
+          "id": "040ed810-0a1a-4f6a-a3a9-09fe27302bd4",
+          "name": "Peimin Zheng",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "57b19f94-5520-4aa7-bf00-1cecc4447068",
+          "name": "Robert Diep",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "79b5288b-f813-4bab-8232-165d86f65bf8",
+          "name": "Ryan Ramsden",
+          "is_vet": true,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "f95caceb-4194-449b-b249-4b87bfaf02bb",
+          "name": "Shijie Peng",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "722ee608-2622-4974-9db8-228073db5ba7",
+          "name": "Xi Chen",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "5c48db09-ec6e-4ab3-ac20-6bb1c0e32c45",
+          "name": "Zara Lockhart",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T19",
+      "label": "Tut 19 · Tue 12-2pm · BHB 1140",
+      "when": "Tue 12-12:30pm",
+      "location": "BHB 1140",
+      "members": [
+        {
+          "id": "2f6c9369-2f0f-468c-9153-f3a3e4c8f937",
+          "name": "Irfan Ahsan",
+          "is_vet": true,
+          "got_choice": 6,
+          "load": 3
+        },
+        {
+          "id": "57b19f94-5520-4aa7-bf00-1cecc4447068",
+          "name": "Robert Diep",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "f8068285-2dfc-4fc8-a3de-8ecf5208c2ea",
+          "name": "Saffron Little",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "f95caceb-4194-449b-b249-4b87bfaf02bb",
+          "name": "Shijie Peng",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "722ee608-2622-4974-9db8-228073db5ba7",
+          "name": "Xi Chen",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "5c48db09-ec6e-4ab3-ac20-6bb1c0e32c45",
+          "name": "Zara Lockhart",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T12",
+      "label": "Tut 12 · Tue 12-2pm · BHB 2200",
+      "when": "Tue 12:30-1pm",
+      "location": "BHB 2200",
+      "members": [
+        {
+          "id": "57b19f94-5520-4aa7-bf00-1cecc4447068",
+          "name": "Robert Diep",
+          "is_vet": false,
+          "got_choice": 6,
+          "load": 3
+        },
+        {
+          "id": "79b5288b-f813-4bab-8232-165d86f65bf8",
+          "name": "Ryan Ramsden",
+          "is_vet": true,
+          "got_choice": 6,
+          "load": 3
+        },
+        {
+          "id": "f8068285-2dfc-4fc8-a3de-8ecf5208c2ea",
+          "name": "Saffron Little",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 3
+        },
+        {
+          "id": "f95caceb-4194-449b-b249-4b87bfaf02bb",
+          "name": "Shijie Peng",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "722ee608-2622-4974-9db8-228073db5ba7",
+          "name": "Xi Chen",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "5c48db09-ec6e-4ab3-ac20-6bb1c0e32c45",
+          "name": "Zara Lockhart",
+          "is_vet": false,
+          "got_choice": 6,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T10",
+      "label": "Tut 10 · Tue 3-5pm · Mech Eng S246",
+      "when": "Tue 3-3:30pm",
+      "location": "Mech Eng S246",
+      "members": [
+        {
+          "id": "c0856f20-d9a2-4ce6-99d9-12762807b3d9",
+          "name": "Dylan Simpson",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "9e1134fe-cd99-4375-a636-3e7c24613cf9",
+          "name": "Flynn Russell",
+          "is_vet": true,
+          "got_choice": 6,
+          "load": 3
+        },
+        {
+          "id": "dbc57002-bfce-4cf3-977a-24e6c2b0e54a",
+          "name": "Gemma Rodham",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "c53411a5-7c9d-4da2-af2b-8df6320aacec",
+          "name": "Imani Qureshi",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "a312826e-41db-4ce7-bcf7-1333a387e9b9",
+          "name": "Joseph Hoffmann",
+          "is_vet": true,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "05621c59-5f42-4846-ba4d-1826f0889967",
+          "name": "Seyeon Lim",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T16",
+      "label": "Tut 16 · Wed 8-10am · BHB 1150",
+      "when": "Wed 8-8:30am",
+      "location": "BHB 1150",
+      "members": [
+        {
+          "id": "be6c6bfb-af7a-46f3-be2a-d4e692af8356",
+          "name": "Alyssa Hodge",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "00fd3f4b-12f7-4e66-95a4-818ea3fa238e",
+          "name": "Heidi Boyd",
+          "is_vet": false,
+          "got_choice": 6,
+          "load": 3
+        },
+        {
+          "id": "a312826e-41db-4ce7-bcf7-1333a387e9b9",
+          "name": "Joseph Hoffmann",
+          "is_vet": true,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "f674d608-5e84-4151-b7cf-52546114d39a",
+          "name": "Josh Phipps",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T17",
+      "label": "Tut 17 · Wed 10am-12pm · BHB 1140",
+      "when": "Wed 10-10:30am",
+      "location": "BHB 1140",
+      "members": [
+        {
+          "id": "01012ed2-1731-4084-871a-d739c3091eed",
+          "name": "Annabelle Campbell",
+          "is_vet": true,
+          "got_choice": 2,
+          "load": 2
+        },
+        {
+          "id": "8643a7f4-494a-494b-8806-99391f56211f",
+          "name": "Georgia Opit",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 2
+        },
+        {
+          "id": "dc1ee386-1e55-4d59-a637-354f5cca79f7",
+          "name": "Isabella Sheffield",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 2
+        },
+        {
+          "id": "a2760a56-b98e-4e9d-ad40-ef217182b623",
+          "name": "Laam Cheung",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 3
+        },
+        {
+          "id": "eb815ca8-fb3b-4f24-8a5b-741235d9d61b",
+          "name": "Maya Cuthbert",
+          "is_vet": true,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "6ab1ad51-1b6e-4bfb-85be-de0c0eaef542",
+          "name": "Ziling Zhang",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T18",
+      "label": "Tut 18 · Wed 10am-12pm · BHB 1150",
+      "when": "Wed 10:30-11am",
+      "location": "BHB 1150",
+      "members": [
+        {
+          "id": "01012ed2-1731-4084-871a-d739c3091eed",
+          "name": "Annabelle Campbell",
+          "is_vet": true,
+          "got_choice": 1,
+          "load": 2
+        },
+        {
+          "id": "dc1ee386-1e55-4d59-a637-354f5cca79f7",
+          "name": "Isabella Sheffield",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 2
+        },
+        {
+          "id": "407ea69d-f143-4762-9576-9c2eb919a9ae",
+          "name": "Jinyuan Chen",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 2
+        },
+        {
+          "id": "eb815ca8-fb3b-4f24-8a5b-741235d9d61b",
+          "name": "Maya Cuthbert",
+          "is_vet": true,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "040ed810-0a1a-4f6a-a3a9-09fe27302bd4",
+          "name": "Peimin Zheng",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "6ab1ad51-1b6e-4bfb-85be-de0c0eaef542",
+          "name": "Ziling Zhang",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T20",
+      "label": "Tut 20 · Wed 12-2pm · BHB 1150",
+      "when": "Wed 12-12:30pm",
+      "location": "BHB 1150",
+      "members": [
+        {
+          "id": "2f67fd55-12e8-482f-bd60-b6deb90ec76e",
+          "name": "Chloe Lipham",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "82c520be-78dd-478c-adf9-54084d9ab8f4",
+          "name": "Leila Carr",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 2
+        },
+        {
+          "id": "c5fd23a7-5c8d-420c-bea2-21e800210490",
+          "name": "Nikemie Dimitrov",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 3
+        },
+        {
+          "id": "79b5288b-f813-4bab-8232-165d86f65bf8",
+          "name": "Ryan Ramsden",
+          "is_vet": true,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "05621c59-5f42-4846-ba4d-1826f0889967",
+          "name": "Seyeon Lim",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "261012a0-da7f-4822-b332-5f0949450275",
+          "name": "Wenlong Ma",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 2
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T23",
+      "label": "Tut 23 · Wed 4-6pm · BHB 1140",
+      "when": "Wed 4-4:30pm",
+      "location": "BHB 1140",
+      "members": [
+        {
+          "id": "41ab684e-9dbd-4dae-8ddc-9a41988673b0",
+          "name": "Callum Franzman",
+          "is_vet": true,
+          "got_choice": 1,
+          "load": 2
+        },
+        {
+          "id": "82c520be-78dd-478c-adf9-54084d9ab8f4",
+          "name": "Leila Carr",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 2
+        },
+        {
+          "id": "1038aeb0-ea60-47ef-8e5f-7cf9e2b972f0",
+          "name": "Max Dewinter",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "eb815ca8-fb3b-4f24-8a5b-741235d9d61b",
+          "name": "Maya Cuthbert",
+          "is_vet": true,
+          "got_choice": 1,
+          "load": 3
+        },
+        {
+          "id": "05621c59-5f42-4846-ba4d-1826f0889967",
+          "name": "Seyeon Lim",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 3
+        },
+        {
+          "id": "bdebcb06-c37b-426a-9e06-7fb3f8b09d1d",
+          "name": "Zhuoyue Zhu",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T24",
+      "label": "Tut 24 · Wed 4-6pm · BHB 1160",
+      "when": "Wed 4:30-5pm",
+      "location": "BHB 1160",
+      "members": [
+        {
+          "id": "41ab684e-9dbd-4dae-8ddc-9a41988673b0",
+          "name": "Callum Franzman",
+          "is_vet": true,
+          "got_choice": 2,
+          "load": 2
+        },
+        {
+          "id": "2f67fd55-12e8-482f-bd60-b6deb90ec76e",
+          "name": "Chloe Lipham",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "8643a7f4-494a-494b-8806-99391f56211f",
+          "name": "Georgia Opit",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 2
+        },
+        {
+          "id": "00fd3f4b-12f7-4e66-95a4-818ea3fa238e",
+          "name": "Heidi Boyd",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "407ea69d-f143-4762-9576-9c2eb919a9ae",
+          "name": "Jinyuan Chen",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 2
+        },
+        {
+          "id": "1038aeb0-ea60-47ef-8e5f-7cf9e2b972f0",
+          "name": "Max Dewinter",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T26",
+      "label": "Tut 26 · Thu 8-10am · BHB 1160",
+      "when": "Thu 8-8:30am",
+      "location": "BHB 1160",
+      "members": [
+        {
+          "id": "f674d608-5e84-4151-b7cf-52546114d39a",
+          "name": "Josh Phipps",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "6f6035be-c5a2-4c22-b0e5-93909d63f67c",
+          "name": "Kenn Surya",
+          "is_vet": false,
+          "got_choice": 11,
+          "load": 4
+        },
+        {
+          "id": "4eef8e5e-5c81-4f46-bab4-b0a51cef1472",
+          "name": "Madeleine Boris",
+          "is_vet": true,
+          "got_choice": 5,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T27",
+      "label": "Tut 27 · Thu 10am-12pm · BHB 1140",
+      "when": "Thu 10-10:30am",
+      "location": "BHB 1140",
+      "members": [
+        {
+          "id": "c0856f20-d9a2-4ce6-99d9-12762807b3d9",
+          "name": "Dylan Simpson",
+          "is_vet": false,
+          "got_choice": 6,
+          "load": 3
+        },
+        {
+          "id": "7ce08989-aa24-4972-aa7f-b0f0d18dac9e",
+          "name": "Gwilym Horlock",
+          "is_vet": false,
+          "got_choice": 2,
+          "load": 3
+        },
+        {
+          "id": "a2760a56-b98e-4e9d-ad40-ef217182b623",
+          "name": "Laam Cheung",
+          "is_vet": false,
+          "got_choice": 7,
+          "load": 3
+        },
+        {
+          "id": "d6337265-e9ee-46e1-bd03-84523f325c2e",
+          "name": "Rohan Howard",
+          "is_vet": true,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "f8068285-2dfc-4fc8-a3de-8ecf5208c2ea",
+          "name": "Saffron Little",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "6ab1ad51-1b6e-4bfb-85be-de0c0eaef542",
+          "name": "Ziling Zhang",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T28",
+      "label": "Tut 28 · Thu 10am-12pm · BHB 1160",
+      "when": "Thu 10:30-11am",
+      "location": "BHB 1160",
+      "members": [
+        {
+          "id": "dbc57002-bfce-4cf3-977a-24e6c2b0e54a",
+          "name": "Gemma Rodham",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "7ce08989-aa24-4972-aa7f-b0f0d18dac9e",
+          "name": "Gwilym Horlock",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "c53411a5-7c9d-4da2-af2b-8df6320aacec",
+          "name": "Imani Qureshi",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "c95b8e35-0cc8-4bb4-9b0b-34f5cab2feda",
+          "name": "Laura Allan",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 2
+        },
+        {
+          "id": "5a7d1dc2-a9ab-4f1f-ad98-e02fc3ef6ae1",
+          "name": "Zhuoran Zhu",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "bdebcb06-c37b-426a-9e06-7fb3f8b09d1d",
+          "name": "Zhuoyue Zhu",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T30",
+      "label": "Tut 30 · Thu 12-2pm · BHB 1160",
+      "when": "Thu 12-12:30pm",
+      "location": "BHB 1160",
+      "members": [
+        {
+          "id": "7ce08989-aa24-4972-aa7f-b0f0d18dac9e",
+          "name": "Gwilym Horlock",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "c95b8e35-0cc8-4bb4-9b0b-34f5cab2feda",
+          "name": "Laura Allan",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 2
+        },
+        {
+          "id": "4eef8e5e-5c81-4f46-bab4-b0a51cef1472",
+          "name": "Madeleine Boris",
+          "is_vet": true,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "261012a0-da7f-4822-b332-5f0949450275",
+          "name": "Wenlong Ma",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 2
+        },
+        {
+          "id": "5a7d1dc2-a9ab-4f1f-ad98-e02fc3ef6ae1",
+          "name": "Zhuoran Zhu",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        },
+        {
+          "id": "bdebcb06-c37b-426a-9e06-7fb3f8b09d1d",
+          "name": "Zhuoyue Zhu",
+          "is_vet": false,
+          "got_choice": 3,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T36",
+      "label": "Tut 36 · Fri 8-10am · BHB 3240",
+      "when": "Fri 8-8:30am",
+      "location": "BHB 3240",
+      "members": [
+        {
+          "id": "6b273e08-3aa2-4cdd-b727-6715d08a2b1c",
+          "name": "Hongming Hu",
+          "is_vet": false,
+          "got_choice": 6,
+          "load": 3
+        },
+        {
+          "id": "f674d608-5e84-4151-b7cf-52546114d39a",
+          "name": "Josh Phipps",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "27c22a7a-1bc7-4654-9262-7dc5d2aa9c35",
+          "name": "Jovan Jonathan",
+          "is_vet": false,
+          "got_choice": 6,
+          "load": 3
+        },
+        {
+          "id": "4eef8e5e-5c81-4f46-bab4-b0a51cef1472",
+          "name": "Madeleine Boris",
+          "is_vet": true,
+          "got_choice": 1,
+          "load": 3
+        },
+        {
+          "id": "3a822381-9c0e-47cd-b74a-484757ed8651",
+          "name": "Mary Tran",
+          "is_vet": false,
+          "got_choice": 7,
+          "load": 3
+        },
+        {
+          "id": "542b1f5d-0bd1-48e3-b765-83d5ece85814",
+          "name": "Phan Nguyen",
+          "is_vet": false,
+          "got_choice": 5,
+          "load": 3
+        }
+      ]
+    },
+    {
+      "tutorial_id": "T38",
+      "label": "Tut 38 · Fri 10am-12pm · BHB 3240",
+      "when": "Fri 10-10:30am",
+      "location": "BHB 3240",
+      "members": [
+        {
+          "id": "2f67fd55-12e8-482f-bd60-b6deb90ec76e",
+          "name": "Chloe Lipham",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "b3b4521e-9585-4452-aa4b-5a6e9b2d39f4",
+          "name": "Emily Dawson-Taylor",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 2
+        },
+        {
+          "id": "00fd3f4b-12f7-4e66-95a4-818ea3fa238e",
+          "name": "Heidi Boyd",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "1038aeb0-ea60-47ef-8e5f-7cf9e2b972f0",
+          "name": "Max Dewinter",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 3
+        },
+        {
+          "id": "d6337265-e9ee-46e1-bd03-84523f325c2e",
+          "name": "Rohan Howard",
+          "is_vet": true,
+          "got_choice": 5,
+          "load": 3
+        },
+        {
+          "id": "5a7d1dc2-a9ab-4f1f-ad98-e02fc3ef6ae1",
+          "name": "Zhuoran Zhu",
+          "is_vet": false,
+          "got_choice": 4,
+          "load": 3
+        }
+      ]
+    }
+  ],
+  "loads": {
+    "2": 9,
+    "3": 35,
+    "4": 1
+  },
+  "not_submitted": [
+    "Eleanor Forsyth",
+    "John El-Barhoun",
+    "Nhu Ngo",
+    "Stefan Ferster",
+    "Tara Stevens"
+  ],
+  "needed_extra": [
+    {
+      "name": "Kenn Surya",
+      "load": 4
+    }
+  ],
+  "vetless": [
+    "T22",
+    "T28"
+  ]
+}

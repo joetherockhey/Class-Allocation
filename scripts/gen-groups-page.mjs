@@ -13,6 +13,10 @@ const IN = process.argv[2] || "groups.json";
 const OUT = process.argv[3] || "groups.html";
 const plan = JSON.parse(readFileSync(IN, "utf8"));
 
+// Optional: the clash comparison, if scripts/make-scenarios.mjs has been run.
+let clash = null;
+try { clash = JSON.parse(readFileSync("clashes.json", "utf8")); } catch { /* tab omitted */ }
+
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
@@ -94,6 +98,66 @@ ${ordered.map((g) => `    <article class="card" data-names="${esc(g.members.map(
       <p class="where">presents at <b>${esc(g.tutorial_id.replace(/^T/, "Tut "))}</b> &middot; ${esc(g.when)} &middot; ${esc(g.location)}</p>
       <ol class="who">${memberList(g)}</ol>
     </article>`).join("\n")}
+  </div>`;
+
+/* ------------------------------------------------------------- clashes tab */
+const nameList = (arr) => arr.length ? arr.map(esc).join(", ") : "nobody";
+
+function planCard(title, sub, m, extra, recommended) {
+  const t = m.tally || {};
+  return `      <article class="card plan${recommended ? " rec" : ""}">
+        <header><span class="code">${esc(title)}</span>${recommended ? '<span class="tag">better</span>' : ""}</header>
+        <p class="where">${sub}</p>
+        ${extra}
+        <table class="mini">
+          <tr><th>presents once</th><td class="${(t[1] || 0) ? "bad" : "good"}">${t[1] || 0}</td></tr>
+          <tr><th>presents twice</th><td>${t[2] || 0}</td></tr>
+          <tr><th>presents 3 times</th><td>${t[3] || 0}</td></tr>
+          <tr><th>presents 4 times</th><td>${t[4] || 0}</td></tr>
+          <tr><th>slots filled</th><td>${m.slots}</td></tr>
+          <tr><th>average choice</th><td>${m.meanChoice}</td></tr>
+          <tr><th>group sizes</th><td>${m.minSize}&ndash;${m.maxSize}</td></tr>
+          <tr><th>double-booked</th><td class="${m.clashes ? "bad" : "good"}">${m.clashes}</td></tr>
+        </table>
+        ${(m.once || []).length
+          ? `<p class="onlyonce"><b>Only presenting once:</b> ${nameList(m.once)}</p>`
+          : '<p class="onlyonce good">Everybody presents at least twice.</p>'}
+      </article>`;
+}
+
+const clashTab = !clash ? "" : `
+  <div class="explain">
+    <p>Some tutorials run <b>at the same time in different rooms</b>. Anyone free at that
+    hour can only present at one of them, which is what limits how much some people can do.
+    Below are the overlapping slots, and two ways to handle them.</p>
+  </div>
+
+  <h2>Tutorials that overlap</h2>
+  <div class="scrollx"><table class="clashes">
+    <thead><tr><th>Time</th><th>Tutorials running together</th></tr></thead>
+    <tbody>
+${clash.sets.map((s) => `      <tr><td class="when">${esc(s.when)}</td><td>${
+  s.tutorials.map((t) => `<span class="chip">${esc(t.id.replace(/^T/, "Tut "))} &middot; ${esc(t.location)}</span>`).join(" ")
+}</td></tr>`).join("")}
+    </tbody>
+  </table></div>
+
+  <h2>Two ways forward</h2>
+  <div class="grid plans">
+${planCard("Idea 1 &mdash; leave the times alone", "Anyone who could do both simply does one or the other. Nothing on the timetable changes.", clash.idea1, "", false)}
+${planCard("Idea 2 &mdash; stagger by half an hour", "The second tutorial of each overlapping pair presents half an hour later, so both can be attended.", clash.idea2,
+  `<ul class="moves">${clash.moves.map((m) =>
+    `<li><b>${esc(m.id.replace(/^T/, "Tut "))}</b> ${esc(m.location)}<br><span class="from">${esc(m.from)}</span> &rarr; <span class="to">${esc(m.to)}</span></li>`).join("")}</ul>`,
+  true)}
+  </div>
+
+  <div class="verdict">
+    <b>What changes:</b> staggering lifts ${(clash.idea1.tally[1] || 0)} student${(clash.idea1.tally[1] || 0) === 1 ? "" : "s"} off a single
+    presentation, moves ${(clash.idea2.tally[3] || 0) - (clash.idea1.tally[3] || 0)} more people up to three, and fills
+    ${clash.idea2.slots - clash.idea1.slots} extra slots. The cost is that the average person lands
+    ${(clash.idea2.meanChoice - clash.idea1.meanChoice).toFixed(2)} of a place further down their preference list,
+    and four tutorials start half an hour later than advertised.
+    ${clash.moves.length ? `Each moved slot still sits inside its own two-hour tutorial, so no room booking changes.` : ""}
   </div>`;
 
 const loadLine = Object.entries(plan.loads || {}).sort()
@@ -181,6 +245,45 @@ form.post .err{font-size:12px;color:#b45309}
 .note{background:#fdf3e3;border:1px solid #e3b341;color:#7a4d05;border-radius:10px;
   padding:12px 14px;font-size:13.5px;margin-top:20px}
 footer.end{margin-top:30px;color:var(--muted);font-size:12.5px;text-align:center}
+.explain{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;margin:4px 0 6px;font-size:14px}
+.explain p{margin:0}
+.scrollx{overflow-x:auto}
+table.clashes{width:100%;border-collapse:collapse;font-size:14px;background:var(--panel);
+  border:1px solid var(--line);border-radius:12px;overflow:hidden}
+table.clashes th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--muted);padding:9px 12px;background:var(--bg);border-bottom:1px solid var(--line)}
+table.clashes td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+table.clashes tr:last-child td{border-bottom:none}
+table.clashes td.when{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.chip{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:999px;
+  padding:3px 10px;margin:0 5px 4px 0;font-size:12.5px;font-weight:600;white-space:nowrap}
+.grid.plans{grid-template-columns:repeat(auto-fit,minmax(310px,1fr));align-items:start}
+.card.plan{padding:16px}
+.card.plan .code{font-size:15.5px;line-height:1.3}
+.card.plan.rec{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.card.plan .tag{margin-left:auto;font-size:10.5px;font-weight:800;letter-spacing:.05em;
+  text-transform:uppercase;background:var(--accent);color:#fff;border-radius:999px;padding:2px 9px;
+  align-self:flex-start;white-space:nowrap}
+table.mini{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+table.mini th{text-align:left;font-weight:500;color:var(--muted);padding:5px 0;
+  border-bottom:1px solid var(--line);font-size:13px;text-transform:none;letter-spacing:0}
+table.mini td{text-align:right;padding:5px 0;border-bottom:1px solid var(--line);
+  font-weight:700;font-variant-numeric:tabular-nums}
+table.mini tr:last-child th,table.mini tr:last-child td{border-bottom:none}
+table.mini td.good{color:#15803d}
+table.mini td.bad{color:#b45309}
+ul.moves{list-style:none;margin:0 0 10px;padding:10px;background:var(--bg);
+  border:1px solid var(--line);border-radius:9px;font-size:12.5px}
+ul.moves li{padding:5px 0;border-top:1px solid var(--line)}
+ul.moves li:first-child{border-top:none}
+ul.moves .from{color:var(--muted);text-decoration:line-through}
+ul.moves .to{color:var(--accent);font-weight:700}
+p.onlyonce{margin:10px 0 0;font-size:12.5px;color:#7a4d05;background:#fdf3e3;
+  border:1px solid #e3b341;border-radius:8px;padding:8px 10px}
+p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
+.verdict{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);
+  border-radius:10px;padding:14px 16px;margin-top:16px;font-size:14px}
 @media print{.tools,.note,details.board,footer.end{display:none}
   body{background:#fff}.grid{grid-template-columns:repeat(3,1fr)}.card{break-inside:avoid;box-shadow:none}}
 </style>
@@ -201,7 +304,8 @@ footer.end{margin-top:30px;color:var(--muted);font-size:12.5px;text-align:center
     <div class="tabs" role="tablist">
       <button role="tab" aria-selected="true"  data-view="tut">By tutorial</button>
       <button role="tab" aria-selected="false" data-view="person">By person</button>
-      <button role="tab" aria-selected="false" data-view="group">By group</button>
+      <button role="tab" aria-selected="false" data-view="group">By group</button>${clash ? `
+      <button role="tab" aria-selected="false" data-view="clash">Tutorial clashes</button>` : ""}
     </div>
     <input id="find" type="search" placeholder="Type a name to find them…" autocomplete="off" aria-label="Find a name">
     <p id="found"></p>
@@ -219,6 +323,10 @@ ${byPerson}
 ${byGroup}
   </section>
 
+${clash ? `  <section id="view-clash" hidden>
+${clashTab}
+  </section>` : ""}
+
 ${plan.not_submitted && plan.not_submitted.length ? `  <div class="note"><b>Not presenting:</b> ${
   plan.not_submitted.map(esc).join(", ")} &mdash; no availability submitted. See me if that is wrong.</div>` : ""}
 
@@ -235,10 +343,13 @@ const db = SUPABASE_URL && SUPABASE_ANON_KEY
 
 /* ---------------------------------------------------------------- tabs */
 const tabs = [...document.querySelectorAll(".tabs button")];
-const views = { tut: "view-tut", person: "view-person", group: "view-group" };
+const views = { tut: "view-tut", person: "view-person", group: "view-group", clash: "view-clash" };
 tabs.forEach((b) => b.addEventListener("click", () => {
   tabs.forEach((x) => x.setAttribute("aria-selected", String(x === b)));
-  for (const [k, id] of Object.entries(views)) document.getElementById(id).hidden = k !== b.dataset.view;
+  for (const [k, id] of Object.entries(views)) {
+    const el = document.getElementById(id);
+    if (el) el.hidden = k !== b.dataset.view;
+  }
   filter();
 }));
 

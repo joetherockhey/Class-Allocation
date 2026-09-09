@@ -1,0 +1,119 @@
+{
+  "generated_at": "2026-09-09T09:58:31.166Z",
+  "sets": [
+    {
+      "when": "Tue 12-12:30pm",
+      "tutorials": [
+        {
+          "id": "T19",
+          "location": "BHB 1140"
+        },
+        {
+          "id": "T12",
+          "location": "BHB 2200"
+        }
+      ]
+    },
+    {
+      "when": "Wed 10-10:30am",
+      "tutorials": [
+        {
+          "id": "T17",
+          "location": "BHB 1140"
+        },
+        {
+          "id": "T18",
+          "location": "BHB 1150"
+        }
+      ]
+    },
+    {
+      "when": "Wed 4-4:30pm",
+      "tutorials": [
+        {
+          "id": "T23",
+          "location": "BHB 1140"
+        },
+        {
+          "id": "T24",
+          "location": "BHB 1160"
+        }
+      ]
+    },
+    {
+      "when": "Thu 10-10:30am",
+      "tutorials": [
+        {
+          "id": "T27",
+          "location": "BHB 1140"
+        },
+        {
+          "id": "T28",
+          "location": "BHB 1160"
+        }
+      ]
+    }
+  ],
+  "moves": [
+    {
+      "id": "T12",
+      "location": "BHB 2200",
+      "from": "Tue 12-12:30pm",
+      "to": "Tue 12:30-1pm"
+    },
+    {
+      "id": "T18",
+      "location": "BHB 1150",
+      "from": "Wed 10-10:30am",
+      "to": "Wed 10:30-11am"
+    },
+    {
+      "id": "T24",
+      "location": "BHB 1160",
+      "from": "Wed 4-4:30pm",
+      "to": "Wed 4:30-5pm"
+    },
+    {
+      "id": "T28",
+      "location": "BHB 1160",
+      "from": "Thu 10-10:30am",
+      "to": "Thu 10:30-11am"
+    }
+  ],
+  "idea1": {
+    "tally": {
+      "1": 2,
+      "2": 12,
+      "3": 30,
+      "4": 1
+    },
+    "once": [
+      "Annabelle Campbell",
+      "Callum Franzman"
+    ],
+    "none": [],
+    "slots": 120,
+    "meanChoice": 3.41,
+    "minSize": 3,
+    "maxSize": 6,
+    "covered": 23,
+    "total": 23,
+    "clashes": 0
+  },
+  "idea2": {
+    "tally": {
+      "2": 9,
+      "3": 35,
+      "4": 1
+    },
+    "once": [],
+    "none": [],
+    "slots": 127,
+    "meanChoice": 3.57,
+    "minSize": 3,
+    "maxSize": 6,
+    "covered": 23,
+    "total": 23,
+    "clashes": 0
+  }
+}
