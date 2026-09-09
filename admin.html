@@ -18,6 +18,23 @@
   <div id="banner" class="notice hidden"></div>
 
   <section class="panel">
+    <div class="row" style="align-items:flex-start;gap:18px">
+      <a href="share.html" title="Open the projector page" style="line-height:0;flex:none">
+        <span id="qrThumb" style="display:inline-block;background:#fff;padding:8px;border-radius:10px;width:112px;height:112px"></span>
+      </a>
+      <div style="flex:1;min-width:220px">
+        <h2>Share with the class</h2>
+        <p class="sub" style="margin:0 0 10px">Scan or send the link. Students pick their name — no password.</p>
+        <div class="row">
+          <code id="shareUrl"></code>
+          <button id="copyLink" class="tiny">Copy</button>
+          <a href="share.html"><button class="tiny">Project full screen</button></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
     <h2>Progress</h2>
     <div class="stat" id="stats"></div>
     <div class="bar"><i id="progressBar" style="width:0%"></i></div>

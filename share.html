@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scan to pick your tutorials</title>
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  /* A page meant to be projected: everything scales with the viewport. */
+  body{display:grid;place-items:center;min-height:100vh}
+  .share{text-align:center;padding:24px 18px;max-width:min(92vw,900px)}
+  .share h1{font-size:clamp(20px,3.4vw,38px);margin:0 0 6px;letter-spacing:-.02em}
+  .share p.lead{color:var(--muted);font-size:clamp(13px,1.5vw,18px);margin:0 0 22px}
+  /* QR must stay dark-on-white in every theme or phones struggle to read it. */
+  .qrcard{
+    background:#fff;border-radius:16px;padding:clamp(12px,1.8vw,22px);
+    display:inline-block;line-height:0;box-shadow:0 6px 28px rgba(16,24,40,.18);
+  }
+  .qrcard svg{width:clamp(190px,42vh,420px);height:auto;display:block}
+  .urlbox{
+    margin:22px auto 0;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;
+  }
+  .urlbox code{
+    font-size:clamp(12px,1.5vw,19px);padding:8px 14px;word-break:break-all;
+    background:var(--panel);border-color:var(--line-strong);
+  }
+  .controls{margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .hint{margin-top:26px;color:var(--muted);font-size:clamp(12px,1.3vw,15px)}
+  /* Fullscreen: drop the furniture, make the code as big as the screen allows. */
+  body:fullscreen .controls,body:fullscreen .hint,body:-webkit-full-screen .controls{display:none}
+  body:fullscreen .qrcard svg{width:min(64vh,64vw)}
+  @media print{
+    .controls,.hint{display:none}
+    .qrcard{box-shadow:none;border:1px solid #ddd}
+  }
+</style>
+</head>
+<body>
+<div class="share">
+  <h1 id="title">Pick your tutorial times</h1>
+  <p class="lead">Scan with your phone camera, then choose your name.</p>
+
+  <div class="qrcard" id="qrcard">Loading…</div>
+
+  <div class="urlbox">
+    <code id="url"></code>
+    <button id="copyBtn" class="tiny">Copy link</button>
+  </div>
+
+  <div class="controls">
+    <button id="fsBtn">Full screen</button>
+    <button id="printBtn" class="ghost">Print</button>
+    <a href="index.html"><button class="ghost">Open the site</button></a>
+  </div>
+
+  <p class="hint">Tip: press <b>Full screen</b> before projecting. The code still scans from the back of a room.</p>
+</div>
+
+<script type="module">
+import { SITE_URL } from "./assets/config.js";
+
+document.getElementById("url").textContent = SITE_URL;
+
+// The SVG is generated at build time (npm run gen-qr) and inlined here so the
+// page needs no CDN and works on a flaky classroom connection.
+fetch("assets/qr.svg")
+  .then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); })
+  .then((svg) => { document.getElementById("qrcard").innerHTML = svg; })
+  .catch(() => {
+    document.getElementById("qrcard").innerHTML =
+      '<p style="color:#b45309;font:14px system-ui;line-height:1.5;padding:20px">' +
+      "QR image missing. Run <code>npm run gen-qr</code>.</p>";
+  });
+
+document.getElementById("copyBtn").onclick = async (e) => {
+  try {
+    await navigator.clipboard.writeText(SITE_URL);
+    e.target.textContent = "Copied";
+    setTimeout(() => (e.target.textContent = "Copy link"), 1600);
+  } catch { /* clipboard blocked - the URL is on screen anyway */ }
+};
+
+document.getElementById("fsBtn").onclick = () => {
+  if (document.fullscreenElement) document.exitFullscreen();
+  else document.body.requestFullscreen?.();
+};
+
+document.getElementById("printBtn").onclick = () => window.print();
+</script>
+</body>
+</html>

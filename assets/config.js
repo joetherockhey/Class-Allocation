@@ -7,3 +7,7 @@ export const SUPABASE_ANON_KEY = "";  // the "anon / public" key
 // Shown at the top of the student page.
 export const COURSE_TITLE = "Tutorial Presentation Groups";
 export const INTRO = "Pick your name, then put every tutorial you can attend in order of preference — best first. You will be placed in a group of about five and given one of the slots you listed.";
+
+// Public address of this site. Used for the QR code shown on the share page.
+// Change it and re-run `npm run gen-qr` if the site ever moves.
+export const SITE_URL = "https://joetherockhey.github.io/Class-Allocation/";

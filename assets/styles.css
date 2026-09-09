@@ -114,3 +114,4 @@ button.slot:hover{border-color:var(--accent);background:var(--accent-soft)}
 button.slot.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 button.namebtn.slotflat.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 @media (max-width:520px){button.slot{height:34px}}
+#qrThumb svg{width:100%;height:100%;display:block}

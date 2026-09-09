@@ -1,6 +1,20 @@
 import { loadAdmin, el, escapeHtml, backendNotice, mode } from "./api.js";
+import { SITE_URL } from "./config.js";
 
 let tutorials = [], students = [], avail = [], allocs = [], settings = {}, submitted = new Set();
+
+el("shareUrl").textContent = SITE_URL;
+el("copyLink").addEventListener("click", async (e) => {
+  try {
+    await navigator.clipboard.writeText(SITE_URL);
+    e.target.textContent = "Copied";
+    setTimeout(() => (e.target.textContent = "Copy"), 1600);
+  } catch { /* clipboard blocked - the URL is on screen anyway */ }
+});
+fetch("assets/qr.svg")
+  .then((r) => (r.ok ? r.text() : Promise.reject(new Error(String(r.status)))))
+  .then((svg) => { el("qrThumb").innerHTML = svg; })
+  .catch(() => { el("qrThumb").textContent = ""; });
 
 el("refreshBtn").addEventListener("click", () => load().catch(fail));
 el("exportBtn").addEventListener("click", exportJson);
