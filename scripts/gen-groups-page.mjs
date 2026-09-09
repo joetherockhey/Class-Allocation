@@ -32,9 +32,6 @@ function fullTime(g) {
   return f;
 }
 
-const ordered = DAYS.flatMap((d) => plan.groups.filter((g) => dayOf(g) === d));
-const groupNo = new Map(ordered.map((g, i) => [g.tutorial_id, i + 1]));
-
 /* every student -> the tutorials they present at */
 const perPerson = new Map();
 for (const g of plan.groups) {
@@ -88,16 +85,6 @@ ${names.map((n) => {
       <footer>presents ${p.at.length} time${p.at.length === 1 ? "" : "s"}</footer>
     </article>`;
 }).join("\n")}
-  </div>`;
-
-/* --------------------------------------------------------------- by group */
-const byGroup = `  <div class="grid">
-${ordered.map((g) => `    <article class="card" data-names="${esc(g.members.map((m) => m.name.toLowerCase()).join("|"))}">
-      <header><span class="code">Group ${groupNo.get(g.tutorial_id)}</span>
-        <span class="time">${esc(g.members.length)} people</span></header>
-      <p class="where">presents at <b>${esc(g.tutorial_id.replace(/^T/, "Tut "))}</b> &middot; ${esc(g.when)} &middot; ${esc(g.location)}</p>
-      <ol class="who">${memberList(g)}</ol>
-    </article>`).join("\n")}
   </div>`;
 
 /* ------------------------------------------------------------- clashes tab */
@@ -304,7 +291,7 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
     <div class="tabs" role="tablist">
       <button role="tab" aria-selected="true"  data-view="tut">By tutorial</button>
       <button role="tab" aria-selected="false" data-view="person">By person</button>
-      <button role="tab" aria-selected="false" data-view="group">By group</button>${clash ? `
+${clash ? `
       <button role="tab" aria-selected="false" data-view="clash">Tutorial clashes</button>` : ""}
     </div>
     <input id="find" type="search" placeholder="Type a name to find them…" autocomplete="off" aria-label="Find a name">
@@ -317,10 +304,6 @@ ${byTutorial}
 
   <section id="view-person" hidden>
 ${byPerson}
-  </section>
-
-  <section id="view-group" hidden>
-${byGroup}
   </section>
 
 ${clash ? `  <section id="view-clash" hidden>
@@ -343,7 +326,7 @@ const db = SUPABASE_URL && SUPABASE_ANON_KEY
 
 /* ---------------------------------------------------------------- tabs */
 const tabs = [...document.querySelectorAll(".tabs button")];
-const views = { tut: "view-tut", person: "view-person", group: "view-group", clash: "view-clash" };
+const views = { tut: "view-tut", person: "view-person", clash: "view-clash" };
 tabs.forEach((b) => b.addEventListener("click", () => {
   tabs.forEach((x) => x.setAttribute("aria-selected", String(x === b)));
   for (const [k, id] of Object.entries(views)) {
