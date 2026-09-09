@@ -17,6 +17,7 @@ export const MIN_PICKS_BY_NAME = {
   "Leila Carr": 2,
   "Annabelle Campbell": 2,
   "Callum Franzman": 2,
+  "Emily Dawson-Taylor": 2,
 };
 
 // Public address of this site. Used for the QR code shown on the share page.
