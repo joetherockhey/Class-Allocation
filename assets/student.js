@@ -245,7 +245,35 @@ function renderGrid() {
     html += "</tr>";
   }
   html += "</tbody></table></div>";
-  wrap.innerHTML = html;
+
+  // Phones get a day-by-day list instead of a five-column table. Both are
+  // rendered and CSS shows one, so a selection made in either stays in step.
+  let day = '<div class="dayview">';
+  for (const d of days) {
+    const mine = parsed.filter((x) => x.p.day === d)
+      .sort((a, b) => (a.min || 0) - (b.min || 0));
+    if (!mine.length) continue;
+    const allOn = mine.every((x) => prefs.includes(x.t.id));
+    day += '<div class="daysec"><div class="dayhead"><h3>' + escapeHtml(d) + "</h3>" +
+      '<button class="tiny daybtn" data-day="' + escapeHtml(d) + '">' +
+      (allOn ? "Clear day" : "Select all") + "</button></div>";
+    for (const x of mine) {
+      const at = prefs.indexOf(x.t.id);
+      const i = slotInfo(x.t);
+      day += '<button class="slot dayslot' + (at >= 0 ? " on" : "") + '" data-id="' +
+        escapeHtml(x.t.id) + '">' +
+        '<span class="dtime">' + escapeHtml(clockLabel(x.min)) + "</span>" +
+        '<span class="dmeta"><b>' + escapeHtml(i.code) + "</b>" +
+        '<span class="room">' + escapeHtml(i.room) +
+        (i.full ? " · " + escapeHtml(i.full) : "") + "</span></span>" +
+        (at >= 0 ? '<span class="pin">' + (at + 1) + "</span>" : '<span class="tick">+</span>') +
+        "</button>";
+    }
+    day += "</div>";
+  }
+  day += "</div>";
+
+  wrap.innerHTML = '<div class="gridview">' + html + "</div>" + day;
 
   wrap.querySelectorAll("button.slot").forEach((b) => {
     b.onclick = () => toggle(b.dataset.id);
