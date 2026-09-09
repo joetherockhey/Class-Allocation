@@ -1,6 +1,6 @@
 import { loadCore, getPrefs, savePrefs, loadAllocations, el, escapeHtml, backendNotice,
   strandedPrefs, clearStranded } from "./api.js";
-import { COURSE_TITLE, INTRO, MIN_PICKS } from "./config.js";
+import { COURSE_TITLE, INTRO, MIN_PICKS, MIN_PICKS_BY_NAME } from "./config.js";
 
 const LS_KEY = "tutgroups.studentId";
 
@@ -8,6 +8,7 @@ let tutorials = [], students = [], submitted = new Set(), settings = {};
 let me = null;
 let prefs = [];            // ordered tutorial ids
 let dirty = false;
+let minPicks = MIN_PICKS;  // per-student, some people have an exception
 
 init().catch((e) => {
   const b = el("banner");
@@ -106,6 +107,8 @@ function renderNameGrid() {
 
 async function signIn(student) {
   me = student;
+  minPicks = Number(MIN_PICKS_BY_NAME?.[student.name] ?? MIN_PICKS);
+  if (!Number.isFinite(minPicks) || minPicks < 0) minPicks = MIN_PICKS;
   localStorage.setItem(LS_KEY, student.id);
   prefs = (await getPrefs(student.id)).filter((id) => tut(id));
   dirty = false;
@@ -320,7 +323,7 @@ function renderPrefs() {
     const t = tut(id);
     if (t) list.appendChild(prefRow(t, i));
   });
-  const short = Math.max(0, MIN_PICKS - prefs.length);
+  const short = Math.max(0, minPicks - prefs.length);
   el("prefCount").textContent = prefs.length + " picked";
 
   const open = settings.submissions_open !== "false";
@@ -335,7 +338,7 @@ function renderPrefs() {
     need.textContent = "";
   } else if (short) {
     need.className = "notice warn";
-    need.textContent = "Choose at least " + MIN_PICKS + " times — " + short +
+    need.textContent = "Choose at least " + minPicks + " times — " + short +
       " to go. With fewer, there may be no slot your whole group can make.";
   } else {
     need.className = "notice ok";
@@ -398,9 +401,9 @@ function addDrag(node) {
 
 /* ------------------------------------------------------------------ save */
 async function save() {
-  if (prefs.length < MIN_PICKS) {         // the button is disabled, but be safe
+  if (prefs.length < minPicks) {         // the button is disabled, but be safe
     el("saveMsg").innerHTML =
-      '<span class="badge warn">Not submitted</span> Please pick at least ' + MIN_PICKS + ".";
+      '<span class="badge warn">Not submitted</span> Please pick at least ' + minPicks + ".";
     return;
   }
   const btn = el("saveBtn");

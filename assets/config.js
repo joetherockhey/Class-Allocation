@@ -11,6 +11,13 @@ export const INTRO = "Pick your name, then tap every slot you could attend. You 
 // Fewest times a student must pick before they can submit.
 export const MIN_PICKS = 5;
 
+// Individual exceptions, keyed by the exact name in data/roster.csv. Anyone
+// not listed here gets MIN_PICKS.
+export const MIN_PICKS_BY_NAME = {
+  "Leila Carr": 2,
+  "Annabelle Campbell": 2,
+};
+
 // Public address of this site. Used for the QR code shown on the share page.
 // Change it and re-run `npm run gen-qr` if the site ever moves.
 export const SITE_URL = "https://joetherockhey.github.io/Class-Allocation/";
