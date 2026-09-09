@@ -12,6 +12,8 @@
     "gen-demo": "node scripts/gen-demo-data.mjs",
     "gen-qr": "node scripts/gen-qr.mjs",
     "set-prefs": "node scripts/set-prefs.mjs",
+    "allocate-multi": "node scripts/allocate-multi.mjs",
+    "groups-page": "node scripts/gen-groups-page.mjs",
     "serve": "npx --yes serve ."
   },
   "dependencies": {
