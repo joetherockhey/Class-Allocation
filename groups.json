@@ -838,6 +838,12 @@
           "load": 3
         },
         {
+          "id": "a2760a56-b98e-4e9d-ad40-ef217182b623",
+          "name": "Laam Cheung",
+          "is_vet": false,
+          "got_choice": 7
+        },
+        {
           "id": "040ed810-0a1a-4f6a-a3a9-09fe27302bd4",
           "name": "Peimin Zheng",
           "is_vet": false,
@@ -1069,8 +1075,8 @@
     }
   ],
   "loads": {
-    "2": 10,
-    "3": 34,
+    "2": 9,
+    "3": 35,
     "4": 1
   },
   "not_submitted": [

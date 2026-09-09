@@ -100,6 +100,25 @@ try {
   loadMax = new Int16Array(people.length).fill(MAX_LOAD);
 }
 
+// Placements decided by hand after a previous run. Forced ones are put in and
+// never taken out; blocked ones are never added. Without this, re-running the
+// allocator quietly discards every manual decision.
+const forced = new Set(), blocked = new Set();
+try {
+  const pins = JSON.parse(readFileSync("data/pins.json", "utf8"));
+  const ix = (name, tut) => {
+    const s = people.findIndex((p) => p.name === name);
+    const t = slotIx.get(tut);
+    if (s < 0 || t === undefined) { console.log(`Note: pin ignored, unknown ${s < 0 ? "name " + name : "tutorial " + tut}`); return null; }
+    return s + ":" + t;
+  };
+  for (const f of pins.force || []) { const k = ix(f.name, f.tutorial); if (k) forced.add(k); }
+  for (const b of pins.block || []) { const k = ix(b.name, b.tutorial); if (k) blocked.add(k); }
+  if (forced.size || blocked.size) console.log(`Pins: ${forced.size} forced, ${blocked.size} blocked.`);
+} catch { /* no pins file */ }
+const isForced  = (s, t) => forced.has(s + ":" + t);
+const isBlocked = (s, t) => blocked.has(s + ":" + t);
+
 let wishes = [];
 try {
   wishes = JSON.parse(readFileSync("data/together.json", "utf8"))
@@ -176,6 +195,10 @@ function cost(st) {
 /* ------------------------------------------------------------------ build */
 function seedSolution(rnd) {
   const st = blank();
+  for (const key of forced) {
+    const [s, t] = key.split(":").map(Number);
+    if (rank[s][t] && !st.on[s][t]) add(st, s, t);
+  }
   // Everyone takes their top choices; scarce tutorials get first refusal so
   // the thinly-subscribed slots are not left short at the end.
   const order = [...Array(N).keys()].sort((a, b) =>
@@ -184,19 +207,19 @@ function seedSolution(rnd) {
     const wanted = [...canDo[s]].sort((a, b) => rank[s][a] - rank[s][b]);
     for (const t of wanted) {
       if (st.load[s] >= Math.min(IDEAL_LOAD, loadMax[s])) break;
-      if (st.size[t] >= MAX_GROUP) continue;
+      if (st.size[t] >= MAX_GROUP || st.on[s][t] || isBlocked(s, t)) continue;
       add(st, s, t);
     }
     for (const t of wanted) {                 // fill up if the nice ones were full
       if (st.load[s] >= 2) break;
-      if (!st.on[s][t] && st.size[t] < MAX_GROUP) add(st, s, t);
+      if (!st.on[s][t] && st.size[t] < MAX_GROUP && !isBlocked(s, t)) add(st, s, t);
     }
   }
   // Any group still short pulls in whoever can attend and is least loaded.
   for (let t = 0; t < T; t++) {
     while (st.size[t] < MIN_GROUP) {
       const cands = [...Array(N).keys()]
-        .filter((s) => rank[s][t] && !st.on[s][t])
+        .filter((s) => rank[s][t] && !st.on[s][t] && !isBlocked(s, t))
         .sort((a, b) => st.load[a] - st.load[b] || rank[a][t] - rank[b][t]);
       if (!cands.length) break;
       add(st, cands[0], t);
@@ -217,6 +240,7 @@ function anneal(st, rnd, iters) {
     const opts = canDo[s];
     if (!opts.length) continue;
     const t = opts[Math.floor(rnd() * opts.length)];
+    if (isForced(s, t) || isBlocked(s, t)) continue;   // pinned either way
 
     let undo;
     const roll = rnd();
@@ -225,7 +249,7 @@ function anneal(st, rnd, iters) {
     } else if (!st.on[s][t] && roll < 0.84) {               // take one on
       add(st, s, t); undo = () => drop(st, s, t);
     } else {                                                // trade one for another
-      const mine = opts.filter((x) => st.on[s][x]);
+      const mine = opts.filter((x) => st.on[s][x] && !isForced(s, x));
       if (!mine.length || st.on[s][t]) continue;
       const give = mine[Math.floor(rnd() * mine.length)];
       drop(st, s, give); add(st, s, t);
