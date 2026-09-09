@@ -119,15 +119,29 @@ teammates. `npm run publish -- --hide` puts it back.
 
 ---
 
-## Trying it without real data
+## Preview mode
+
+Until `assets/config.js` has Supabase keys the site runs in **preview mode**:
+the real roster and timetable, real UI, but answers are kept in the browser's
+localStorage instead of a database. Good for checking the flow; useless for
+collecting 51 people's answers, since nothing is shared.
+
+```bash
+npm run serve      # then open http://localhost:3000
+```
+
+After editing `data/*.csv`, refresh what preview mode shows:
+
+```bash
+npm run gen-demo
+```
+
+To see what an allocation looks like before anyone submits:
 
 ```bash
 npm run demo
 node scripts/allocate.mjs demo-input.json
 ```
-
-This invents plausible preferences for the placeholder roster so you can see the
-output format before anyone has submitted.
 
 ## A note on the honour system
 

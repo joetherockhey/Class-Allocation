@@ -9,6 +9,7 @@
     "allocate": "node scripts/allocate.mjs",
     "publish": "node scripts/publish.mjs",
     "demo": "node scripts/make-demo-input.mjs",
+    "gen-demo": "node scripts/gen-demo-data.mjs",
     "serve": "npx --yes serve ."
   },
   "dependencies": {

@@ -1,6 +1,6 @@
-import { db, unwrap, el, setupBanner, escapeHtml } from "./db.js";
+import { loadAdmin, el, escapeHtml, backendNotice, mode } from "./api.js";
 
-let tutorials = [], students = [], avail = [], subs = [], allocs = [], settings = {};
+let tutorials = [], students = [], avail = [], allocs = [], settings = {}, submitted = new Set();
 
 el("refreshBtn").addEventListener("click", () => load().catch(fail));
 el("exportBtn").addEventListener("click", exportJson);
@@ -15,16 +15,14 @@ function fail(e) {
 }
 
 async function load() {
-  if (!setupBanner(el("banner"))) return;
-  [tutorials, students, avail, subs, allocs, settings] = await Promise.all([
-    db.from("tutorials").select("*").order("sort_order").then(unwrap),
-    db.from("students").select("*").order("name").then(unwrap),
-    db.from("availability").select("*").then(unwrap),
-    db.from("submissions").select("*").then(unwrap),
-    db.from("allocations").select("*").then(unwrap),
-    db.from("settings").select("*").then(unwrap).then((r) =>
-      Object.fromEntries(r.map((x) => [x.key, x.value]))),
-  ]);
+  const note = backendNotice();
+  if (note) {
+    const b = el("banner");
+    b.className = "notice";
+    b.textContent = note;
+    b.classList.remove("hidden");
+  }
+  ({ tutorials, students, avail, allocs, settings, submitted } = await loadAdmin());
   renderStats();
   renderMissing();
   renderCoverage();
@@ -34,7 +32,7 @@ async function load() {
 const byId = (arr) => new Map(arr.map((x) => [x.id, x]));
 
 function renderStats() {
-  const done = new Set(subs.map((s) => s.student_id));
+  const done = submitted;
   const vets = students.filter((s) => s.is_vet);
   const vetsDone = vets.filter((s) => done.has(s.id)).length;
   const pct = students.length ? Math.round((done.size / students.length) * 100) : 0;
@@ -47,14 +45,14 @@ function renderStats() {
     stat(vetsDone + " / " + vets.length, "vets submitted") +
     stat(pct + "%", "complete") +
     stat(avgPrefs, "slots listed on average") +
-    stat(settings.results_published === "true" ? "Published" : "Draft", "results");
+    stat(mode === "supabase" ? "Live" : "Preview", "backend");
   el("progressBar").style.width = pct + "%";
 }
 
 const stat = (big, small) => "<div><b>" + escapeHtml(big) + "</b><span>" + escapeHtml(small) + "</span></div>";
 
 function renderMissing() {
-  const done = new Set(subs.map((s) => s.student_id));
+  const done = submitted;
   const missing = students.filter((s) => !done.has(s.id));
   el("missingCount").textContent = String(missing.length);
   el("missing").innerHTML = missing.length
@@ -122,7 +120,7 @@ function exportJson() {
     if (!prefsBy.has(a.student_id)) prefsBy.set(a.student_id, []);
     prefsBy.get(a.student_id).push(a);
   }
-  const done = new Set(subs.map((s) => s.student_id));
+  const done = submitted;
   const payload = {
     exported_at: new Date().toISOString(),
     tutorials: tutorials.map((t) => ({

@@ -1,17 +1,14 @@
-import { db, unwrap, el, setupBanner, escapeHtml } from "./db.js";
+import { loadCore, getPrefs, savePrefs, loadAllocations, el, escapeHtml, backendNotice }
+  from "./api.js";
 import { COURSE_TITLE, INTRO } from "./config.js";
 
 const LS_KEY = "tutgroups.studentId";
 
-let tutorials = [];          // [{id,label,when_text,location,sort_order}]
-let students  = [];          // [{id,name,is_vet}]
-let submitted = new Set();   // student ids that have submitted
-let settings  = {};
-let me        = null;        // current student row
-let prefs     = [];          // ordered tutorial ids
-let dirty     = false;
+let tutorials = [], students = [], submitted = new Set(), settings = {};
+let me = null;
+let prefs = [];            // ordered tutorial ids
+let dirty = false;
 
-/* ------------------------------------------------------------------ boot */
 init().catch((e) => {
   const b = el("banner");
   b.className = "notice warn";
@@ -23,45 +20,42 @@ async function init() {
   el("courseTitle").textContent = COURSE_TITLE;
   document.title = COURSE_TITLE;
   el("intro").textContent = INTRO;
-  if (!setupBanner(el("banner"))) return;
 
-  [tutorials, students, settings, submitted] = await Promise.all([
-    db.from("tutorials").select("*").order("sort_order").then(unwrap),
-    db.from("students").select("*").order("name").then(unwrap),
-    db.from("settings").select("*").then(unwrap).then((rows) =>
-      Object.fromEntries(rows.map((r) => [r.key, r.value]))),
-    db.from("submissions").select("student_id").then(unwrap)
-      .then((rows) => new Set(rows.map((r) => r.student_id))),
-  ]);
+  ({ tutorials, students, settings, submitted } = await loadCore());
 
-  if (settings.deadline_text) {
+  const note = [backendNotice(), settings.deadline_text].filter(Boolean).join(" ");
+  if (note) {
     const b = el("banner");
     b.className = "notice";
-    b.textContent = settings.deadline_text;
+    b.textContent = note;
     b.classList.remove("hidden");
   }
 
-  wireEvents();
-  const saved = localStorage.getItem(LS_KEY);
-  const known = students.find((s) => s.id === saved);
-  if (known) await signIn(known);
-  else showNamePicker();
-}
-
-function wireEvents() {
   el("nameSearch").addEventListener("input", renderNameGrid);
   el("switchBtn").addEventListener("click", signOut);
   el("saveBtn").addEventListener("click", save);
-  el("clearBtn").addEventListener("click", () => {
-    if (!prefs.length || !confirm("Remove all your preferences?")) return;
-    prefs = [];
+  el("sortBtn").addEventListener("click", () => {
+    prefs.sort((a, b) => order(a) - order(b));
     dirty = true;
     renderPrefs();
+  });
+  el("clearBtn").addEventListener("click", () => {
+    if (!prefs.length || !confirm("Remove everything you have picked?")) return;
+    prefs = [];
+    dirty = true;
+    renderAll();
   });
   window.addEventListener("beforeunload", (e) => {
     if (dirty) { e.preventDefault(); e.returnValue = ""; }
   });
+
+  const known = students.find((s) => s.id === localStorage.getItem(LS_KEY));
+  if (known) await signIn(known);
+  else showNamePicker();
 }
+
+const tut = (id) => tutorials.find((t) => t.id === id);
+const order = (id) => tut(id)?.sort_order ?? 0;
 
 /* ------------------------------------------------------------ name picker */
 function showNamePicker() {
@@ -95,11 +89,7 @@ function renderNameGrid() {
 async function signIn(student) {
   me = student;
   localStorage.setItem(LS_KEY, student.id);
-
-  const existing = unwrap(
-    await db.from("availability").select("tutorial_id,rank")
-      .eq("student_id", student.id).order("rank"));
-  prefs = existing.map((r) => r.tutorial_id).filter((id) => tutorials.some((t) => t.id === id));
+  prefs = (await getPrefs(student.id)).filter((id) => tut(id));
   dirty = false;
 
   el("whoami").textContent = student.name + (student.is_vet ? " · vet" : "");
@@ -107,69 +97,119 @@ async function signIn(student) {
   el("switchBtn").classList.remove("hidden");
   el("stepName").classList.add("hidden");
 
-  if (settings.results_published === "true") {
-    await showResult();
-    return;
-  }
+  if (settings.results_published === "true") { await showResult(); return; }
+
   const open = settings.submissions_open !== "false";
   el("stepPrefs").classList.remove("hidden");
   el("saveBtn").disabled = !open;
-  el("saveMsg").textContent = !open
-    ? "Submissions are closed."
-    : submitted.has(student.id)
-      ? "Already submitted — edits are saved when you press submit again."
-      : "";
-  renderPrefs();
+  el("saveMsg").textContent = !open ? "Submissions are closed."
+    : submitted.has(student.id) ? "You have already submitted — press submit again to update."
+    : "";
+  renderAll();
 }
 
 function signOut() {
   if (dirty && !confirm("You have unsaved changes. Leave anyway?")) return;
   localStorage.removeItem(LS_KEY);
-  me = null;
-  prefs = [];
-  dirty = false;
+  me = null; prefs = []; dirty = false;
   el("nameSearch").value = "";
   showNamePicker();
 }
 
-/* -------------------------------------------------------- preference lists */
-function tut(id) { return tutorials.find((t) => t.id === id); }
+/* ------------------------------------------------------------- week grid */
+/** Split "Mon 09:00-10:00" into a day and a time. Returns null if it
+ *  doesn't look like a weekly slot, in which case we fall back to a list. */
+function parseSlot(t) {
+  const m = /^\s*([A-Za-z]{3,9})\s+(\d{1,2}:\d{2})\s*[-–]\s*(\d{1,2}:\d{2})/.exec(t.when_text || "");
+  return m ? { day: m[1], time: m[2] + "–" + m[3], start: m[2] } : null;
+}
 
+function renderAll() { renderGrid(); renderPrefs(); }
+
+function renderGrid() {
+  const wrap = el("gridWrap");
+  const parsed = tutorials.map((t) => ({ t, p: parseSlot(t) }));
+
+  if (parsed.some((x) => !x.p)) { renderFlatList(wrap, parsed); return; }
+
+  const days = [];
+  const times = [];
+  for (const { p } of parsed) {
+    if (!days.includes(p.day)) days.push(p.day);
+    if (!times.includes(p.time)) times.push(p.time);
+  }
+  times.sort((a, b) => a.localeCompare(b));
+
+  const cellOf = new Map();
+  for (const { t, p } of parsed) cellOf.set(p.day + "|" + p.time, t);
+
+  let html = '<div class="scroll-x"><table class="weekgrid"><thead><tr><th></th>';
+  for (const d of days) {
+    html += '<th><button class="tiny daybtn" data-day="' + escapeHtml(d) + '">' +
+      escapeHtml(d) + "</button></th>";
+  }
+  html += "</tr></thead><tbody>";
+  for (const time of times) {
+    html += "<tr><th>" + escapeHtml(time) + "</th>";
+    for (const d of days) {
+      const t = cellOf.get(d + "|" + time);
+      html += "<td>" + (t
+        ? '<button class="slot' + (prefs.includes(t.id) ? " on" : "") +
+          '" data-id="' + escapeHtml(t.id) + '">' +
+          (prefs.includes(t.id) ? prefs.indexOf(t.id) + 1 : "") + "</button>"
+        : "") + "</td>";
+    }
+    html += "</tr>";
+  }
+  html += "</tbody></table></div>";
+  wrap.innerHTML = html;
+
+  wrap.querySelectorAll("button.slot").forEach((b) => {
+    b.onclick = () => toggle(b.dataset.id);
+  });
+  wrap.querySelectorAll("button.daybtn").forEach((b) => {
+    b.onclick = () => toggleDay(b.dataset.day, parsed);
+  });
+}
+
+function renderFlatList(wrap, parsed) {
+  wrap.innerHTML = '<div class="namegrid">' + parsed.map(({ t }) =>
+    '<button class="namebtn slotflat' + (prefs.includes(t.id) ? " on" : "") +
+    '" data-id="' + escapeHtml(t.id) + '"><span class="who">' +
+    escapeHtml(t.label) + "</span></button>").join("") + "</div>";
+  wrap.querySelectorAll("button[data-id]").forEach((b) => {
+    b.onclick = () => toggle(b.dataset.id);
+  });
+}
+
+function toggle(id) {
+  const i = prefs.indexOf(id);
+  if (i >= 0) prefs.splice(i, 1); else prefs.push(id);
+  dirty = true;
+  renderAll();
+}
+
+function toggleDay(day, parsed) {
+  const ids = parsed.filter((x) => x.p && x.p.day === day).map((x) => x.t.id);
+  const allOn = ids.every((id) => prefs.includes(id));
+  if (allOn) prefs = prefs.filter((id) => !ids.includes(id));
+  else for (const id of ids) if (!prefs.includes(id)) prefs.push(id);
+  dirty = true;
+  renderAll();
+}
+
+/* --------------------------------------------------------- ordered list */
 function renderPrefs() {
-  const pool = tutorials.filter((t) => !prefs.includes(t.id));
-  const poolEl = el("poolList");
-  poolEl.innerHTML = "";
-  for (const t of pool) poolEl.appendChild(poolRow(t));
-
-  const prefEl = el("prefList");
-  prefEl.innerHTML = "";
+  const list = el("prefList");
+  list.innerHTML = "";
   prefs.forEach((id, i) => {
     const t = tut(id);
-    if (t) prefEl.appendChild(prefRow(t, i));
+    if (t) list.appendChild(prefRow(t, i));
   });
-
-  el("availCount").textContent = pool.length + " left";
-  el("prefCount").textContent = prefs.length + " chosen";
+  el("prefCount").textContent = prefs.length + " picked";
   el("saveBtn").textContent = prefs.length
     ? "Submit " + prefs.length + " preference" + (prefs.length === 1 ? "" : "s")
     : "Submit my preferences";
-}
-
-function slotMeta(t) {
-  const sub = escapeHtml(t.when_text) + (t.location ? " · " + escapeHtml(t.location) : "");
-  return '<div class="meta"><b>' + escapeHtml(t.label) + "</b><span>" + sub + "</span></div>";
-}
-
-function poolRow(t) {
-  const d = document.createElement("div");
-  d.className = "item";
-  d.innerHTML = slotMeta(t) + '<div class="acts"><button class="tiny">Add</button></div>';
-  d.querySelector("button").onclick = () => {
-    prefs.push(t.id);
-    dirty = true;
-    renderPrefs();
-  };
-  return d;
 }
 
 function prefRow(t, i) {
@@ -178,20 +218,17 @@ function prefRow(t, i) {
   d.draggable = true;
   d.dataset.idx = String(i);
   d.innerHTML =
-    '<span class="rank">' + (i + 1) + "</span>" + slotMeta(t) +
+    '<span class="rank">' + (i + 1) + "</span>" +
+    '<div class="meta"><b>' + escapeHtml(t.when_text) + "</b><span>" +
+      escapeHtml(t.label) + (t.location ? " · " + escapeHtml(t.location) : "") + "</span></div>" +
     '<div class="acts">' +
       '<button class="tiny" data-a="up" title="Move up"' + (i === 0 ? " disabled" : "") + ">▲</button>" +
       '<button class="tiny" data-a="down" title="Move down"' + (i === prefs.length - 1 ? " disabled" : "") + ">▼</button>" +
       '<button class="tiny" data-a="remove" title="Remove">✕</button>' +
-    "</div>" +
-    '<span class="grip" title="Drag to reorder">⠿</span>';
+    "</div><span class=\"grip\" title=\"Drag to reorder\">⠿</span>";
   d.querySelector('[data-a="up"]').onclick = () => move(i, i - 1);
   d.querySelector('[data-a="down"]').onclick = () => move(i, i + 1);
-  d.querySelector('[data-a="remove"]').onclick = () => {
-    prefs.splice(i, 1);
-    dirty = true;
-    renderPrefs();
-  };
+  d.querySelector('[data-a="remove"]').onclick = () => toggle(t.id);
   addDrag(d);
   return d;
 }
@@ -200,7 +237,7 @@ function move(from, to) {
   if (to < 0 || to >= prefs.length) return;
   prefs.splice(to, 0, prefs.splice(from, 1)[0]);
   dirty = true;
-  renderPrefs();
+  renderAll();
 }
 
 let dragFrom = null;
@@ -209,16 +246,13 @@ function addDrag(node) {
     dragFrom = Number(node.dataset.idx);
     node.classList.add("dragging");
     e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/plain", String(dragFrom)); // Firefox needs a payload
+    e.dataTransfer.setData("text/plain", String(dragFrom));
   });
   node.addEventListener("dragend", () => {
     node.classList.remove("dragging");
     dragFrom = null;
   });
-  node.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    node.classList.add("over");
-  });
+  node.addEventListener("dragover", (e) => { e.preventDefault(); node.classList.add("over"); });
   node.addEventListener("dragleave", () => node.classList.remove("over"));
   node.addEventListener("drop", (e) => {
     e.preventDefault();
@@ -230,25 +264,20 @@ function addDrag(node) {
 
 /* ------------------------------------------------------------------ save */
 async function save() {
-  if (!prefs.length && !confirm("You have not chosen any tutorials. Submit an empty list?")) return;
+  if (prefs.length < 3 &&
+      !confirm("You have only picked " + prefs.length + ". Fewer picks means a worse chance of " +
+               "getting a slot you like. Submit anyway?")) return;
   const btn = el("saveBtn");
   btn.disabled = true;
   el("saveMsg").textContent = "Saving…";
   try {
-    unwrap(await db.from("availability").delete().eq("student_id", me.id));
-    if (prefs.length) {
-      unwrap(await db.from("availability").insert(
-        prefs.map((id, i) => ({ student_id: me.id, tutorial_id: id, rank: i + 1 }))));
-    }
-    unwrap(await db.from("submissions")
-      .upsert({ student_id: me.id, submitted_at: new Date().toISOString() }));
+    await savePrefs(me.id, prefs);
     submitted.add(me.id);
     dirty = false;
     el("saveMsg").innerHTML =
-      '<span class="badge ok">Saved</span> You can come back and change this any time.';
+      '<span class="badge ok">Saved</span> You can change this any time.';
   } catch (e) {
-    el("saveMsg").innerHTML =
-      '<span class="badge warn">Not saved</span> ' + escapeHtml(e.message);
+    el("saveMsg").innerHTML = '<span class="badge warn">Not saved</span> ' + escapeHtml(e.message);
   } finally {
     btn.disabled = false;
   }
@@ -257,36 +286,28 @@ async function save() {
 /* --------------------------------------------------------------- results */
 async function showResult() {
   el("stepResult").classList.remove("hidden");
-  const rows = unwrap(await db.from("allocations").select("*"));
+  const rows = await loadAllocations();
   const mine = rows.find((r) => r.student_id === me.id);
   const body = el("resultBody");
-
   if (!mine) {
-    body.innerHTML =
-      '<div class="notice warn">You have not been placed in a group yet. Contact the tutor.</div>';
+    body.innerHTML = '<div class="notice warn">You have not been placed yet. Contact the tutor.</div>';
     return;
   }
   const slot = tut(mine.tutorial_id);
-  const mates = rows
-    .filter((r) => r.group_no === mine.group_no)
-    .map((r) => students.find((s) => s.id === r.student_id))
-    .filter(Boolean)
+  const mates = rows.filter((r) => r.group_no === mine.group_no)
+    .map((r) => students.find((s) => s.id === r.student_id)).filter(Boolean)
     .sort((a, b) => a.name.localeCompare(b.name));
-
-  const rowsHtml = mates.map((m) =>
-    "<tr><td>" + escapeHtml(m.name) +
-    (m.id === me.id ? ' <span class="badge ok">you</span>' : "") +
-    '</td><td style="text-align:right">' +
-    (m.is_vet ? '<span class="badge vet">vet</span>' : "") +
-    "</td></tr>").join("");
 
   body.innerHTML =
     '<div class="stat" style="margin-bottom:18px">' +
-      "<div><b>" + mine.group_no + "</b><span>" +
-        escapeHtml(mine.group_name || "Group") + "</span></div>" +
-      "<div><b>" + (slot ? escapeHtml(slot.label) : "TBC") + "</b><span>" +
-        (slot ? escapeHtml(slot.when_text) : "slot to be confirmed") + "</span></div>" +
-    "</div>" +
-    "<h2>Your group (" + mates.length + ")</h2>" +
-    '<div class="scroll-x"><table><tbody>' + rowsHtml + "</tbody></table></div>";
+      "<div><b>" + mine.group_no + "</b><span>your group</span></div>" +
+      "<div><b>" + (slot ? escapeHtml(slot.when_text) : "TBC") + "</b><span>" +
+        (slot ? escapeHtml(slot.label) : "slot to be confirmed") + "</span></div>" +
+    "</div><h2>Who's with you (" + mates.length + ")</h2>" +
+    '<div class="scroll-x"><table><tbody>' + mates.map((m) =>
+      "<tr><td>" + escapeHtml(m.name) +
+      (m.id === me.id ? ' <span class="badge ok">you</span>' : "") +
+      '</td><td style="text-align:right">' +
+      (m.is_vet ? '<span class="badge vet">vet</span>' : "") + "</td></tr>").join("") +
+    "</tbody></table></div>";
 }
