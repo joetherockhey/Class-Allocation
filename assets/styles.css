@@ -92,26 +92,46 @@ footer{color:var(--muted);font-size:12px;text-align:center;padding-top:10px}
 a{color:var(--accent)}
 
 /* week grid ------------------------------------------------------------- */
-.weekgrid{border-collapse:separate;border-spacing:4px;width:100%;min-width:440px}
-.weekgrid th{padding:2px;font-size:12px;text-transform:none;letter-spacing:0;white-space:nowrap;border:none}
-.weekgrid tbody th{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;padding-right:8px}
-.weekgrid td{padding:0;border:none;vertical-align:top}
-.weekgrid tbody th{white-space:nowrap}
+/* Fixed layout so Mon-Fri are exactly equal; the time column is pinned and
+   the five days split whatever is left. */
+.weekgrid{border-collapse:collapse;table-layout:fixed;width:100%;min-width:660px}
+.weekgrid col.timecol{width:104px}
+.weekgrid th,.weekgrid td{border:1px solid var(--line-strong)}
+.weekgrid thead th{
+  padding:6px 4px;font-size:12px;text-transform:none;letter-spacing:0;
+  background:var(--bg);white-space:nowrap;
+}
+.weekgrid tbody th{
+  padding:6px 9px 6px 6px;text-align:right;white-space:nowrap;
+  color:var(--ink);font-weight:600;font-size:12px;
+  font-variant-numeric:tabular-nums;background:var(--bg);
+}
+.weekgrid td{padding:4px;vertical-align:top}
 .weekgrid .daybtn{width:100%;font-weight:700}
+
 button.slot{
   position:relative;display:block;width:100%;margin-bottom:4px;
-  padding:9px 6px;border-radius:7px;line-height:1.25;
-  background:var(--bg);border:1px solid var(--line);
-  color:var(--accent);font-weight:600;font-size:11.5px;white-space:nowrap;
+  padding:7px 5px;border-radius:6px;line-height:1.3;text-align:center;
+  background:var(--panel);border:1px solid var(--line-strong);
+  color:var(--accent);white-space:nowrap;overflow:hidden;
 }
 button.slot:last-child{margin-bottom:0}
+button.slot b{display:block;font-size:12.5px;font-weight:700}
+button.slot .full{display:block;font-size:10.5px;opacity:.9}
+button.slot .room{display:block;font-size:10px;opacity:.72}
 button.slot .pin{
-  position:absolute;top:-7px;left:-7px;width:19px;height:19px;border-radius:50%;
-  background:var(--ink);color:#fff;font-size:10.5px;font-weight:700;
-  display:grid;place-items:center;
+  position:absolute;top:3px;right:4px;min-width:16px;height:16px;padding:0 3px;
+  border-radius:8px;background:var(--ink);color:#fff;
+  font-size:10px;font-weight:700;display:grid;place-items:center;
 }
 button.slot:hover{border-color:var(--accent);background:var(--accent-soft)}
 button.slot.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.slot.on .pin{background:#fff;color:var(--accent)}
 button.namebtn.slotflat.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-@media (max-width:520px){button.slot{font-size:10.5px;padding:8px 4px}}
+@media (max-width:520px){
+  button.slot{padding:6px 3px}
+  button.slot b{font-size:11.5px}
+  button.slot .full{font-size:10px}
+  button.slot .room{font-size:9.5px}
+}
 #qrThumb svg{width:100%;height:100%;display:block}

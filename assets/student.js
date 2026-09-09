@@ -57,6 +57,24 @@ async function init() {
 const tut = (id) => tutorials.find((t) => t.id === id);
 const order = (id) => tut(id)?.sort_order ?? 0;
 
+/** Labels are generated as "Tut 12 · Tue 12-2pm · BHB 2200", so split them
+ *  back into the activity code, the tutorial's real length, and the room.
+ *  Falls back to whatever is there if the shape ever changes. */
+function slotInfo(t) {
+  const parts = String(t.label || "").split(" · ");
+  const day = (t.when_text || "").split(" ")[0];
+  let full = parts[1] || "";
+  // Strip the leading day off "Mon 10am-12pm" without building a regex from
+  // data - escaping that through the build has bitten us once already.
+  if (day && full.slice(0, day.length) === day) full = full.slice(day.length).trim();
+  return {
+    code: parts[0] || t.id,
+    full,                                  // "10am-12pm" - the whole tutorial
+    room: t.location || parts[2] || "",
+  };
+}
+
+
 /* ------------------------------------------------------------ name picker */
 function showNamePicker() {
   el("stepName").classList.remove("hidden");
@@ -179,7 +197,10 @@ function renderGrid() {
     cellOf.get(key).push(t);
   }
 
-  let html = '<div class="scroll-x"><table class="weekgrid"><thead><tr><th></th>';
+  let html = '<div class="scroll-x"><table class="weekgrid">' +
+    '<colgroup><col class="timecol">' +
+    '<col span="' + days.length + '"></colgroup>' +
+    "<thead><tr><th></th>";
   for (const d of days) {
     html += '<th><button class="tiny daybtn" data-day="' + escapeHtml(d) + '">' +
       escapeHtml(d) + "</button></th>";
@@ -191,10 +212,14 @@ function renderGrid() {
       const here = cellOf.get(d + "|" + time) || [];
       html += "<td>" + here.map((t) => {
         const at = prefs.indexOf(t.id);
+        const i = slotInfo(t);
         return '<button class="slot' + (at >= 0 ? " on" : "") + '" data-id="' +
           escapeHtml(t.id) + '" title="' + escapeHtml(t.label) + '">' +
           (at >= 0 ? '<span class="pin">' + (at + 1) + "</span>" : "") +
-          escapeHtml(t.location || t.label) + "</button>";
+          "<b>" + escapeHtml(i.code) + "</b>" +
+          (i.full ? '<span class="full">(' + escapeHtml(i.full) + ")</span>" : "") +
+          (i.room ? '<span class="room">' + escapeHtml(i.room) + "</span>" : "") +
+          "</button>";
       }).join("") + "</td>";
     }
     html += "</tr>";
@@ -211,10 +236,13 @@ function renderGrid() {
 }
 
 function renderFlatList(wrap, parsed) {
-  wrap.innerHTML = '<div class="namegrid">' + parsed.map(({ t }) =>
-    '<button class="namebtn slotflat' + (prefs.includes(t.id) ? " on" : "") +
-    '" data-id="' + escapeHtml(t.id) + '"><span class="who">' +
-    escapeHtml(t.label) + "</span></button>").join("") + "</div>";
+  wrap.innerHTML = '<div class="namegrid">' + parsed.map(({ t }) => {
+    const i = slotInfo(t);
+    return '<button class="namebtn slotflat' + (prefs.includes(t.id) ? " on" : "") +
+      '" data-id="' + escapeHtml(t.id) + '"><span class="who">' +
+      escapeHtml(i.code) + " — " + escapeHtml(t.when_text) +
+      (i.full ? " (" + escapeHtml(i.full) + ")" : "") + "</span></button>";
+  }).join("") + "</div>";
   wrap.querySelectorAll("button[data-id]").forEach((b) => {
     b.onclick = () => toggle(b.dataset.id);
   });
@@ -275,8 +303,10 @@ function prefRow(t, i) {
   d.dataset.idx = String(i);
   d.innerHTML =
     '<span class="rank">' + (i + 1) + "</span>" +
-    '<div class="meta"><b>' + escapeHtml(t.when_text) + "</b><span>" +
-      escapeHtml(t.location || t.label) + "</span></div>" +
+    '<div class="meta"><b>' + escapeHtml(t.when_text) +
+      (slotInfo(t).full ? " (" + escapeHtml(slotInfo(t).full) + ")" : "") +
+      "</b><span>" + escapeHtml(slotInfo(t).code) +
+      (slotInfo(t).room ? " · " + escapeHtml(slotInfo(t).room) : "") + "</span></div>" +
     '<div class="acts">' +
       '<button class="tiny" data-a="up" title="Move up"' + (i === 0 ? " disabled" : "") + ">▲</button>" +
       '<button class="tiny" data-a="down" title="Move down"' + (i === prefs.length - 1 ? " disabled" : "") + ">▼</button>" +
@@ -362,6 +392,9 @@ async function showResult() {
       "<div><b>" + mine.group_no + "</b><span>your group</span></div>" +
       "<div><b>" + (slot ? escapeHtml(slot.when_text) : "TBC") + "</b><span>" +
         (slot ? escapeHtml(slot.label) : "slot to be confirmed") + "</span></div>" +
+      (slot && slotInfo(slot).full
+        ? "<div><b>" + escapeHtml(slotInfo(slot).full) + "</b><span>full tutorial</span></div>"
+        : "") +
     "</div><h2>Who's with you (" + mates.length + ")</h2>" +
     '<div class="scroll-x"><table><tbody>' + mates.map((m) =>
       "<tr><td>" + escapeHtml(m.name) +
