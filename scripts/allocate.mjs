@@ -10,6 +10,9 @@
  *
  * Objective
  *   - minimise the total preference rank people get (1 = their first choice)
+ *   - keep the people named in data/together.json in one group where it can be
+ *     done. A wish, not a rule: it outweighs a few places of preference but
+ *     always yields to the hard constraints above.
  *
  * Method: randomised restarts (slot choice + most-constrained-first assignment)
  * followed by hill-climbing on moves and swaps. Deterministic for a given --seed.
@@ -89,6 +92,46 @@ const MIN   = BASE;
 const P_UNASSIGNED = 10000;
 const P_NO_VET     = 5000;
 const P_OVERSIZE   = 400;
+
+/* --------------------------------------------------- keep-together wishes */
+// Each entry costs `weight` for every member stranded outside the group that
+// holds the most of them. Sized to beat a few places of preference rank while
+// staying far below the hard-constraint penalties above, so an impossible wish
+// is simply dropped rather than distorting the result.
+let wishes = [];
+try {
+  const raw = JSON.parse(readFileSync("data/together.json", "utf8"));
+  wishes = raw.map((w) => ({
+    weight: Number(w.weight) || 60,
+    names: w.names,
+    idx: w.names
+      .map((n) => people.findIndex((p) => p.name === n))
+      .filter((i) => i >= 0),
+    missing: w.names.filter((n) => !people.some((p) => p.name === n)),
+  })).filter((w) => w.idx.length > 1);
+} catch { /* no wishes file, or unreadable - carry on without */ }
+
+for (const w of wishes) {
+  if (w.missing.length) {
+    console.log(`Note: keep-together names not found or with no preferences: ${w.missing.join(", ")}`);
+  }
+}
+
+/** Cost of splitting up the people who asked to be together. */
+function wishPenalty(where) {
+  let total = 0;
+  for (const w of wishes) {
+    const tally = new Map();
+    for (const p of w.idx) {
+      const g = where[p];
+      if (g < 0) continue;
+      tally.set(g, (tally.get(g) || 0) + 1);
+    }
+    const biggest = Math.max(0, ...tally.values());
+    total += (w.idx.length - biggest) * w.weight;
+  }
+  return total;
+}
 
 /* ------------------------------------------------- choose the slots to use */
 function chooseSlots() {
@@ -196,7 +239,7 @@ function cost(chosen, where) {
     size[g]++;
     if (isVet[p]) vets[g]++;
   }
-  let penalty = unassigned * P_UNASSIGNED;
+  let penalty = unassigned * P_UNASSIGNED + wishPenalty(where);
   for (let g = 0; g < GROUPS; g++) {
     if (!vets[g]) penalty += P_NO_VET;
     // Superlinear so one badly oversized group never looks cheaper than
@@ -289,6 +332,20 @@ console.log(`Placed ${placed.length} of ${all.length}. Mean choice ` +
   (placed.reduce((s, m) => s + m.got_choice, 0) / placed.length).toFixed(2) + ".");
 if (unplaced.length) console.log("NOT PLACED (no compatible slot):", unplaced.join(", "));
 if (stranded.length) console.log("NO PREFERENCES SUBMITTED:", stranded.map((s) => s.name).join(", "));
+
+for (const w of wishes) {
+  const spread = new Map();
+  for (const g of groups) {
+    for (const m of g.members) {
+      if (w.names.includes(m.name)) spread.set(g.group_no, (spread.get(g.group_no) || 0) + 1);
+    }
+  }
+  const together = spread.size === 1;
+  console.log(`Keep together (${w.names.join(", ")}): ` + (together
+    ? `yes - all in group ${[...spread.keys()][0]}`
+    : "NOT POSSIBLE - split across groups " + [...spread.keys()].sort((a, b) => a - b).join(", ") +
+      " (no slot they can all attend had room)"));
+}
 
 const noVet = groups.filter((g) => !g.members.some((m) => m.is_vet));
 if (noVet.length) console.log("WARNING - groups without a vet:", noVet.map((g) => g.group_no).join(", "));

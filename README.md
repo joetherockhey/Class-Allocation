@@ -107,6 +107,25 @@ their second pick.
 If it warns about group sizes, some students listed too few slots. Ask them to
 add more, or accept the imbalance.
 
+### Keeping people together
+
+`data/together.json` lists people who have asked to present in the same group:
+
+```json
+[{ "note": "Asked to present together",
+   "names": ["Georgia Opit", "Maya Cuthbert", "Isabella Sheffield"],
+   "weight": 60 }]
+```
+
+This is a preference, not a rule. It outweighs a few places of preference rank
+but always yields to the hard constraints, so nobody is ever put in a slot they
+did not choose in order to satisfy it. Raise `weight` to push harder, lower it
+to make it a gentle nudge. The allocator prints whether each wish was honoured,
+and says so plainly when no slot they can all attend had room.
+
+Names must match `data/roster.csv` exactly; any that do not are reported and
+ignored. Add more entries to the array for other groupings.
+
 ## 5. Release the groups
 
 ```bash
