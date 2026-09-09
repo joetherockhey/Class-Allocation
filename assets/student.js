@@ -170,6 +170,14 @@ function startMinutes(label) {
   return h * 60 + m;
 }
 
+/** Minutes past midnight -> "11:30am" / "12pm". */
+function clockLabel(v) {
+  const h = Math.floor(v / 60), m = v % 60;
+  const suffix = h < 12 ? "am" : "pm";
+  const hh = h % 12 === 0 ? 12 : h % 12;
+  return m ? hh + ":" + String(m).padStart(2, "0") + suffix : hh + suffix;
+}
+
 function renderGrid() {
   const wrap = el("gridWrap");
   const parsed = tutorials.map((t) => ({ t, p: parseSlot(t) }));
@@ -180,21 +188,31 @@ function renderGrid() {
   for (const { p } of parsed) if (!days.includes(p.day)) days.push(p.day);
   if (days.length > 7) { renderFlatList(wrap, parsed); return; }
 
-  // Rows are clock-ordered. First-appearance order would follow sort_order,
-  // which lists all of Monday before Tuesday's 8am ever appears.
-  const times = [];
-  for (const { p } of parsed) if (!times.includes(p.time)) times.push(p.time);
-  const mins = new Map(times.map((t) => [t, startMinutes(t)]));
-  if ([...mins.values()].every((v) => !Number.isNaN(v))) {
-    times.sort((a, b) => mins.get(a) - mins.get(b));
+  for (const x of parsed) x.min = startMinutes(x.p.time);
+  const timed = parsed.every((x) => !Number.isNaN(x.min));
+
+  // Continuous hourly axis from the first slot to the last, plus any half-hour
+  // that an actual tutorial starts on. So a gap in the timetable reads as a gap
+  // (12pm no longer sits directly above 2pm) without 12 blank half-hour rows.
+  let rows;
+  if (timed) {
+    const starts = parsed.map((x) => x.min);
+    const lo = Math.floor(Math.min(...starts) / 60) * 60;
+    const hi = Math.ceil(Math.max(...starts) / 60) * 60;
+    const marks = new Set(starts);
+    for (let v = lo; v <= hi; v += 60) marks.add(v);
+    rows = [...marks].sort((a, b) => a - b).map((v) => ({ key: v, label: clockLabel(v) }));
+  } else {
+    const seen = [];
+    for (const { p } of parsed) if (!seen.includes(p.time)) seen.push(p.time);
+    rows = seen.map((t) => ({ key: t, label: t }));
   }
 
-  // A cell can hold several tutorials: same day and time, different rooms.
   const cellOf = new Map();
-  for (const { t, p } of parsed) {
-    const key = p.day + "|" + p.time;
+  for (const x of parsed) {
+    const key = x.p.day + "|" + (timed ? x.min : x.p.time);
     if (!cellOf.has(key)) cellOf.set(key, []);
-    cellOf.get(key).push(t);
+    cellOf.get(key).push(x.t);
   }
 
   let html = '<div class="scroll-x"><table class="weekgrid">' +
@@ -206,10 +224,12 @@ function renderGrid() {
       escapeHtml(d) + "</button></th>";
   }
   html += "</tr></thead><tbody>";
-  for (const time of times) {
-    html += '<tr><th>' + escapeHtml(time) + "</th>";
-    for (const d of days) {
-      const here = cellOf.get(d + "|" + time) || [];
+
+  for (const row of rows) {
+    const cells = days.map((d) => cellOf.get(d + "|" + row.key) || []);
+    const bare = cells.every((c) => !c.length);
+    html += '<tr class="' + (bare ? "bare" : "") + '"><th>' + escapeHtml(row.label) + "</th>";
+    for (const here of cells) {
       html += "<td>" + here.map((t) => {
         const at = prefs.indexOf(t.id);
         const i = slotInfo(t);
