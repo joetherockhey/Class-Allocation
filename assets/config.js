@@ -18,6 +18,7 @@ export const MIN_PICKS_BY_NAME = {
   "Annabelle Campbell": 2,
   "Callum Franzman": 2,
   "Emily Dawson-Taylor": 2,
+  "Max Dewinter": 4,
 };
 
 // Public address of this site. Used for the QR code shown on the share page.
