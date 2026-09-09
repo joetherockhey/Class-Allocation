@@ -28,7 +28,8 @@ const flag = (n, d) => {
 const INPUT     = argv.find((a) => !a.startsWith("--")) || "input.json";
 const OUT       = flag("out", "groups.json");
 const MIN_GROUP = Number(flag("min-group", 2));
-const MIN_LOAD  = Number(flag("min-load", 2));
+const MAX_GROUP = Number(flag("max-group", 6));
+const MIN_LOAD  = Number(flag("min-load", 1));
 const IDEAL_LOAD= Number(flag("ideal-load", 3));
 const MAX_LOAD  = Number(flag("max-load", 3));
 const SEED      = Number(flag("seed", 20260909));
@@ -36,12 +37,16 @@ const ROUNDS    = Number(flag("rounds", 6));
 const ITERS     = Number(flag("iters", 900000));
 
 /* ------------------------------------------------------------------ costs */
-const C_GROUP_SHORT = 20000;   // a group below MIN_GROUP - effectively a rule
-const C_LOAD_SHORT  = 20000;   // a student below MIN_LOAD - effectively a rule
-const C_OVERLOAD    = 1500;    // each tutorial beyond MAX_LOAD
+/* Weights encode the stated priority order. Priority 1 outranks priority 2 by
+   more than any number of priority-2 breaches can make up, and so on down. */
+const C_GROUP_SHORT = 200000;  // 1. every tutorial needs MIN_GROUP presenters
+const C_TOO_BIG     = 40000;   // 2. no tutorial above MAX_GROUP
+const C_LOAD_SHORT  = 9000;    // 3. everyone who submitted presents at least once
+const C_ONLY_ONE    = 900;     //    ...and two is much better than one
+const C_ONLY_TWO    = 60;      //    ...and three better still
+const C_OVERLOAD    = 1200;    // beyond MAX_LOAD
 const C_NO_VET      = 400;     // a group with no vet
-const C_ONLY_TWO    = 40;      // a student on 2 rather than 3
-const C_BIG         = 4;       // per person^2 above the comfortable size
+const C_BIG         = 4;       // gentle pull towards an even spread
 const C_SPLIT_WISH  = 250;     // people who asked to be together, and are not
 
 /* ------------------------------------------------------------------ input */
@@ -81,7 +86,7 @@ try {
 } catch { /* optional */ }
 
 // A comfortable group size, given how much presenting there is to spread out.
-const COMFY = Math.max(MIN_GROUP + 1, Math.ceil((N * IDEAL_LOAD) / T) + 1);
+const COMFY = Math.min(MAX_GROUP, Math.max(MIN_GROUP + 1, Math.ceil((N * IDEAL_LOAD) / T) + 1));
 
 /* -------------------------------------------------------------- machinery */
 function mulberry32(a) {
@@ -128,11 +133,13 @@ function cost(st) {
   let c = st.rankSum + wishCost(st);
   for (let t = 0; t < T; t++) {
     if (st.size[t] < MIN_GROUP) c += (MIN_GROUP - st.size[t]) * C_GROUP_SHORT;
+    if (st.size[t] > MAX_GROUP) c += (st.size[t] - MAX_GROUP) * C_TOO_BIG;
     if (!st.vets[t]) c += C_NO_VET;
     if (st.size[t] > COMFY) c += (st.size[t] - COMFY) ** 2 * C_BIG;
   }
   for (let s = 0; s < N; s++) {
     if (st.load[s] < MIN_LOAD) c += (MIN_LOAD - st.load[s]) * C_LOAD_SHORT;
+    if (st.load[s] < 2) c += (2 - st.load[s]) * C_ONLY_ONE;
     if (st.load[s] > MAX_LOAD) c += (st.load[s] - MAX_LOAD) * C_OVERLOAD;
     if (st.load[s] < IDEAL_LOAD) c += (IDEAL_LOAD - st.load[s]) * C_ONLY_TWO;
   }
@@ -150,12 +157,12 @@ function seedSolution(rnd) {
     const wanted = [...canDo[s]].sort((a, b) => rank[s][a] - rank[s][b]);
     for (const t of wanted) {
       if (st.load[s] >= IDEAL_LOAD) break;
-      if (st.size[t] >= COMFY) continue;
+      if (st.size[t] >= MAX_GROUP) continue;
       add(st, s, t);
     }
     for (const t of wanted) {                 // fill up if the nice ones were full
-      if (st.load[s] >= MIN_LOAD) break;
-      if (!st.on[s][t]) add(st, s, t);
+      if (st.load[s] >= 2) break;
+      if (!st.on[s][t] && st.size[t] < MAX_GROUP) add(st, s, t);
     }
   }
   // Any group still short pulls in whoever can attend and is least loaded.

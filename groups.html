@@ -5,257 +5,311 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Presentation groups</title>
 <style>
-:root{
-  color-scheme:light;
+:root{color-scheme:light;
   --bg:#f6f7f9;--panel:#fff;--ink:#16191d;--muted:#5f6874;
   --line:#e2e5ea;--line-strong:#cbd1da;--accent:#2f6df6;--accent-soft:#e8f0ff;
-  --hit:#fff8dd;--hit-line:#e3b341;--ok:#15803d;--ok-soft:#e7f6ec;
-}
+  --hit:#fff8dd;--hit-line:#e3b341}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
   font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   -webkit-font-smoothing:antialiased}
-.wrap{max-width:1180px;margin:0 auto;padding:26px 18px 70px}
-h1{font-size:clamp(21px,2.6vw,30px);margin:0 0 4px;letter-spacing:-.02em}
-.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
-.tools{position:sticky;top:0;z-index:5;background:var(--bg);
-  padding:10px 0 14px;margin-bottom:6px;border-bottom:1px solid var(--line)}
-#find{width:100%;max-width:420px;font:inherit;padding:11px 14px;border-radius:10px;
+.wrap{max-width:1180px;margin:0 auto;padding:24px 16px 70px}
+h1{font-size:clamp(20px,2.5vw,29px);margin:0 0 4px;letter-spacing:-.02em}
+.sub{color:var(--muted);margin:0 0 18px;font-size:14px}
+a{color:var(--accent)}
+.stats{display:flex;gap:20px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.stats div b{display:block;font-size:22px;letter-spacing:-.02em;line-height:1.2}
+.stats div span{color:var(--muted);font-size:12px}
+.tools{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 12px;
+  border-bottom:1px solid var(--line);margin-bottom:8px}
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.tabs button{font:inherit;cursor:pointer;border-radius:9px;padding:8px 15px;font-weight:600;
+  border:1px solid var(--line-strong);background:var(--panel);color:var(--ink)}
+.tabs button[aria-selected=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+#find{width:100%;max-width:420px;font:inherit;padding:10px 13px;border-radius:10px;
   border:1px solid var(--line-strong);background:var(--panel);color:var(--ink)}
 #find:focus{outline:2px solid var(--accent);outline-offset:-1px}
-#found{margin:10px 0 0;font-size:14px;color:var(--muted);min-height:22px}
+#found{margin:9px 0 0;font-size:14px;color:var(--muted);min-height:20px}
 #found b{color:var(--ink)}
-#found .pill{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;
+.pill{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;
   padding:2px 9px;margin:0 4px 4px 0;font-size:12.5px;font-weight:600}
-h2{font-size:15px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);
-  margin:26px 0 12px;font-weight:700}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:13px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;
-  box-shadow:0 1px 2px rgba(16,24,40,.05);transition:box-shadow .12s,border-color .12s}
-.card header{display:flex;align-items:baseline;gap:9px;margin-bottom:2px}
-.card .code{font-weight:800;font-size:15.5px;letter-spacing:-.01em}
-.card .time{margin-left:auto;font-size:13.5px;font-weight:700;color:var(--accent);
+h2{font-size:14px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);
+  margin:24px 0 11px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));gap:12px}
+.grid.people{grid-template-columns:repeat(auto-fill,minmax(232px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px;
+  box-shadow:0 1px 2px rgba(16,24,40,.05)}
+.card header{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
+.card .code{font-weight:800;font-size:15px;letter-spacing:-.01em}
+.card .time{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent);
   font-variant-numeric:tabular-nums;white-space:nowrap}
-.card .where{margin:0 0 11px;color:var(--muted);font-size:12.5px}
+.card .where{margin:0 0 10px;color:var(--muted);font-size:12.5px}
 ol.who{list-style:none;margin:0;padding:0}
 ol.who li{padding:5px 0;border-top:1px solid var(--line);font-size:14px;
-  display:flex;align-items:center;gap:7px}
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 ol.who li:first-child{border-top:none}
-ol.who .vet{margin-left:auto;font-size:10.5px;font-weight:700;letter-spacing:.03em;
+ol.who .vet,.card header .vet{margin-left:auto;font-size:10.5px;font-weight:700;letter-spacing:.03em;
   background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:1px 7px}
-.card footer{margin-top:11px;padding-top:9px;border-top:1px solid var(--line);
+ol.who .rm{width:100%;color:var(--muted);font-size:11.5px}
+.card footer{margin-top:10px;padding-top:8px;border-top:1px solid var(--line);
   color:var(--muted);font-size:12px}
 .card.hit{border-color:var(--hit-line);box-shadow:0 0 0 3px var(--hit)}
-li.hit{background:var(--hit);border-radius:5px;font-weight:700;
-  margin:0 -6px;padding-left:6px;padding-right:6px}
-.card.dim{opacity:.34}
-.stats{display:flex;gap:22px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);
-  border-radius:12px;padding:15px 17px;margin-bottom:6px}
-.stats div b{display:block;font-size:23px;letter-spacing:-.02em;line-height:1.2}
-.stats div span{color:var(--muted);font-size:12px}
+li.hit{background:var(--hit);border-radius:5px;font-weight:700;margin:0 -6px;padding:5px 6px}
+.card.dim{opacity:.32}
+details.board{margin-top:11px;border-top:1px solid var(--line);padding-top:8px}
+details.board summary{cursor:pointer;font-size:12.5px;color:var(--muted);font-weight:600;
+  list-style:none;user-select:none}
+details.board summary::-webkit-details-marker{display:none}
+details.board summary::before{content:"▸ ";color:var(--accent)}
+details.board[open] summary::before{content:"▾ "}
+details.board .count{color:var(--accent)}
+.msgs{margin:9px 0 0;font-size:13px}
+.msg{padding:7px 0;border-top:1px solid var(--line)}
+.msg:first-child{border-top:none}
+.msg b{font-size:12.5px}
+.msg time{color:var(--muted);font-size:11px;margin-left:6px}
+.msg p{margin:2px 0 0;white-space:pre-wrap;word-break:break-word}
+form.post{display:grid;gap:6px;margin-top:9px}
+form.post input,form.post textarea{font:inherit;font-size:13px;padding:7px 9px;border-radius:8px;
+  border:1px solid var(--line-strong);background:var(--bg);color:var(--ink);width:100%;resize:vertical}
+form.post button{font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border-radius:8px;
+  border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;justify-self:start}
+form.post button:disabled{opacity:.5;cursor:not-allowed}
+form.post .err{font-size:12px;color:#b45309}
 .note{background:#fdf3e3;border:1px solid #e3b341;color:#7a4d05;border-radius:10px;
   padding:12px 14px;font-size:13.5px;margin-top:20px}
-footer.end{margin-top:32px;color:var(--muted);font-size:12.5px;text-align:center}
-@media print{
-  .tools,.note,footer.end{display:none}
-  body{background:#fff}
-  .grid{grid-template-columns:repeat(3,1fr)}
-  .card{break-inside:avoid;box-shadow:none}
-}
+footer.end{margin-top:30px;color:var(--muted);font-size:12.5px;text-align:center}
+@media print{.tools,.note,details.board,footer.end{display:none}
+  body{background:#fff}.grid{grid-template-columns:repeat(3,1fr)}.card{break-inside:avoid;box-shadow:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>Presentation groups</h1>
-  <p class="sub">Everyone presents at two or three tutorials. Find your name to see which.</p>
+  <p class="sub">Everyone presents at two or three tutorials. <a href="index.html">Back to preferences</a></p>
 
   <div class="stats">
     <div><b>23</b><span>tutorials</span></div>
-    <div><b>45</b><span>students placed</span></div>
-    <div><b>132</b><span>presentation slots</span></div>
-    <div><b>3&times;2 &middot; 42&times;3</b><span>students &times; tutorials each</span></div>
+    <div><b>45</b><span>students</span></div>
+    <div><b>126</b><span>presentation slots</span></div>
+    <div><b>9 students &times; 2 &middot; 36 students &times; 3</b><span>tutorials each</span></div>
   </div>
 
   <div class="tools">
-    <input id="find" type="search" placeholder="Type your name…" autocomplete="off" aria-label="Find your name">
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true"  data-view="tut">By tutorial</button>
+      <button role="tab" aria-selected="false" data-view="person">By person</button>
+      <button role="tab" aria-selected="false" data-view="group">By group</button>
+    </div>
+    <input id="find" type="search" placeholder="Type a name to find them…" autocomplete="off" aria-label="Find a name">
     <p id="found"></p>
   </div>
 
+  <section id="view-tut">
   <h2>Monday</h2>
   <div class="grid">
-      <article class="card" data-names="ellery huang|kenn surya|washiella jessica">
+      <article class="card" data-names="ellery huang|joseph hoffmann|kenn surya|washiella jessica">
         <header>
           <span class="code">Tut 11</span>
           <span class="time">10-10:30am</span>
         </header>
-        <p class="where">BHB 1160 &middot; full tutorial 10am-12pm</p>
-        <ol class="who">
-          <li data-name="ellery huang">Ellery Huang<span class="vet">vet</span></li>
-          <li data-name="kenn surya">Kenn Surya</li>
-          <li data-name="washiella jessica">Washiella Jessica</li>
-        </ol>
-        <footer>3 presenting</footer>
+        <p class="where">BHB 1160 &middot; runs 10am-12pm</p>
+        <ol class="who"><li data-name="ellery huang">Ellery Huang<span class="vet">vet</span></li><li data-name="joseph hoffmann">Joseph Hoffmann<span class="vet">vet</span></li><li data-name="kenn surya">Kenn Surya</li><li data-name="washiella jessica">Washiella Jessica</li></ol>
+        <details class="board" data-tut="T11">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="jovan jonathan|le nguyen|mary tran|phan nguyen">
+      <article class="card" data-names="jovan jonathan|kenn surya|le nguyen|mary tran|phan nguyen">
         <header>
           <span class="code">Tut 22</span>
           <span class="time">2-2:30pm</span>
         </header>
-        <p class="where">BHB 3280 &middot; full tutorial 2-4pm</p>
-        <ol class="who">
-          <li data-name="jovan jonathan">Jovan Jonathan</li>
-          <li data-name="le nguyen">Le Nguyen</li>
-          <li data-name="mary tran">Mary Tran</li>
-          <li data-name="phan nguyen">Phan Nguyen</li>
-        </ol>
-        <footer>4 presenting &middot; no vet</footer>
+        <p class="where">BHB 3280 &middot; runs 2-4pm</p>
+        <ol class="who"><li data-name="jovan jonathan">Jovan Jonathan</li><li data-name="kenn surya">Kenn Surya</li><li data-name="le nguyen">Le Nguyen</li><li data-name="mary tran">Mary Tran</li><li data-name="phan nguyen">Phan Nguyen</li></ol>
+        <details class="board" data-tut="T22">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="hongming hu|irfan ahsan|jovan jonathan|le nguyen|mary tran|phan nguyen|washiella jessica">
+      <article class="card" data-names="ellery huang|hongming hu|irfan ahsan|jovan jonathan|mary tran|washiella jessica">
         <header>
           <span class="code">Tut 13</span>
           <span class="time">3-3:30pm</span>
         </header>
-        <p class="where">BHB 3240 &middot; full tutorial 3-5pm</p>
-        <ol class="who">
-          <li data-name="hongming hu">Hongming Hu</li>
-          <li data-name="irfan ahsan">Irfan Ahsan<span class="vet">vet</span></li>
-          <li data-name="jovan jonathan">Jovan Jonathan</li>
-          <li data-name="le nguyen">Le Nguyen</li>
-          <li data-name="mary tran">Mary Tran</li>
-          <li data-name="phan nguyen">Phan Nguyen</li>
-          <li data-name="washiella jessica">Washiella Jessica</li>
-        </ol>
-        <footer>7 presenting</footer>
+        <p class="where">BHB 3240 &middot; runs 3-5pm</p>
+        <ol class="who"><li data-name="ellery huang">Ellery Huang<span class="vet">vet</span></li><li data-name="hongming hu">Hongming Hu</li><li data-name="irfan ahsan">Irfan Ahsan<span class="vet">vet</span></li><li data-name="jovan jonathan">Jovan Jonathan</li><li data-name="mary tran">Mary Tran</li><li data-name="washiella jessica">Washiella Jessica</li></ol>
+        <details class="board" data-tut="T13">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
       <article class="card" data-names="ellery huang|irfan ahsan|kenn surya|le nguyen|phan nguyen|washiella jessica">
         <header>
           <span class="code">Tut 21</span>
           <span class="time">4-4:30pm</span>
         </header>
-        <p class="where">BHB 3003 &middot; full tutorial 4-6pm</p>
-        <ol class="who">
-          <li data-name="ellery huang">Ellery Huang<span class="vet">vet</span></li>
-          <li data-name="irfan ahsan">Irfan Ahsan<span class="vet">vet</span></li>
-          <li data-name="kenn surya">Kenn Surya</li>
-          <li data-name="le nguyen">Le Nguyen</li>
-          <li data-name="phan nguyen">Phan Nguyen</li>
-          <li data-name="washiella jessica">Washiella Jessica</li>
-        </ol>
-        <footer>6 presenting</footer>
+        <p class="where">BHB 3003 &middot; runs 4-6pm</p>
+        <ol class="who"><li data-name="ellery huang">Ellery Huang<span class="vet">vet</span></li><li data-name="irfan ahsan">Irfan Ahsan<span class="vet">vet</span></li><li data-name="kenn surya">Kenn Surya</li><li data-name="le nguyen">Le Nguyen</li><li data-name="phan nguyen">Phan Nguyen</li><li data-name="washiella jessica">Washiella Jessica</li></ol>
+        <details class="board" data-tut="T21">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
       <article class="card" data-names="flynn russell|hongming hu|nikemie dimitrov">
         <header>
           <span class="code">Tut 33</span>
           <span class="time">6-6:30pm</span>
         </header>
-        <p class="where">BHB 3280 &middot; full tutorial 6-8pm</p>
-        <ol class="who">
-          <li data-name="flynn russell">Flynn Russell<span class="vet">vet</span></li>
-          <li data-name="hongming hu">Hongming Hu</li>
-          <li data-name="nikemie dimitrov">Nikemie Dimitrov</li>
-        </ol>
-        <footer>3 presenting</footer>
+        <p class="where">BHB 3280 &middot; runs 6-8pm</p>
+        <ol class="who"><li data-name="flynn russell">Flynn Russell<span class="vet">vet</span></li><li data-name="hongming hu">Hongming Hu</li><li data-name="nikemie dimitrov">Nikemie Dimitrov</li></ol>
+        <details class="board" data-tut="T33">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
   </div>
 
   <h2>Tuesday</h2>
   <div class="grid">
-      <article class="card" data-names="alyssa hodge|emily dawson-taylor|flynn russell|gemma rodham|imani qureshi|nikemie dimitrov|rohan howard">
+      <article class="card" data-names="alyssa hodge|emily dawson-taylor|gemma rodham|imani qureshi|nikemie dimitrov|rohan howard">
         <header>
           <span class="code">Tut 14</span>
           <span class="time">8-8:30am</span>
         </header>
-        <p class="where">BHB 1140 &middot; full tutorial 8-10am</p>
-        <ol class="who">
-          <li data-name="alyssa hodge">Alyssa Hodge</li>
-          <li data-name="emily dawson-taylor">Emily Dawson-Taylor</li>
-          <li data-name="flynn russell">Flynn Russell<span class="vet">vet</span></li>
-          <li data-name="gemma rodham">Gemma Rodham</li>
-          <li data-name="imani qureshi">Imani Qureshi</li>
-          <li data-name="nikemie dimitrov">Nikemie Dimitrov</li>
-          <li data-name="rohan howard">Rohan Howard<span class="vet">vet</span></li>
-        </ol>
-        <footer>7 presenting</footer>
+        <p class="where">BHB 1140 &middot; runs 8-10am</p>
+        <ol class="who"><li data-name="alyssa hodge">Alyssa Hodge</li><li data-name="emily dawson-taylor">Emily Dawson-Taylor</li><li data-name="gemma rodham">Gemma Rodham</li><li data-name="imani qureshi">Imani Qureshi</li><li data-name="nikemie dimitrov">Nikemie Dimitrov</li><li data-name="rohan howard">Rohan Howard<span class="vet">vet</span></li></ol>
+        <details class="board" data-tut="T14">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="alyssa hodge|dylan simpson|flynn russell|laam cheung|peimin zheng">
+      <article class="card" data-names="alyssa hodge|dylan simpson|flynn russell|laam cheung|le nguyen|peimin zheng">
         <header>
           <span class="code">Tut 02</span>
           <span class="time">10-10:30am</span>
         </header>
-        <p class="where">Institute N297 &middot; full tutorial 10am-12pm</p>
-        <ol class="who">
-          <li data-name="alyssa hodge">Alyssa Hodge</li>
-          <li data-name="dylan simpson">Dylan Simpson</li>
-          <li data-name="flynn russell">Flynn Russell<span class="vet">vet</span></li>
-          <li data-name="laam cheung">Laam Cheung</li>
-          <li data-name="peimin zheng">Peimin Zheng</li>
-        </ol>
-        <footer>5 presenting</footer>
+        <p class="where">Institute N297 &middot; runs 10am-12pm</p>
+        <ol class="who"><li data-name="alyssa hodge">Alyssa Hodge</li><li data-name="dylan simpson">Dylan Simpson</li><li data-name="flynn russell">Flynn Russell<span class="vet">vet</span></li><li data-name="laam cheung">Laam Cheung</li><li data-name="le nguyen">Le Nguyen</li><li data-name="peimin zheng">Peimin Zheng</li></ol>
+        <details class="board" data-tut="T02">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="dylan simpson|heidi boyd|joseph hoffmann|robert diep|shijie peng|xi chen|zara lockhart">
+      <article class="card" data-names="heidi boyd|laam cheung|robert diep|ryan ramsden|shijie peng|xi chen">
         <header>
           <span class="code">Tut 07</span>
           <span class="time">11:30am-12pm</span>
         </header>
-        <p class="where">BHB 1080 &middot; full tutorial 11:30am-1:30pm</p>
-        <ol class="who">
-          <li data-name="dylan simpson">Dylan Simpson</li>
-          <li data-name="heidi boyd">Heidi Boyd</li>
-          <li data-name="joseph hoffmann">Joseph Hoffmann<span class="vet">vet</span></li>
-          <li data-name="robert diep">Robert Diep</li>
-          <li data-name="shijie peng">Shijie Peng</li>
-          <li data-name="xi chen">Xi Chen</li>
-          <li data-name="zara lockhart">Zara Lockhart</li>
-        </ol>
-        <footer>7 presenting</footer>
+        <p class="where">BHB 1080 &middot; runs 11:30am-1:30pm</p>
+        <ol class="who"><li data-name="heidi boyd">Heidi Boyd</li><li data-name="laam cheung">Laam Cheung</li><li data-name="robert diep">Robert Diep</li><li data-name="ryan ramsden">Ryan Ramsden<span class="vet">vet</span></li><li data-name="shijie peng">Shijie Peng</li><li data-name="xi chen">Xi Chen</li></ol>
+        <details class="board" data-tut="T07">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="chloe lipham|dylan simpson|robert diep|ryan ramsden|saffron little|shijie peng|zara lockhart">
+      <article class="card" data-names="chloe lipham|flynn russell|robert diep|ryan ramsden|xi chen|zara lockhart">
         <header>
           <span class="code">Tut 19</span>
           <span class="time">12-12:30pm</span>
         </header>
-        <p class="where">BHB 1140 &middot; full tutorial 12-2pm</p>
-        <ol class="who">
-          <li data-name="chloe lipham">Chloe Lipham</li>
-          <li data-name="dylan simpson">Dylan Simpson</li>
-          <li data-name="robert diep">Robert Diep</li>
-          <li data-name="ryan ramsden">Ryan Ramsden<span class="vet">vet</span></li>
-          <li data-name="saffron little">Saffron Little</li>
-          <li data-name="shijie peng">Shijie Peng</li>
-          <li data-name="zara lockhart">Zara Lockhart</li>
-        </ol>
-        <footer>7 presenting</footer>
+        <p class="where">BHB 1140 &middot; runs 12-2pm</p>
+        <ol class="who"><li data-name="chloe lipham">Chloe Lipham</li><li data-name="flynn russell">Flynn Russell<span class="vet">vet</span></li><li data-name="robert diep">Robert Diep</li><li data-name="ryan ramsden">Ryan Ramsden<span class="vet">vet</span></li><li data-name="xi chen">Xi Chen</li><li data-name="zara lockhart">Zara Lockhart</li></ol>
+        <details class="board" data-tut="T19">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="joseph hoffmann|robert diep|ryan ramsden|saffron little|wenlong ma|xi chen|zara lockhart">
+      <article class="card" data-names="dylan simpson|joseph hoffmann|robert diep|shijie peng|xi chen|zara lockhart">
         <header>
           <span class="code">Tut 12</span>
           <span class="time">12-12:30pm</span>
         </header>
-        <p class="where">BHB 2200 &middot; full tutorial 12-2pm</p>
-        <ol class="who">
-          <li data-name="joseph hoffmann">Joseph Hoffmann<span class="vet">vet</span></li>
-          <li data-name="robert diep">Robert Diep</li>
-          <li data-name="ryan ramsden">Ryan Ramsden<span class="vet">vet</span></li>
-          <li data-name="saffron little">Saffron Little</li>
-          <li data-name="wenlong ma">Wenlong Ma</li>
-          <li data-name="xi chen">Xi Chen</li>
-          <li data-name="zara lockhart">Zara Lockhart</li>
-        </ol>
-        <footer>7 presenting</footer>
+        <p class="where">BHB 2200 &middot; runs 12-2pm</p>
+        <ol class="who"><li data-name="dylan simpson">Dylan Simpson</li><li data-name="joseph hoffmann">Joseph Hoffmann<span class="vet">vet</span></li><li data-name="robert diep">Robert Diep</li><li data-name="shijie peng">Shijie Peng</li><li data-name="xi chen">Xi Chen</li><li data-name="zara lockhart">Zara Lockhart</li></ol>
+        <details class="board" data-tut="T12">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="gemma rodham|imani qureshi|irfan ahsan|seyeon lim">
+      <article class="card" data-names="dylan simpson|gemma rodham|imani qureshi|irfan ahsan|ryan ramsden|seyeon lim">
         <header>
           <span class="code">Tut 10</span>
           <span class="time">3-3:30pm</span>
         </header>
-        <p class="where">Mech Eng S246 &middot; full tutorial 3-5pm</p>
-        <ol class="who">
-          <li data-name="gemma rodham">Gemma Rodham</li>
-          <li data-name="imani qureshi">Imani Qureshi</li>
-          <li data-name="irfan ahsan">Irfan Ahsan<span class="vet">vet</span></li>
-          <li data-name="seyeon lim">Seyeon Lim</li>
-        </ol>
-        <footer>4 presenting</footer>
+        <p class="where">Mech Eng S246 &middot; runs 3-5pm</p>
+        <ol class="who"><li data-name="dylan simpson">Dylan Simpson</li><li data-name="gemma rodham">Gemma Rodham</li><li data-name="imani qureshi">Imani Qureshi</li><li data-name="irfan ahsan">Irfan Ahsan<span class="vet">vet</span></li><li data-name="ryan ramsden">Ryan Ramsden<span class="vet">vet</span></li><li data-name="seyeon lim">Seyeon Lim</li></ol>
+        <details class="board" data-tut="T10">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
   </div>
 
@@ -266,102 +320,108 @@ footer.end{margin-top:32px;color:var(--muted);font-size:12.5px;text-align:center
           <span class="code">Tut 16</span>
           <span class="time">8-8:30am</span>
         </header>
-        <p class="where">BHB 1150 &middot; full tutorial 8-10am</p>
-        <ol class="who">
-          <li data-name="alyssa hodge">Alyssa Hodge</li>
-          <li data-name="heidi boyd">Heidi Boyd</li>
-          <li data-name="joseph hoffmann">Joseph Hoffmann<span class="vet">vet</span></li>
-          <li data-name="josh phipps">Josh Phipps</li>
-        </ol>
-        <footer>4 presenting</footer>
+        <p class="where">BHB 1150 &middot; runs 8-10am</p>
+        <ol class="who"><li data-name="alyssa hodge">Alyssa Hodge</li><li data-name="heidi boyd">Heidi Boyd</li><li data-name="joseph hoffmann">Joseph Hoffmann<span class="vet">vet</span></li><li data-name="josh phipps">Josh Phipps</li></ol>
+        <details class="board" data-tut="T16">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="annabelle campbell|georgia opit|isabella sheffield|laam cheung|maya cuthbert|peimin zheng|rohan howard">
+      <article class="card" data-names="annabelle campbell|georgia opit|isabella sheffield|laam cheung|maya cuthbert|peimin zheng">
         <header>
           <span class="code">Tut 17</span>
           <span class="time">10-10:30am</span>
         </header>
-        <p class="where">BHB 1140 &middot; full tutorial 10am-12pm</p>
-        <ol class="who">
-          <li data-name="annabelle campbell">Annabelle Campbell<span class="vet">vet</span></li>
-          <li data-name="georgia opit">Georgia Opit</li>
-          <li data-name="isabella sheffield">Isabella Sheffield</li>
-          <li data-name="laam cheung">Laam Cheung</li>
-          <li data-name="maya cuthbert">Maya Cuthbert<span class="vet">vet</span></li>
-          <li data-name="peimin zheng">Peimin Zheng</li>
-          <li data-name="rohan howard">Rohan Howard<span class="vet">vet</span></li>
-        </ol>
-        <footer>7 presenting</footer>
+        <p class="where">BHB 1140 &middot; runs 10am-12pm</p>
+        <ol class="who"><li data-name="annabelle campbell">Annabelle Campbell<span class="vet">vet</span></li><li data-name="georgia opit">Georgia Opit</li><li data-name="isabella sheffield">Isabella Sheffield</li><li data-name="laam cheung">Laam Cheung</li><li data-name="maya cuthbert">Maya Cuthbert<span class="vet">vet</span></li><li data-name="peimin zheng">Peimin Zheng</li></ol>
+        <details class="board" data-tut="T17">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="annabelle campbell|georgia opit|isabella sheffield|laam cheung|maya cuthbert|peimin zheng|ziling zhang">
+      <article class="card" data-names="annabelle campbell|georgia opit|isabella sheffield|jinyuan chen|maya cuthbert|peimin zheng">
         <header>
           <span class="code">Tut 18</span>
           <span class="time">10-10:30am</span>
         </header>
-        <p class="where">BHB 1150 &middot; full tutorial 10am-12pm</p>
-        <ol class="who">
-          <li data-name="annabelle campbell">Annabelle Campbell<span class="vet">vet</span></li>
-          <li data-name="georgia opit">Georgia Opit</li>
-          <li data-name="isabella sheffield">Isabella Sheffield</li>
-          <li data-name="laam cheung">Laam Cheung</li>
-          <li data-name="maya cuthbert">Maya Cuthbert<span class="vet">vet</span></li>
-          <li data-name="peimin zheng">Peimin Zheng</li>
-          <li data-name="ziling zhang">Ziling Zhang</li>
-        </ol>
-        <footer>7 presenting</footer>
+        <p class="where">BHB 1150 &middot; runs 10am-12pm</p>
+        <ol class="who"><li data-name="annabelle campbell">Annabelle Campbell<span class="vet">vet</span></li><li data-name="georgia opit">Georgia Opit</li><li data-name="isabella sheffield">Isabella Sheffield</li><li data-name="jinyuan chen">Jinyuan Chen</li><li data-name="maya cuthbert">Maya Cuthbert<span class="vet">vet</span></li><li data-name="peimin zheng">Peimin Zheng</li></ol>
+        <details class="board" data-tut="T18">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="gwilym horlock|laura allan|leila carr|max dewinter|nikemie dimitrov|ryan ramsden|shijie peng|xi chen">
+      <article class="card" data-names="gwilym horlock|leila carr|max dewinter|maya cuthbert|shijie peng|zara lockhart">
         <header>
           <span class="code">Tut 20</span>
           <span class="time">12-12:30pm</span>
         </header>
-        <p class="where">BHB 1150 &middot; full tutorial 12-2pm</p>
-        <ol class="who">
-          <li data-name="gwilym horlock">Gwilym Horlock</li>
-          <li data-name="laura allan">Laura Allan</li>
-          <li data-name="leila carr">Leila Carr</li>
-          <li data-name="max dewinter">Max Dewinter</li>
-          <li data-name="nikemie dimitrov">Nikemie Dimitrov</li>
-          <li data-name="ryan ramsden">Ryan Ramsden<span class="vet">vet</span></li>
-          <li data-name="shijie peng">Shijie Peng</li>
-          <li data-name="xi chen">Xi Chen</li>
-        </ol>
-        <footer>8 presenting</footer>
+        <p class="where">BHB 1150 &middot; runs 12-2pm</p>
+        <ol class="who"><li data-name="gwilym horlock">Gwilym Horlock</li><li data-name="leila carr">Leila Carr</li><li data-name="max dewinter">Max Dewinter</li><li data-name="maya cuthbert">Maya Cuthbert<span class="vet">vet</span></li><li data-name="shijie peng">Shijie Peng</li><li data-name="zara lockhart">Zara Lockhart</li></ol>
+        <details class="board" data-tut="T20">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="callum franzman|georgia opit|isabella sheffield|jinyuan chen|leila carr|maya cuthbert|seyeon lim|zhuoran zhu">
+      <article class="card" data-names="callum franzman|leila carr|max dewinter|wenlong ma|zhuoran zhu|zhuoyue zhu">
         <header>
           <span class="code">Tut 23</span>
           <span class="time">4-4:30pm</span>
         </header>
-        <p class="where">BHB 1140 &middot; full tutorial 4-6pm</p>
-        <ol class="who">
-          <li data-name="callum franzman">Callum Franzman<span class="vet">vet</span></li>
-          <li data-name="georgia opit">Georgia Opit</li>
-          <li data-name="isabella sheffield">Isabella Sheffield</li>
-          <li data-name="jinyuan chen">Jinyuan Chen</li>
-          <li data-name="leila carr">Leila Carr</li>
-          <li data-name="maya cuthbert">Maya Cuthbert<span class="vet">vet</span></li>
-          <li data-name="seyeon lim">Seyeon Lim</li>
-          <li data-name="zhuoran zhu">Zhuoran Zhu</li>
-        </ol>
-        <footer>8 presenting</footer>
+        <p class="where">BHB 1140 &middot; runs 4-6pm</p>
+        <ol class="who"><li data-name="callum franzman">Callum Franzman<span class="vet">vet</span></li><li data-name="leila carr">Leila Carr</li><li data-name="max dewinter">Max Dewinter</li><li data-name="wenlong ma">Wenlong Ma</li><li data-name="zhuoran zhu">Zhuoran Zhu</li><li data-name="zhuoyue zhu">Zhuoyue Zhu</li></ol>
+        <details class="board" data-tut="T23">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="callum franzman|chloe lipham|heidi boyd|jinyuan chen|leila carr|max dewinter|seyeon lim|wenlong ma">
+      <article class="card" data-names="callum franzman|chloe lipham|heidi boyd|jinyuan chen|laura allan|seyeon lim">
         <header>
           <span class="code">Tut 24</span>
           <span class="time">4-4:30pm</span>
         </header>
-        <p class="where">BHB 1160 &middot; full tutorial 4-6pm</p>
-        <ol class="who">
-          <li data-name="callum franzman">Callum Franzman<span class="vet">vet</span></li>
-          <li data-name="chloe lipham">Chloe Lipham</li>
-          <li data-name="heidi boyd">Heidi Boyd</li>
-          <li data-name="jinyuan chen">Jinyuan Chen</li>
-          <li data-name="leila carr">Leila Carr</li>
-          <li data-name="max dewinter">Max Dewinter</li>
-          <li data-name="seyeon lim">Seyeon Lim</li>
-          <li data-name="wenlong ma">Wenlong Ma</li>
-        </ol>
-        <footer>8 presenting</footer>
+        <p class="where">BHB 1160 &middot; runs 4-6pm</p>
+        <ol class="who"><li data-name="callum franzman">Callum Franzman<span class="vet">vet</span></li><li data-name="chloe lipham">Chloe Lipham</li><li data-name="heidi boyd">Heidi Boyd</li><li data-name="jinyuan chen">Jinyuan Chen</li><li data-name="laura allan">Laura Allan</li><li data-name="seyeon lim">Seyeon Lim</li></ol>
+        <details class="board" data-tut="T24">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
   </div>
 
@@ -372,137 +432,606 @@ footer.end{margin-top:32px;color:var(--muted);font-size:12.5px;text-align:center
           <span class="code">Tut 26</span>
           <span class="time">8-8:30am</span>
         </header>
-        <p class="where">BHB 1160 &middot; full tutorial 8-10am</p>
-        <ol class="who">
-          <li data-name="josh phipps">Josh Phipps</li>
-          <li data-name="madeleine boris">Madeleine Boris<span class="vet">vet</span></li>
-        </ol>
-        <footer>2 presenting</footer>
+        <p class="where">BHB 1160 &middot; runs 8-10am</p>
+        <ol class="who"><li data-name="josh phipps">Josh Phipps</li><li data-name="madeleine boris">Madeleine Boris<span class="vet">vet</span></li></ol>
+        <details class="board" data-tut="T26">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="gemma rodham|gwilym horlock|imani qureshi|kenn surya|rohan howard|saffron little|ziling zhang">
+      <article class="card" data-names="gemma rodham|gwilym horlock|imani qureshi|rohan howard|saffron little|ziling zhang">
         <header>
           <span class="code">Tut 27</span>
           <span class="time">10-10:30am</span>
         </header>
-        <p class="where">BHB 1140 &middot; full tutorial 10am-12pm</p>
-        <ol class="who">
-          <li data-name="gemma rodham">Gemma Rodham</li>
-          <li data-name="gwilym horlock">Gwilym Horlock</li>
-          <li data-name="imani qureshi">Imani Qureshi</li>
-          <li data-name="kenn surya">Kenn Surya</li>
-          <li data-name="rohan howard">Rohan Howard<span class="vet">vet</span></li>
-          <li data-name="saffron little">Saffron Little</li>
-          <li data-name="ziling zhang">Ziling Zhang</li>
-        </ol>
-        <footer>7 presenting</footer>
+        <p class="where">BHB 1140 &middot; runs 10am-12pm</p>
+        <ol class="who"><li data-name="gemma rodham">Gemma Rodham</li><li data-name="gwilym horlock">Gwilym Horlock</li><li data-name="imani qureshi">Imani Qureshi</li><li data-name="rohan howard">Rohan Howard<span class="vet">vet</span></li><li data-name="saffron little">Saffron Little</li><li data-name="ziling zhang">Ziling Zhang</li></ol>
+        <details class="board" data-tut="T27">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="gwilym horlock|laura allan|zhuoran zhu|zhuoyue zhu|ziling zhang">
+      <article class="card" data-names="gwilym horlock|laura allan|saffron little|zhuoran zhu|zhuoyue zhu|ziling zhang">
         <header>
           <span class="code">Tut 28</span>
           <span class="time">10-10:30am</span>
         </header>
-        <p class="where">BHB 1160 &middot; full tutorial 10am-12pm</p>
-        <ol class="who">
-          <li data-name="gwilym horlock">Gwilym Horlock</li>
-          <li data-name="laura allan">Laura Allan</li>
-          <li data-name="zhuoran zhu">Zhuoran Zhu</li>
-          <li data-name="zhuoyue zhu">Zhuoyue Zhu</li>
-          <li data-name="ziling zhang">Ziling Zhang</li>
-        </ol>
-        <footer>5 presenting &middot; no vet</footer>
+        <p class="where">BHB 1160 &middot; runs 10am-12pm</p>
+        <ol class="who"><li data-name="gwilym horlock">Gwilym Horlock</li><li data-name="laura allan">Laura Allan</li><li data-name="saffron little">Saffron Little</li><li data-name="zhuoran zhu">Zhuoran Zhu</li><li data-name="zhuoyue zhu">Zhuoyue Zhu</li><li data-name="ziling zhang">Ziling Zhang</li></ol>
+        <details class="board" data-tut="T28">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="ellery huang|hongming hu|jinyuan chen|laura allan|wenlong ma|zhuoran zhu|zhuoyue zhu">
+      <article class="card" data-names="jinyuan chen|laura allan|madeleine boris|saffron little|wenlong ma|zhuoyue zhu">
         <header>
           <span class="code">Tut 30</span>
           <span class="time">12-12:30pm</span>
         </header>
-        <p class="where">BHB 1160 &middot; full tutorial 12-2pm</p>
-        <ol class="who">
-          <li data-name="ellery huang">Ellery Huang<span class="vet">vet</span></li>
-          <li data-name="hongming hu">Hongming Hu</li>
-          <li data-name="jinyuan chen">Jinyuan Chen</li>
-          <li data-name="laura allan">Laura Allan</li>
-          <li data-name="wenlong ma">Wenlong Ma</li>
-          <li data-name="zhuoran zhu">Zhuoran Zhu</li>
-          <li data-name="zhuoyue zhu">Zhuoyue Zhu</li>
-        </ol>
-        <footer>7 presenting</footer>
+        <p class="where">BHB 1160 &middot; runs 12-2pm</p>
+        <ol class="who"><li data-name="jinyuan chen">Jinyuan Chen</li><li data-name="laura allan">Laura Allan</li><li data-name="madeleine boris">Madeleine Boris<span class="vet">vet</span></li><li data-name="saffron little">Saffron Little</li><li data-name="wenlong ma">Wenlong Ma</li><li data-name="zhuoyue zhu">Zhuoyue Zhu</li></ol>
+        <details class="board" data-tut="T30">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
   </div>
 
   <h2>Friday</h2>
   <div class="grid">
-      <article class="card" data-names="jovan jonathan|madeleine boris">
+      <article class="card" data-names="hongming hu|josh phipps|jovan jonathan|madeleine boris|mary tran|phan nguyen">
         <header>
           <span class="code">Tut 36</span>
           <span class="time">8-8:30am</span>
         </header>
-        <p class="where">BHB 3240 &middot; full tutorial 8-10am</p>
-        <ol class="who">
-          <li data-name="jovan jonathan">Jovan Jonathan</li>
-          <li data-name="madeleine boris">Madeleine Boris<span class="vet">vet</span></li>
-        </ol>
-        <footer>2 presenting</footer>
+        <p class="where">BHB 3240 &middot; runs 8-10am</p>
+        <ol class="who"><li data-name="hongming hu">Hongming Hu</li><li data-name="josh phipps">Josh Phipps</li><li data-name="jovan jonathan">Jovan Jonathan</li><li data-name="madeleine boris">Madeleine Boris<span class="vet">vet</span></li><li data-name="mary tran">Mary Tran</li><li data-name="phan nguyen">Phan Nguyen</li></ol>
+        <details class="board" data-tut="T36">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
-      <article class="card" data-names="chloe lipham|emily dawson-taylor|josh phipps|madeleine boris|mary tran|max dewinter|zhuoyue zhu">
+      <article class="card" data-names="chloe lipham|emily dawson-taylor|max dewinter|rohan howard|seyeon lim|zhuoran zhu">
         <header>
           <span class="code">Tut 38</span>
           <span class="time">10-10:30am</span>
         </header>
-        <p class="where">BHB 3240 &middot; full tutorial 10am-12pm</p>
-        <ol class="who">
-          <li data-name="chloe lipham">Chloe Lipham</li>
-          <li data-name="emily dawson-taylor">Emily Dawson-Taylor</li>
-          <li data-name="josh phipps">Josh Phipps</li>
-          <li data-name="madeleine boris">Madeleine Boris<span class="vet">vet</span></li>
-          <li data-name="mary tran">Mary Tran</li>
-          <li data-name="max dewinter">Max Dewinter</li>
-          <li data-name="zhuoyue zhu">Zhuoyue Zhu</li>
-        </ol>
-        <footer>7 presenting</footer>
+        <p class="where">BHB 3240 &middot; runs 10am-12pm</p>
+        <ol class="who"><li data-name="chloe lipham">Chloe Lipham</li><li data-name="emily dawson-taylor">Emily Dawson-Taylor</li><li data-name="max dewinter">Max Dewinter</li><li data-name="rohan howard">Rohan Howard<span class="vet">vet</span></li><li data-name="seyeon lim">Seyeon Lim</li><li data-name="zhuoran zhu">Zhuoran Zhu</li></ol>
+        <details class="board" data-tut="T38">
+          <summary>Messages <span class="count"></span></summary>
+          <div class="msgs">Loading…</div>
+          <form class="post" autocomplete="off">
+            <input class="mname" type="text" placeholder="Your name" maxlength="60" required>
+            <textarea class="mbody" rows="2" placeholder="Message for this group…" maxlength="500" required></textarea>
+            <button type="submit">Post</button>
+            <span class="err"></span>
+          </form>
+        </details>
       </article>
   </div>
+  </section>
 
-  <div class="note"><b>Not yet placed:</b> Eleanor Forsyth, John El-Barhoun, Nhu Ngo, Sophie Ferko, Stefan Ferster, Tara Stevens &mdash; no availability submitted. See me after the tutorial.</div>
+  <section id="view-person" hidden>
+  <div class="grid people">
+    <article class="card person" data-names="alyssa hodge">
+      <header><span class="code">Alyssa Hodge</span></header>
+      <ol class="who"><li><b>Tut 14</b> Tue 8-8:30am<span class="rm">BHB 1140</span></li><li><b>Tut 02</b> Tue 10-10:30am<span class="rm">Institute N297</span></li><li><b>Tut 16</b> Wed 8-8:30am<span class="rm">BHB 1150</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="annabelle campbell">
+      <header><span class="code">Annabelle Campbell</span><span class="vet">vet</span></header>
+      <ol class="who"><li><b>Tut 17</b> Wed 10-10:30am<span class="rm">BHB 1140</span></li><li><b>Tut 18</b> Wed 10-10:30am<span class="rm">BHB 1150</span></li></ol>
+      <footer>presents 2 times</footer>
+    </article>
+    <article class="card person" data-names="callum franzman">
+      <header><span class="code">Callum Franzman</span><span class="vet">vet</span></header>
+      <ol class="who"><li><b>Tut 23</b> Wed 4-4:30pm<span class="rm">BHB 1140</span></li><li><b>Tut 24</b> Wed 4-4:30pm<span class="rm">BHB 1160</span></li></ol>
+      <footer>presents 2 times</footer>
+    </article>
+    <article class="card person" data-names="chloe lipham">
+      <header><span class="code">Chloe Lipham</span></header>
+      <ol class="who"><li><b>Tut 19</b> Tue 12-12:30pm<span class="rm">BHB 1140</span></li><li><b>Tut 24</b> Wed 4-4:30pm<span class="rm">BHB 1160</span></li><li><b>Tut 38</b> Fri 10-10:30am<span class="rm">BHB 3240</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="dylan simpson">
+      <header><span class="code">Dylan Simpson</span></header>
+      <ol class="who"><li><b>Tut 02</b> Tue 10-10:30am<span class="rm">Institute N297</span></li><li><b>Tut 12</b> Tue 12-12:30pm<span class="rm">BHB 2200</span></li><li><b>Tut 10</b> Tue 3-3:30pm<span class="rm">Mech Eng S246</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="ellery huang">
+      <header><span class="code">Ellery Huang</span><span class="vet">vet</span></header>
+      <ol class="who"><li><b>Tut 11</b> Mon 10-10:30am<span class="rm">BHB 1160</span></li><li><b>Tut 13</b> Mon 3-3:30pm<span class="rm">BHB 3240</span></li><li><b>Tut 21</b> Mon 4-4:30pm<span class="rm">BHB 3003</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="emily dawson-taylor">
+      <header><span class="code">Emily Dawson-Taylor</span></header>
+      <ol class="who"><li><b>Tut 14</b> Tue 8-8:30am<span class="rm">BHB 1140</span></li><li><b>Tut 38</b> Fri 10-10:30am<span class="rm">BHB 3240</span></li></ol>
+      <footer>presents 2 times</footer>
+    </article>
+    <article class="card person" data-names="flynn russell">
+      <header><span class="code">Flynn Russell</span><span class="vet">vet</span></header>
+      <ol class="who"><li><b>Tut 33</b> Mon 6-6:30pm<span class="rm">BHB 3280</span></li><li><b>Tut 02</b> Tue 10-10:30am<span class="rm">Institute N297</span></li><li><b>Tut 19</b> Tue 12-12:30pm<span class="rm">BHB 1140</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="gemma rodham">
+      <header><span class="code">Gemma Rodham</span></header>
+      <ol class="who"><li><b>Tut 14</b> Tue 8-8:30am<span class="rm">BHB 1140</span></li><li><b>Tut 10</b> Tue 3-3:30pm<span class="rm">Mech Eng S246</span></li><li><b>Tut 27</b> Thu 10-10:30am<span class="rm">BHB 1140</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="georgia opit">
+      <header><span class="code">Georgia Opit</span></header>
+      <ol class="who"><li><b>Tut 17</b> Wed 10-10:30am<span class="rm">BHB 1140</span></li><li><b>Tut 18</b> Wed 10-10:30am<span class="rm">BHB 1150</span></li></ol>
+      <footer>presents 2 times</footer>
+    </article>
+    <article class="card person" data-names="gwilym horlock">
+      <header><span class="code">Gwilym Horlock</span></header>
+      <ol class="who"><li><b>Tut 20</b> Wed 12-12:30pm<span class="rm">BHB 1150</span></li><li><b>Tut 27</b> Thu 10-10:30am<span class="rm">BHB 1140</span></li><li><b>Tut 28</b> Thu 10-10:30am<span class="rm">BHB 1160</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="heidi boyd">
+      <header><span class="code">Heidi Boyd</span></header>
+      <ol class="who"><li><b>Tut 07</b> Tue 11:30am-12pm<span class="rm">BHB 1080</span></li><li><b>Tut 16</b> Wed 8-8:30am<span class="rm">BHB 1150</span></li><li><b>Tut 24</b> Wed 4-4:30pm<span class="rm">BHB 1160</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="hongming hu">
+      <header><span class="code">Hongming Hu</span></header>
+      <ol class="who"><li><b>Tut 13</b> Mon 3-3:30pm<span class="rm">BHB 3240</span></li><li><b>Tut 33</b> Mon 6-6:30pm<span class="rm">BHB 3280</span></li><li><b>Tut 36</b> Fri 8-8:30am<span class="rm">BHB 3240</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="imani qureshi">
+      <header><span class="code">Imani Qureshi</span></header>
+      <ol class="who"><li><b>Tut 14</b> Tue 8-8:30am<span class="rm">BHB 1140</span></li><li><b>Tut 10</b> Tue 3-3:30pm<span class="rm">Mech Eng S246</span></li><li><b>Tut 27</b> Thu 10-10:30am<span class="rm">BHB 1140</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="irfan ahsan">
+      <header><span class="code">Irfan Ahsan</span><span class="vet">vet</span></header>
+      <ol class="who"><li><b>Tut 13</b> Mon 3-3:30pm<span class="rm">BHB 3240</span></li><li><b>Tut 21</b> Mon 4-4:30pm<span class="rm">BHB 3003</span></li><li><b>Tut 10</b> Tue 3-3:30pm<span class="rm">Mech Eng S246</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="isabella sheffield">
+      <header><span class="code">Isabella Sheffield</span></header>
+      <ol class="who"><li><b>Tut 17</b> Wed 10-10:30am<span class="rm">BHB 1140</span></li><li><b>Tut 18</b> Wed 10-10:30am<span class="rm">BHB 1150</span></li></ol>
+      <footer>presents 2 times</footer>
+    </article>
+    <article class="card person" data-names="jinyuan chen">
+      <header><span class="code">Jinyuan Chen</span></header>
+      <ol class="who"><li><b>Tut 18</b> Wed 10-10:30am<span class="rm">BHB 1150</span></li><li><b>Tut 24</b> Wed 4-4:30pm<span class="rm">BHB 1160</span></li><li><b>Tut 30</b> Thu 12-12:30pm<span class="rm">BHB 1160</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="joseph hoffmann">
+      <header><span class="code">Joseph Hoffmann</span><span class="vet">vet</span></header>
+      <ol class="who"><li><b>Tut 11</b> Mon 10-10:30am<span class="rm">BHB 1160</span></li><li><b>Tut 12</b> Tue 12-12:30pm<span class="rm">BHB 2200</span></li><li><b>Tut 16</b> Wed 8-8:30am<span class="rm">BHB 1150</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="josh phipps">
+      <header><span class="code">Josh Phipps</span></header>
+      <ol class="who"><li><b>Tut 16</b> Wed 8-8:30am<span class="rm">BHB 1150</span></li><li><b>Tut 26</b> Thu 8-8:30am<span class="rm">BHB 1160</span></li><li><b>Tut 36</b> Fri 8-8:30am<span class="rm">BHB 3240</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="jovan jonathan">
+      <header><span class="code">Jovan Jonathan</span></header>
+      <ol class="who"><li><b>Tut 22</b> Mon 2-2:30pm<span class="rm">BHB 3280</span></li><li><b>Tut 13</b> Mon 3-3:30pm<span class="rm">BHB 3240</span></li><li><b>Tut 36</b> Fri 8-8:30am<span class="rm">BHB 3240</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="kenn surya">
+      <header><span class="code">Kenn Surya</span></header>
+      <ol class="who"><li><b>Tut 11</b> Mon 10-10:30am<span class="rm">BHB 1160</span></li><li><b>Tut 22</b> Mon 2-2:30pm<span class="rm">BHB 3280</span></li><li><b>Tut 21</b> Mon 4-4:30pm<span class="rm">BHB 3003</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="laam cheung">
+      <header><span class="code">Laam Cheung</span></header>
+      <ol class="who"><li><b>Tut 02</b> Tue 10-10:30am<span class="rm">Institute N297</span></li><li><b>Tut 07</b> Tue 11:30am-12pm<span class="rm">BHB 1080</span></li><li><b>Tut 17</b> Wed 10-10:30am<span class="rm">BHB 1140</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="laura allan">
+      <header><span class="code">Laura Allan</span></header>
+      <ol class="who"><li><b>Tut 24</b> Wed 4-4:30pm<span class="rm">BHB 1160</span></li><li><b>Tut 28</b> Thu 10-10:30am<span class="rm">BHB 1160</span></li><li><b>Tut 30</b> Thu 12-12:30pm<span class="rm">BHB 1160</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="le nguyen">
+      <header><span class="code">Le Nguyen</span></header>
+      <ol class="who"><li><b>Tut 22</b> Mon 2-2:30pm<span class="rm">BHB 3280</span></li><li><b>Tut 21</b> Mon 4-4:30pm<span class="rm">BHB 3003</span></li><li><b>Tut 02</b> Tue 10-10:30am<span class="rm">Institute N297</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="leila carr">
+      <header><span class="code">Leila Carr</span></header>
+      <ol class="who"><li><b>Tut 20</b> Wed 12-12:30pm<span class="rm">BHB 1150</span></li><li><b>Tut 23</b> Wed 4-4:30pm<span class="rm">BHB 1140</span></li></ol>
+      <footer>presents 2 times</footer>
+    </article>
+    <article class="card person" data-names="madeleine boris">
+      <header><span class="code">Madeleine Boris</span><span class="vet">vet</span></header>
+      <ol class="who"><li><b>Tut 26</b> Thu 8-8:30am<span class="rm">BHB 1160</span></li><li><b>Tut 30</b> Thu 12-12:30pm<span class="rm">BHB 1160</span></li><li><b>Tut 36</b> Fri 8-8:30am<span class="rm">BHB 3240</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="mary tran">
+      <header><span class="code">Mary Tran</span></header>
+      <ol class="who"><li><b>Tut 22</b> Mon 2-2:30pm<span class="rm">BHB 3280</span></li><li><b>Tut 13</b> Mon 3-3:30pm<span class="rm">BHB 3240</span></li><li><b>Tut 36</b> Fri 8-8:30am<span class="rm">BHB 3240</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="max dewinter">
+      <header><span class="code">Max Dewinter</span></header>
+      <ol class="who"><li><b>Tut 20</b> Wed 12-12:30pm<span class="rm">BHB 1150</span></li><li><b>Tut 23</b> Wed 4-4:30pm<span class="rm">BHB 1140</span></li><li><b>Tut 38</b> Fri 10-10:30am<span class="rm">BHB 3240</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="maya cuthbert">
+      <header><span class="code">Maya Cuthbert</span><span class="vet">vet</span></header>
+      <ol class="who"><li><b>Tut 17</b> Wed 10-10:30am<span class="rm">BHB 1140</span></li><li><b>Tut 18</b> Wed 10-10:30am<span class="rm">BHB 1150</span></li><li><b>Tut 20</b> Wed 12-12:30pm<span class="rm">BHB 1150</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="nikemie dimitrov">
+      <header><span class="code">Nikemie Dimitrov</span></header>
+      <ol class="who"><li><b>Tut 33</b> Mon 6-6:30pm<span class="rm">BHB 3280</span></li><li><b>Tut 14</b> Tue 8-8:30am<span class="rm">BHB 1140</span></li></ol>
+      <footer>presents 2 times</footer>
+    </article>
+    <article class="card person" data-names="peimin zheng">
+      <header><span class="code">Peimin Zheng</span></header>
+      <ol class="who"><li><b>Tut 02</b> Tue 10-10:30am<span class="rm">Institute N297</span></li><li><b>Tut 17</b> Wed 10-10:30am<span class="rm">BHB 1140</span></li><li><b>Tut 18</b> Wed 10-10:30am<span class="rm">BHB 1150</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="phan nguyen">
+      <header><span class="code">Phan Nguyen</span></header>
+      <ol class="who"><li><b>Tut 22</b> Mon 2-2:30pm<span class="rm">BHB 3280</span></li><li><b>Tut 21</b> Mon 4-4:30pm<span class="rm">BHB 3003</span></li><li><b>Tut 36</b> Fri 8-8:30am<span class="rm">BHB 3240</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="robert diep">
+      <header><span class="code">Robert Diep</span></header>
+      <ol class="who"><li><b>Tut 07</b> Tue 11:30am-12pm<span class="rm">BHB 1080</span></li><li><b>Tut 19</b> Tue 12-12:30pm<span class="rm">BHB 1140</span></li><li><b>Tut 12</b> Tue 12-12:30pm<span class="rm">BHB 2200</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="rohan howard">
+      <header><span class="code">Rohan Howard</span><span class="vet">vet</span></header>
+      <ol class="who"><li><b>Tut 14</b> Tue 8-8:30am<span class="rm">BHB 1140</span></li><li><b>Tut 27</b> Thu 10-10:30am<span class="rm">BHB 1140</span></li><li><b>Tut 38</b> Fri 10-10:30am<span class="rm">BHB 3240</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="ryan ramsden">
+      <header><span class="code">Ryan Ramsden</span><span class="vet">vet</span></header>
+      <ol class="who"><li><b>Tut 07</b> Tue 11:30am-12pm<span class="rm">BHB 1080</span></li><li><b>Tut 19</b> Tue 12-12:30pm<span class="rm">BHB 1140</span></li><li><b>Tut 10</b> Tue 3-3:30pm<span class="rm">Mech Eng S246</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="saffron little">
+      <header><span class="code">Saffron Little</span></header>
+      <ol class="who"><li><b>Tut 27</b> Thu 10-10:30am<span class="rm">BHB 1140</span></li><li><b>Tut 28</b> Thu 10-10:30am<span class="rm">BHB 1160</span></li><li><b>Tut 30</b> Thu 12-12:30pm<span class="rm">BHB 1160</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="seyeon lim">
+      <header><span class="code">Seyeon Lim</span></header>
+      <ol class="who"><li><b>Tut 10</b> Tue 3-3:30pm<span class="rm">Mech Eng S246</span></li><li><b>Tut 24</b> Wed 4-4:30pm<span class="rm">BHB 1160</span></li><li><b>Tut 38</b> Fri 10-10:30am<span class="rm">BHB 3240</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="shijie peng">
+      <header><span class="code">Shijie Peng</span></header>
+      <ol class="who"><li><b>Tut 07</b> Tue 11:30am-12pm<span class="rm">BHB 1080</span></li><li><b>Tut 12</b> Tue 12-12:30pm<span class="rm">BHB 2200</span></li><li><b>Tut 20</b> Wed 12-12:30pm<span class="rm">BHB 1150</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="washiella jessica">
+      <header><span class="code">Washiella Jessica</span></header>
+      <ol class="who"><li><b>Tut 11</b> Mon 10-10:30am<span class="rm">BHB 1160</span></li><li><b>Tut 13</b> Mon 3-3:30pm<span class="rm">BHB 3240</span></li><li><b>Tut 21</b> Mon 4-4:30pm<span class="rm">BHB 3003</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="wenlong ma">
+      <header><span class="code">Wenlong Ma</span></header>
+      <ol class="who"><li><b>Tut 23</b> Wed 4-4:30pm<span class="rm">BHB 1140</span></li><li><b>Tut 30</b> Thu 12-12:30pm<span class="rm">BHB 1160</span></li></ol>
+      <footer>presents 2 times</footer>
+    </article>
+    <article class="card person" data-names="xi chen">
+      <header><span class="code">Xi Chen</span></header>
+      <ol class="who"><li><b>Tut 07</b> Tue 11:30am-12pm<span class="rm">BHB 1080</span></li><li><b>Tut 19</b> Tue 12-12:30pm<span class="rm">BHB 1140</span></li><li><b>Tut 12</b> Tue 12-12:30pm<span class="rm">BHB 2200</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="zara lockhart">
+      <header><span class="code">Zara Lockhart</span></header>
+      <ol class="who"><li><b>Tut 19</b> Tue 12-12:30pm<span class="rm">BHB 1140</span></li><li><b>Tut 12</b> Tue 12-12:30pm<span class="rm">BHB 2200</span></li><li><b>Tut 20</b> Wed 12-12:30pm<span class="rm">BHB 1150</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="zhuoran zhu">
+      <header><span class="code">Zhuoran Zhu</span></header>
+      <ol class="who"><li><b>Tut 23</b> Wed 4-4:30pm<span class="rm">BHB 1140</span></li><li><b>Tut 28</b> Thu 10-10:30am<span class="rm">BHB 1160</span></li><li><b>Tut 38</b> Fri 10-10:30am<span class="rm">BHB 3240</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="zhuoyue zhu">
+      <header><span class="code">Zhuoyue Zhu</span></header>
+      <ol class="who"><li><b>Tut 23</b> Wed 4-4:30pm<span class="rm">BHB 1140</span></li><li><b>Tut 28</b> Thu 10-10:30am<span class="rm">BHB 1160</span></li><li><b>Tut 30</b> Thu 12-12:30pm<span class="rm">BHB 1160</span></li></ol>
+      <footer>presents 3 times</footer>
+    </article>
+    <article class="card person" data-names="ziling zhang">
+      <header><span class="code">Ziling Zhang</span></header>
+      <ol class="who"><li><b>Tut 27</b> Thu 10-10:30am<span class="rm">BHB 1140</span></li><li><b>Tut 28</b> Thu 10-10:30am<span class="rm">BHB 1160</span></li></ol>
+      <footer>presents 2 times</footer>
+    </article>
+  </div>
+  </section>
+
+  <section id="view-group" hidden>
+  <div class="grid">
+    <article class="card" data-names="ellery huang|joseph hoffmann|kenn surya|washiella jessica">
+      <header><span class="code">Group 1</span>
+        <span class="time">4 people</span></header>
+      <p class="where">presents at <b>Tut 11</b> &middot; Mon 10-10:30am &middot; BHB 1160</p>
+      <ol class="who"><li data-name="ellery huang">Ellery Huang<span class="vet">vet</span></li><li data-name="joseph hoffmann">Joseph Hoffmann<span class="vet">vet</span></li><li data-name="kenn surya">Kenn Surya</li><li data-name="washiella jessica">Washiella Jessica</li></ol>
+    </article>
+    <article class="card" data-names="jovan jonathan|kenn surya|le nguyen|mary tran|phan nguyen">
+      <header><span class="code">Group 2</span>
+        <span class="time">5 people</span></header>
+      <p class="where">presents at <b>Tut 22</b> &middot; Mon 2-2:30pm &middot; BHB 3280</p>
+      <ol class="who"><li data-name="jovan jonathan">Jovan Jonathan</li><li data-name="kenn surya">Kenn Surya</li><li data-name="le nguyen">Le Nguyen</li><li data-name="mary tran">Mary Tran</li><li data-name="phan nguyen">Phan Nguyen</li></ol>
+    </article>
+    <article class="card" data-names="ellery huang|hongming hu|irfan ahsan|jovan jonathan|mary tran|washiella jessica">
+      <header><span class="code">Group 3</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 13</b> &middot; Mon 3-3:30pm &middot; BHB 3240</p>
+      <ol class="who"><li data-name="ellery huang">Ellery Huang<span class="vet">vet</span></li><li data-name="hongming hu">Hongming Hu</li><li data-name="irfan ahsan">Irfan Ahsan<span class="vet">vet</span></li><li data-name="jovan jonathan">Jovan Jonathan</li><li data-name="mary tran">Mary Tran</li><li data-name="washiella jessica">Washiella Jessica</li></ol>
+    </article>
+    <article class="card" data-names="ellery huang|irfan ahsan|kenn surya|le nguyen|phan nguyen|washiella jessica">
+      <header><span class="code">Group 4</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 21</b> &middot; Mon 4-4:30pm &middot; BHB 3003</p>
+      <ol class="who"><li data-name="ellery huang">Ellery Huang<span class="vet">vet</span></li><li data-name="irfan ahsan">Irfan Ahsan<span class="vet">vet</span></li><li data-name="kenn surya">Kenn Surya</li><li data-name="le nguyen">Le Nguyen</li><li data-name="phan nguyen">Phan Nguyen</li><li data-name="washiella jessica">Washiella Jessica</li></ol>
+    </article>
+    <article class="card" data-names="flynn russell|hongming hu|nikemie dimitrov">
+      <header><span class="code">Group 5</span>
+        <span class="time">3 people</span></header>
+      <p class="where">presents at <b>Tut 33</b> &middot; Mon 6-6:30pm &middot; BHB 3280</p>
+      <ol class="who"><li data-name="flynn russell">Flynn Russell<span class="vet">vet</span></li><li data-name="hongming hu">Hongming Hu</li><li data-name="nikemie dimitrov">Nikemie Dimitrov</li></ol>
+    </article>
+    <article class="card" data-names="alyssa hodge|emily dawson-taylor|gemma rodham|imani qureshi|nikemie dimitrov|rohan howard">
+      <header><span class="code">Group 6</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 14</b> &middot; Tue 8-8:30am &middot; BHB 1140</p>
+      <ol class="who"><li data-name="alyssa hodge">Alyssa Hodge</li><li data-name="emily dawson-taylor">Emily Dawson-Taylor</li><li data-name="gemma rodham">Gemma Rodham</li><li data-name="imani qureshi">Imani Qureshi</li><li data-name="nikemie dimitrov">Nikemie Dimitrov</li><li data-name="rohan howard">Rohan Howard<span class="vet">vet</span></li></ol>
+    </article>
+    <article class="card" data-names="alyssa hodge|dylan simpson|flynn russell|laam cheung|le nguyen|peimin zheng">
+      <header><span class="code">Group 7</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 02</b> &middot; Tue 10-10:30am &middot; Institute N297</p>
+      <ol class="who"><li data-name="alyssa hodge">Alyssa Hodge</li><li data-name="dylan simpson">Dylan Simpson</li><li data-name="flynn russell">Flynn Russell<span class="vet">vet</span></li><li data-name="laam cheung">Laam Cheung</li><li data-name="le nguyen">Le Nguyen</li><li data-name="peimin zheng">Peimin Zheng</li></ol>
+    </article>
+    <article class="card" data-names="heidi boyd|laam cheung|robert diep|ryan ramsden|shijie peng|xi chen">
+      <header><span class="code">Group 8</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 07</b> &middot; Tue 11:30am-12pm &middot; BHB 1080</p>
+      <ol class="who"><li data-name="heidi boyd">Heidi Boyd</li><li data-name="laam cheung">Laam Cheung</li><li data-name="robert diep">Robert Diep</li><li data-name="ryan ramsden">Ryan Ramsden<span class="vet">vet</span></li><li data-name="shijie peng">Shijie Peng</li><li data-name="xi chen">Xi Chen</li></ol>
+    </article>
+    <article class="card" data-names="chloe lipham|flynn russell|robert diep|ryan ramsden|xi chen|zara lockhart">
+      <header><span class="code">Group 9</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 19</b> &middot; Tue 12-12:30pm &middot; BHB 1140</p>
+      <ol class="who"><li data-name="chloe lipham">Chloe Lipham</li><li data-name="flynn russell">Flynn Russell<span class="vet">vet</span></li><li data-name="robert diep">Robert Diep</li><li data-name="ryan ramsden">Ryan Ramsden<span class="vet">vet</span></li><li data-name="xi chen">Xi Chen</li><li data-name="zara lockhart">Zara Lockhart</li></ol>
+    </article>
+    <article class="card" data-names="dylan simpson|joseph hoffmann|robert diep|shijie peng|xi chen|zara lockhart">
+      <header><span class="code">Group 10</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 12</b> &middot; Tue 12-12:30pm &middot; BHB 2200</p>
+      <ol class="who"><li data-name="dylan simpson">Dylan Simpson</li><li data-name="joseph hoffmann">Joseph Hoffmann<span class="vet">vet</span></li><li data-name="robert diep">Robert Diep</li><li data-name="shijie peng">Shijie Peng</li><li data-name="xi chen">Xi Chen</li><li data-name="zara lockhart">Zara Lockhart</li></ol>
+    </article>
+    <article class="card" data-names="dylan simpson|gemma rodham|imani qureshi|irfan ahsan|ryan ramsden|seyeon lim">
+      <header><span class="code">Group 11</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 10</b> &middot; Tue 3-3:30pm &middot; Mech Eng S246</p>
+      <ol class="who"><li data-name="dylan simpson">Dylan Simpson</li><li data-name="gemma rodham">Gemma Rodham</li><li data-name="imani qureshi">Imani Qureshi</li><li data-name="irfan ahsan">Irfan Ahsan<span class="vet">vet</span></li><li data-name="ryan ramsden">Ryan Ramsden<span class="vet">vet</span></li><li data-name="seyeon lim">Seyeon Lim</li></ol>
+    </article>
+    <article class="card" data-names="alyssa hodge|heidi boyd|joseph hoffmann|josh phipps">
+      <header><span class="code">Group 12</span>
+        <span class="time">4 people</span></header>
+      <p class="where">presents at <b>Tut 16</b> &middot; Wed 8-8:30am &middot; BHB 1150</p>
+      <ol class="who"><li data-name="alyssa hodge">Alyssa Hodge</li><li data-name="heidi boyd">Heidi Boyd</li><li data-name="joseph hoffmann">Joseph Hoffmann<span class="vet">vet</span></li><li data-name="josh phipps">Josh Phipps</li></ol>
+    </article>
+    <article class="card" data-names="annabelle campbell|georgia opit|isabella sheffield|laam cheung|maya cuthbert|peimin zheng">
+      <header><span class="code">Group 13</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 17</b> &middot; Wed 10-10:30am &middot; BHB 1140</p>
+      <ol class="who"><li data-name="annabelle campbell">Annabelle Campbell<span class="vet">vet</span></li><li data-name="georgia opit">Georgia Opit</li><li data-name="isabella sheffield">Isabella Sheffield</li><li data-name="laam cheung">Laam Cheung</li><li data-name="maya cuthbert">Maya Cuthbert<span class="vet">vet</span></li><li data-name="peimin zheng">Peimin Zheng</li></ol>
+    </article>
+    <article class="card" data-names="annabelle campbell|georgia opit|isabella sheffield|jinyuan chen|maya cuthbert|peimin zheng">
+      <header><span class="code">Group 14</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 18</b> &middot; Wed 10-10:30am &middot; BHB 1150</p>
+      <ol class="who"><li data-name="annabelle campbell">Annabelle Campbell<span class="vet">vet</span></li><li data-name="georgia opit">Georgia Opit</li><li data-name="isabella sheffield">Isabella Sheffield</li><li data-name="jinyuan chen">Jinyuan Chen</li><li data-name="maya cuthbert">Maya Cuthbert<span class="vet">vet</span></li><li data-name="peimin zheng">Peimin Zheng</li></ol>
+    </article>
+    <article class="card" data-names="gwilym horlock|leila carr|max dewinter|maya cuthbert|shijie peng|zara lockhart">
+      <header><span class="code">Group 15</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 20</b> &middot; Wed 12-12:30pm &middot; BHB 1150</p>
+      <ol class="who"><li data-name="gwilym horlock">Gwilym Horlock</li><li data-name="leila carr">Leila Carr</li><li data-name="max dewinter">Max Dewinter</li><li data-name="maya cuthbert">Maya Cuthbert<span class="vet">vet</span></li><li data-name="shijie peng">Shijie Peng</li><li data-name="zara lockhart">Zara Lockhart</li></ol>
+    </article>
+    <article class="card" data-names="callum franzman|leila carr|max dewinter|wenlong ma|zhuoran zhu|zhuoyue zhu">
+      <header><span class="code">Group 16</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 23</b> &middot; Wed 4-4:30pm &middot; BHB 1140</p>
+      <ol class="who"><li data-name="callum franzman">Callum Franzman<span class="vet">vet</span></li><li data-name="leila carr">Leila Carr</li><li data-name="max dewinter">Max Dewinter</li><li data-name="wenlong ma">Wenlong Ma</li><li data-name="zhuoran zhu">Zhuoran Zhu</li><li data-name="zhuoyue zhu">Zhuoyue Zhu</li></ol>
+    </article>
+    <article class="card" data-names="callum franzman|chloe lipham|heidi boyd|jinyuan chen|laura allan|seyeon lim">
+      <header><span class="code">Group 17</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 24</b> &middot; Wed 4-4:30pm &middot; BHB 1160</p>
+      <ol class="who"><li data-name="callum franzman">Callum Franzman<span class="vet">vet</span></li><li data-name="chloe lipham">Chloe Lipham</li><li data-name="heidi boyd">Heidi Boyd</li><li data-name="jinyuan chen">Jinyuan Chen</li><li data-name="laura allan">Laura Allan</li><li data-name="seyeon lim">Seyeon Lim</li></ol>
+    </article>
+    <article class="card" data-names="josh phipps|madeleine boris">
+      <header><span class="code">Group 18</span>
+        <span class="time">2 people</span></header>
+      <p class="where">presents at <b>Tut 26</b> &middot; Thu 8-8:30am &middot; BHB 1160</p>
+      <ol class="who"><li data-name="josh phipps">Josh Phipps</li><li data-name="madeleine boris">Madeleine Boris<span class="vet">vet</span></li></ol>
+    </article>
+    <article class="card" data-names="gemma rodham|gwilym horlock|imani qureshi|rohan howard|saffron little|ziling zhang">
+      <header><span class="code">Group 19</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 27</b> &middot; Thu 10-10:30am &middot; BHB 1140</p>
+      <ol class="who"><li data-name="gemma rodham">Gemma Rodham</li><li data-name="gwilym horlock">Gwilym Horlock</li><li data-name="imani qureshi">Imani Qureshi</li><li data-name="rohan howard">Rohan Howard<span class="vet">vet</span></li><li data-name="saffron little">Saffron Little</li><li data-name="ziling zhang">Ziling Zhang</li></ol>
+    </article>
+    <article class="card" data-names="gwilym horlock|laura allan|saffron little|zhuoran zhu|zhuoyue zhu|ziling zhang">
+      <header><span class="code">Group 20</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 28</b> &middot; Thu 10-10:30am &middot; BHB 1160</p>
+      <ol class="who"><li data-name="gwilym horlock">Gwilym Horlock</li><li data-name="laura allan">Laura Allan</li><li data-name="saffron little">Saffron Little</li><li data-name="zhuoran zhu">Zhuoran Zhu</li><li data-name="zhuoyue zhu">Zhuoyue Zhu</li><li data-name="ziling zhang">Ziling Zhang</li></ol>
+    </article>
+    <article class="card" data-names="jinyuan chen|laura allan|madeleine boris|saffron little|wenlong ma|zhuoyue zhu">
+      <header><span class="code">Group 21</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 30</b> &middot; Thu 12-12:30pm &middot; BHB 1160</p>
+      <ol class="who"><li data-name="jinyuan chen">Jinyuan Chen</li><li data-name="laura allan">Laura Allan</li><li data-name="madeleine boris">Madeleine Boris<span class="vet">vet</span></li><li data-name="saffron little">Saffron Little</li><li data-name="wenlong ma">Wenlong Ma</li><li data-name="zhuoyue zhu">Zhuoyue Zhu</li></ol>
+    </article>
+    <article class="card" data-names="hongming hu|josh phipps|jovan jonathan|madeleine boris|mary tran|phan nguyen">
+      <header><span class="code">Group 22</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 36</b> &middot; Fri 8-8:30am &middot; BHB 3240</p>
+      <ol class="who"><li data-name="hongming hu">Hongming Hu</li><li data-name="josh phipps">Josh Phipps</li><li data-name="jovan jonathan">Jovan Jonathan</li><li data-name="madeleine boris">Madeleine Boris<span class="vet">vet</span></li><li data-name="mary tran">Mary Tran</li><li data-name="phan nguyen">Phan Nguyen</li></ol>
+    </article>
+    <article class="card" data-names="chloe lipham|emily dawson-taylor|max dewinter|rohan howard|seyeon lim|zhuoran zhu">
+      <header><span class="code">Group 23</span>
+        <span class="time">6 people</span></header>
+      <p class="where">presents at <b>Tut 38</b> &middot; Fri 10-10:30am &middot; BHB 3240</p>
+      <ol class="who"><li data-name="chloe lipham">Chloe Lipham</li><li data-name="emily dawson-taylor">Emily Dawson-Taylor</li><li data-name="max dewinter">Max Dewinter</li><li data-name="rohan howard">Rohan Howard<span class="vet">vet</span></li><li data-name="seyeon lim">Seyeon Lim</li><li data-name="zhuoran zhu">Zhuoran Zhu</li></ol>
+    </article>
+  </div>
+  </section>
+
+  <div class="note"><b>Not presenting:</b> Eleanor Forsyth, John El-Barhoun, Nhu Ngo, Sophie Ferko, Stefan Ferster, Tara Stevens &mdash; no availability submitted. See me if that is wrong.</div>
 
   <footer class="end">Generated 9 September 2026</footer>
 </div>
 
-<script>
+<script type="module">
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./assets/config.js";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm";
+
+const db = SUPABASE_URL && SUPABASE_ANON_KEY
+  ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false } })
+  : null;
+
+/* ---------------------------------------------------------------- tabs */
+const tabs = [...document.querySelectorAll(".tabs button")];
+const views = { tut: "view-tut", person: "view-person", group: "view-group" };
+tabs.forEach((b) => b.addEventListener("click", () => {
+  tabs.forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+  for (const [k, id] of Object.entries(views)) document.getElementById(id).hidden = k !== b.dataset.view;
+  filter();
+}));
+
+/* -------------------------------------------------------------- search */
 const find = document.getElementById("find");
 const found = document.getElementById("found");
-const cards = [...document.querySelectorAll(".card")];
 
-find.addEventListener("input", () => {
+function filter() {
   const q = find.value.trim().toLowerCase();
-  cards.forEach((c) => { c.classList.remove("hit", "dim"); });
-  document.querySelectorAll("li.hit").forEach((li) => li.classList.remove("hit"));
+  const open = document.querySelector("section:not([hidden])");
+  const cards = [...open.querySelectorAll(".card")];
+  cards.forEach((c) => c.classList.remove("hit", "dim"));
+  open.querySelectorAll("li.hit").forEach((li) => li.classList.remove("hit"));
   if (q.length < 2) { found.textContent = ""; return; }
 
-  const names = new Set();
-  const mine = [];
+  const hits = [];
+  const who = new Set();
   cards.forEach((c) => {
-    const hit = c.dataset.names.split("|").some((n) => n.includes(q));
-    if (hit) {
-      c.classList.add("hit");
-      mine.push(c);
-      c.querySelectorAll("li").forEach((li) => {
-        if (li.dataset.name.includes(q)) { li.classList.add("hit"); names.add(li.textContent.replace("vet", "").trim()); }
+    if ((c.dataset.names || "").split("|").some((n) => n.includes(q))) {
+      c.classList.add("hit"); hits.push(c);
+      c.querySelectorAll("li[data-name]").forEach((li) => {
+        if (li.dataset.name.includes(q)) { li.classList.add("hit"); who.add(li.textContent.replace("vet", "").trim()); }
       });
     } else c.classList.add("dim");
   });
+  if (!hits.length) { found.textContent = "No name matches that."; cards.forEach((c) => c.classList.remove("dim")); return; }
+  found.innerHTML = (who.size ? "<b>" + [...who].join(", ") + "</b> &mdash; " : "") +
+    hits.length + " card" + (hits.length === 1 ? "" : "s") +
+    (open.id === "view-tut"
+      ? ": " + hits.map((c) => '<span class="pill">' + c.querySelector(".code").textContent + " " +
+          c.querySelector(".time").textContent + "</span>").join("")
+      : "");
+  hits[0].scrollIntoView({ behavior: "smooth", block: "center" });
+}
+find.addEventListener("input", filter);
 
-  if (!mine.length) {
-    found.textContent = "No name matches that.";
-    cards.forEach((c) => c.classList.remove("dim"));
+/* ------------------------------------------------------------ messages */
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const NAME_KEY = "tutgroups.msgname";
+
+async function loadBoard(box) {
+  const id = box.dataset.tut;
+  const list = box.querySelector(".msgs");
+  if (!db) { list.textContent = "Messages are not available."; return; }
+  const { data, error } = await db.from("messages").select("*")
+    .eq("tutorial_id", id).order("created_at");
+  if (error) {
+    list.innerHTML = '<span class="err">Messages are not set up yet.</span>';
     return;
   }
-  const who = [...names].join(", ");
-  found.innerHTML = "<b>" + who + "</b> presents at " +
-    mine.map((c) => '<span class="pill">' + c.querySelector(".code").textContent + " " +
-      c.querySelector(".time").textContent + "</span>").join("");
-  mine[0].scrollIntoView({ behavior: "smooth", block: "center" });
+  box.querySelector(".count").textContent = data.length ? "(" + data.length + ")" : "";
+  list.innerHTML = data.length
+    ? data.map((m) => '<div class="msg"><b>' + esc(m.name) + "</b><time>" +
+        new Date(m.created_at).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) +
+        "</time><p>" + esc(m.body) + "</p></div>").join("")
+    : '<span style="color:var(--muted)">No messages yet.</span>';
+}
+
+document.querySelectorAll("details.board").forEach((box) => {
+  box.addEventListener("toggle", () => { if (box.open) loadBoard(box); }, { once: false });
+
+  const form = box.querySelector("form.post");
+  const nameEl = form.querySelector(".mname");
+  const bodyEl = form.querySelector(".mbody");
+  const err = form.querySelector(".err");
+  try { nameEl.value = localStorage.getItem(NAME_KEY) || ""; } catch { /* private mode */ }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    err.textContent = "";
+    const name = nameEl.value.trim(), body = bodyEl.value.trim();
+    if (!name || !body) { err.textContent = "Name and message are both needed."; return; }
+    if (!db) { err.textContent = "Not connected."; return; }
+    const btn = form.querySelector("button");
+    btn.disabled = true;
+    const { error } = await db.from("messages")
+      .insert({ tutorial_id: box.dataset.tut, name, body });
+    btn.disabled = false;
+    if (error) { err.textContent = "Could not post: " + error.message; return; }
+    try { localStorage.setItem(NAME_KEY, name); } catch { /* ignore */ }
+    bodyEl.value = "";
+    loadBoard(box);
+  });
 });
+
+/* show how many messages each board holds, without opening them all */
+if (db) {
+  db.from("messages").select("tutorial_id").then(({ data, error }) => {
+    if (error || !data) return;
+    const tally = {};
+    for (const m of data) tally[m.tutorial_id] = (tally[m.tutorial_id] || 0) + 1;
+    document.querySelectorAll("details.board").forEach((box) => {
+      const n = tally[box.dataset.tut];
+      if (n) box.querySelector(".count").textContent = "(" + n + ")";
+    });
+  });
+}
 </script>
 </body>
 </html>
