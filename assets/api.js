@@ -106,6 +106,25 @@ export function escapeHtml(s) {
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
+/** Picks made while the site was still in preview mode live only in this
+ *  browser and were never sent to the database. If someone answered during
+ *  that window, hand their choices back so they can submit them for real
+ *  rather than silently losing them. */
+export function strandedPrefs(studentName) {
+  if (mode !== "supabase") return [];
+  // Preview mode keyed prefs by the generated demo id ("s0"), while Supabase
+  // uses a uuid — so bridge the two id spaces by name. Tutorial ids ("T11")
+  // are identical in both, so the picks themselves carry over unchanged.
+  const demoMe = DEMO_STUDENTS.find((s) => s.name === studentName);
+  if (!demoMe) return [];
+  const ids = (demoLoad().prefs || {})[demoMe.id] || [];
+  return Array.isArray(ids) ? ids : [];
+}
+
+export function clearStranded() {
+  try { localStorage.removeItem(DEMO_KEY); } catch { /* nothing to clear */ }
+}
+
 /** Banner text explaining which backend is live. */
 export function backendNotice() {
   return mode === "supabase" ? null :

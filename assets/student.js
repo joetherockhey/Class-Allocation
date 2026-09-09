@@ -1,5 +1,5 @@
-import { loadCore, getPrefs, savePrefs, loadAllocations, el, escapeHtml, backendNotice }
-  from "./api.js";
+import { loadCore, getPrefs, savePrefs, loadAllocations, el, escapeHtml, backendNotice,
+  strandedPrefs, clearStranded } from "./api.js";
 import { COURSE_TITLE, INTRO, MIN_PICKS } from "./config.js";
 
 const LS_KEY = "tutgroups.studentId";
@@ -92,6 +92,13 @@ async function signIn(student) {
   prefs = (await getPrefs(student.id)).filter((id) => tut(id));
   dirty = false;
 
+  // Rescue anything chosen while the site was still in preview mode.
+  let rescued = false;
+  if (!prefs.length) {
+    const stray = strandedPrefs(student.name).filter((id) => tut(id));
+    if (stray.length) { prefs = stray; dirty = true; rescued = true; }
+  }
+
   el("whoami").textContent = student.name + (student.is_vet ? " · vet" : "");
   el("whoami").classList.remove("hidden");
   el("switchBtn").classList.remove("hidden");
@@ -101,7 +108,9 @@ async function signIn(student) {
 
   const open = settings.submissions_open !== "false";
   el("stepPrefs").classList.remove("hidden");
-  el("saveMsg").textContent = !open ? "Submissions are closed."
+  el("saveMsg").innerHTML = !open ? "Submissions are closed."
+    : rescued ? '<span class="badge warn">Not submitted yet</span> These are the times you '
+        + "picked earlier, before the site was connected. Press submit to save them properly."
     : submitted.has(student.id) ? "You have already submitted — press submit again to update."
     : "";
   renderAll();
@@ -322,6 +331,7 @@ async function save() {
   try {
     await savePrefs(me.id, prefs);
     submitted.add(me.id);
+    clearStranded();
     dirty = false;
     el("saveMsg").innerHTML =
       '<span class="badge ok">Saved</span> You can change this any time.';
