@@ -1,6 +1,6 @@
 import { loadCore, getPrefs, savePrefs, loadAllocations, el, escapeHtml, backendNotice }
   from "./api.js";
-import { COURSE_TITLE, INTRO } from "./config.js";
+import { COURSE_TITLE, INTRO, MIN_PICKS } from "./config.js";
 
 const LS_KEY = "tutgroups.studentId";
 
@@ -101,7 +101,6 @@ async function signIn(student) {
 
   const open = settings.submissions_open !== "false";
   el("stepPrefs").classList.remove("hidden");
-  el("saveBtn").disabled = !open;
   el("saveMsg").textContent = !open ? "Submissions are closed."
     : submitted.has(student.id) ? "You have already submitted — press submit again to update."
     : "";
@@ -117,11 +116,13 @@ function signOut() {
 }
 
 /* ------------------------------------------------------------- week grid */
-/** Split "Mon 09:00-10:00" into a day and a time. Returns null if it
- *  doesn't look like a weekly slot, in which case we fall back to a list. */
+/** Split "Mon 9-10am" into a day and a time: first word is the day, the rest
+ *  is the time. Deliberately format-agnostic so real timetable text still
+ *  grids up. Returns null when there is no "<word> <rest>" to split, and the
+ *  caller falls back to a plain list. */
 function parseSlot(t) {
-  const m = /^\s*([A-Za-z]{3,9})\s+(\d{1,2}:\d{2})\s*[-–]\s*(\d{1,2}:\d{2})/.exec(t.when_text || "");
-  return m ? { day: m[1], time: m[2] + "–" + m[3], start: m[2] } : null;
+  const m = /^\s*([A-Za-z]{3,9})\s+(\S.*)$/.exec(t.when_text || "");
+  return m ? { day: m[1], time: m[2].trim() } : null;
 }
 
 function renderAll() { renderGrid(); renderPrefs(); }
@@ -132,16 +133,25 @@ function renderGrid() {
 
   if (parsed.some((x) => !x.p)) { renderFlatList(wrap, parsed); return; }
 
+  // Days and times both keep first-appearance order, which is sort_order and
+  // therefore chronological. Sorting the labels alphabetically would put
+  // "10-11am" before "9-10am".
   const days = [];
   const times = [];
   for (const { p } of parsed) {
     if (!days.includes(p.day)) days.push(p.day);
     if (!times.includes(p.time)) times.push(p.time);
   }
-  times.sort((a, b) => a.localeCompare(b));
 
   const cellOf = new Map();
-  for (const { t, p } of parsed) cellOf.set(p.day + "|" + p.time, t);
+  let collision = false;
+  for (const { t, p } of parsed) {
+    const key = p.day + "|" + p.time;
+    if (cellOf.has(key)) collision = true;
+    cellOf.set(key, t);
+  }
+  // Two slots in one cell, or a grid too sparse to be a timetable: use a list.
+  if (collision || days.length > 7) { renderFlatList(wrap, parsed); return; }
 
   let html = '<div class="scroll-x"><table class="weekgrid"><thead><tr><th></th>';
   for (const d of days) {
@@ -206,10 +216,28 @@ function renderPrefs() {
     const t = tut(id);
     if (t) list.appendChild(prefRow(t, i));
   });
+  const short = Math.max(0, MIN_PICKS - prefs.length);
   el("prefCount").textContent = prefs.length + " picked";
-  el("saveBtn").textContent = prefs.length
-    ? "Submit " + prefs.length + " preference" + (prefs.length === 1 ? "" : "s")
-    : "Submit my preferences";
+
+  const open = settings.submissions_open !== "false";
+  el("saveBtn").disabled = !open || short > 0;
+  el("saveBtn").textContent = short
+    ? "Pick " + short + " more"
+    : "Submit " + prefs.length + " preference" + (prefs.length === 1 ? "" : "s");
+
+  const need = el("needMore");
+  if (!open) {                            // closed: the count is moot
+    need.className = "notice hidden";
+    need.textContent = "";
+  } else if (short) {
+    need.className = "notice warn";
+    need.textContent = "Choose at least " + MIN_PICKS + " times — " + short +
+      " to go. With fewer, there may be no slot your whole group can make.";
+  } else {
+    need.className = "notice ok";
+    need.textContent = "That's enough to work with. Add more if you can — it "
+      + "makes it likelier you get one near the top of your list.";
+  }
 }
 
 function prefRow(t, i) {
@@ -264,9 +292,11 @@ function addDrag(node) {
 
 /* ------------------------------------------------------------------ save */
 async function save() {
-  if (prefs.length < 3 &&
-      !confirm("You have only picked " + prefs.length + ". Fewer picks means a worse chance of " +
-               "getting a slot you like. Submit anyway?")) return;
+  if (prefs.length < MIN_PICKS) {         // the button is disabled, but be safe
+    el("saveMsg").innerHTML =
+      '<span class="badge warn">Not submitted</span> Please pick at least ' + MIN_PICKS + ".";
+    return;
+  }
   const btn = el("saveBtn");
   btn.disabled = true;
   el("saveMsg").textContent = "Saving…";

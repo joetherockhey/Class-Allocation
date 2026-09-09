@@ -1,18 +1,10 @@
 :root{
+  color-scheme:light;   /* keep form controls and scrollbars light too */
   --bg:#f6f7f9; --panel:#ffffff; --ink:#16191d; --muted:#5f6874;
   --line:#e2e5ea; --line-strong:#cbd1da;
   --accent:#2f6df6; --accent-ink:#ffffff; --accent-soft:#e8f0ff;
   --ok:#15803d; --ok-soft:#e7f6ec; --warn:#b45309; --warn-soft:#fdf3e3;
   --radius:10px; --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.08);
-}
-@media (prefers-color-scheme:dark){
-  :root{
-    --bg:#101318; --panel:#171b21; --ink:#e8ebef; --muted:#98a2b3;
-    --line:#262c35; --line-strong:#39414d;
-    --accent:#4d84ff; --accent-ink:#0b1020; --accent-soft:#1b2740;
-    --ok:#4ade80; --ok-soft:#132a1d; --warn:#fbbf24; --warn-soft:#2c2413;
-    --shadow:0 1px 2px rgba(0,0,0,.4);
-  }
 }
 *{box-sizing:border-box}
 body{
