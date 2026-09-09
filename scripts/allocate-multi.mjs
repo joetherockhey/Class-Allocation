@@ -48,6 +48,7 @@ const C_OVERLOAD    = 1200;    // beyond MAX_LOAD
 const C_NO_VET      = 400;     // a group with no vet
 const C_BIG         = 4;       // gentle pull towards an even spread
 const C_SPLIT_WISH  = 250;     // people who asked to be together, and are not
+const C_CLASH       = 300000;  // two tutorials at the same hour, same person
 
 /* ------------------------------------------------------------------ input */
 const data = JSON.parse(readFileSync(INPUT, "utf8"));
@@ -119,6 +120,22 @@ try {
 const isForced  = (s, t) => forced.has(s + ":" + t);
 const isBlocked = (s, t) => blocked.has(s + ":" + t);
 
+// Tutorials sharing a day and time are alternatives, not extras: several run in
+// different rooms at once, so one person cannot present at two of them. The
+// availability list cannot express this - a student free at Wed 4pm lists both
+// Wed 4pm tutorials - so it has to be a constraint here.
+const timeKeys = [...new Set(slots.map((t) => t.when))];
+const timeOf = new Int16Array(T);
+slots.forEach((t, i) => { timeOf[i] = timeKeys.indexOf(t.when); });
+const TIMES = timeKeys.length;
+const clashPairs = timeKeys
+  .map((w) => slots.filter((t) => t.when === w).map((t) => t.id))
+  .filter((ids) => ids.length > 1);
+if (clashPairs.length) {
+  console.log("Same-time tutorials (nobody may take two of a set): " +
+    clashPairs.map((ids) => ids.join("/")).join(", "));
+}
+
 let wishes = [];
 try {
   wishes = JSON.parse(readFileSync("data/together.json", "utf8"))
@@ -175,6 +192,14 @@ function wishCost(st) {
 
 function cost(st) {
   let c = st.rankSum + wishCost(st);
+  // nobody in two tutorials that run at the same time
+  const perTime = new Int16Array(TIMES);
+  for (let s = 0; s < N; s++) {
+    perTime.fill(0);
+    let over = 0;
+    for (let t = 0; t < T; t++) if (st.on[s][t]) { if (++perTime[timeOf[t]] > 1) over++; }
+    if (over) c += over * C_CLASH;
+  }
   for (let t = 0; t < T; t++) {
     if (st.size[t] < MIN_GROUP) c += (MIN_GROUP - st.size[t]) * C_GROUP_SHORT;
     if (st.size[t] > MAX_GROUP) c += (st.size[t] - MAX_GROUP) * C_TOO_BIG;
@@ -205,21 +230,27 @@ function seedSolution(rnd) {
     canDo[a].length - canDo[b].length || rnd() - 0.5);
   for (const s of order) {
     const wanted = [...canDo[s]].sort((a, b) => rank[s][a] - rank[s][b]);
+    const taken = new Set();
+    for (let t = 0; t < T; t++) if (st.on[s][t]) taken.add(timeOf[t]);
     for (const t of wanted) {
       if (st.load[s] >= Math.min(IDEAL_LOAD, loadMax[s])) break;
       if (st.size[t] >= MAX_GROUP || st.on[s][t] || isBlocked(s, t)) continue;
-      add(st, s, t);
+      if (taken.has(timeOf[t])) continue;
+      add(st, s, t); taken.add(timeOf[t]);
     }
     for (const t of wanted) {                 // fill up if the nice ones were full
       if (st.load[s] >= 2) break;
-      if (!st.on[s][t] && st.size[t] < MAX_GROUP && !isBlocked(s, t)) add(st, s, t);
+      if (!st.on[s][t] && st.size[t] < MAX_GROUP && !isBlocked(s, t) && !taken.has(timeOf[t])) {
+        add(st, s, t); taken.add(timeOf[t]);
+      }
     }
   }
   // Any group still short pulls in whoever can attend and is least loaded.
   for (let t = 0; t < T; t++) {
     while (st.size[t] < MIN_GROUP) {
       const cands = [...Array(N).keys()]
-        .filter((s) => rank[s][t] && !st.on[s][t] && !isBlocked(s, t))
+        .filter((s) => rank[s][t] && !st.on[s][t] && !isBlocked(s, t) &&
+          !Array.from({ length: T }, (_, u) => u).some((u) => st.on[s][u] && timeOf[u] === timeOf[t]))
         .sort((a, b) => st.load[a] - st.load[b] || rank[a][t] - rank[b][t]);
       if (!cands.length) break;
       add(st, cands[0], t);
