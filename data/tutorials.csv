@@ -1,0 +1,23 @@
+id,label,when,location,sort_order
+T01,Tutorial 1,Mon 14 Sep 09:00-10:00,Room A1,1
+T02,Tutorial 2,Mon 14 Sep 10:00-11:00,Room A1,2
+T03,Tutorial 3,Mon 14 Sep 13:00-14:00,Room A1,3
+T04,Tutorial 4,Mon 14 Sep 14:00-15:00,Room B2,4
+T05,Tutorial 5,Tue 15 Sep 09:00-10:00,Room B2,5
+T06,Tutorial 6,Tue 15 Sep 10:00-11:00,Room B2,6
+T07,Tutorial 7,Tue 15 Sep 11:00-12:00,Room A1,7
+T08,Tutorial 8,Tue 15 Sep 14:00-15:00,Room A1,8
+T09,Tutorial 9,Wed 16 Sep 09:00-10:00,Room C3,9
+T10,Tutorial 10,Wed 16 Sep 10:00-11:00,Room C3,10
+T11,Tutorial 11,Wed 16 Sep 13:00-14:00,Room C3,11
+T12,Tutorial 12,Wed 16 Sep 15:00-16:00,Room A1,12
+T13,Tutorial 13,Thu 17 Sep 09:00-10:00,Room B2,13
+T14,Tutorial 14,Thu 17 Sep 11:00-12:00,Room B2,14
+T15,Tutorial 15,Thu 17 Sep 13:00-14:00,Room A1,15
+T16,Tutorial 16,Thu 17 Sep 14:00-15:00,Room A1,16
+T17,Tutorial 17,Fri 18 Sep 09:00-10:00,Room C3,17
+T18,Tutorial 18,Fri 18 Sep 10:00-11:00,Room C3,18
+T19,Tutorial 19,Fri 18 Sep 11:00-12:00,Room B2,19
+T20,Tutorial 20,Fri 18 Sep 13:00-14:00,Room B2,20
+T21,Tutorial 21,Fri 18 Sep 14:00-15:00,Room A1,21
+T22,Tutorial 22,Fri 18 Sep 15:00-16:00,Room A1,22

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tutor dashboard</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Tutor dashboard</h1>
+    <span class="spacer"></span>
+    <button id="refreshBtn" class="ghost">Refresh</button>
+  </header>
+  <p class="sub">Read-only. Publishing groups is done locally with <code>npm run publish</code>.</p>
+
+  <div id="banner" class="notice hidden"></div>
+
+  <section class="panel">
+    <h2>Progress</h2>
+    <div class="stat" id="stats"></div>
+    <div class="bar"><i id="progressBar" style="width:0%"></i></div>
+  </section>
+
+  <section class="panel">
+    <div class="row" style="margin-bottom:12px">
+      <h2 style="margin:0">Export for allocation</h2>
+      <span class="spacer"></span>
+      <button id="exportBtn" class="primary">Download allocation-input.json</button>
+    </div>
+    <p class="sub" style="margin:0">
+      Save this next to the repo and run <code>npm run allocate</code>, or hand it to Claude.
+    </p>
+  </section>
+
+  <section class="panel">
+    <h2>Still to submit (<span id="missingCount">0</span>)</h2>
+    <div id="missing"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Slot coverage</h2>
+    <p class="sub">How many students listed each slot at all, and how many put it in their top 3.</p>
+    <div class="scroll-x"><table>
+      <thead><tr><th>Slot</th><th>When</th><th>Available</th><th>Vets</th><th>Top-3 picks</th></tr></thead>
+      <tbody id="coverage"></tbody>
+    </table></div>
+  </section>
+
+  <section class="panel hidden" id="allocPanel">
+    <h2>Published groups</h2>
+    <div id="allocBody"></div>
+  </section>
+</div>
+<script type="module" src="assets/admin.js"></script>
+</body>
+</html>

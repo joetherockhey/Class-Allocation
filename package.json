@@ -1,0 +1,17 @@
+{
+  "name": "tutorial-groups",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Students pick tutorial preferences; the tutor allocates them into presentation groups.",
+  "scripts": {
+    "seed": "node scripts/seed.mjs",
+    "allocate": "node scripts/allocate.mjs",
+    "publish": "node scripts/publish.mjs",
+    "demo": "node scripts/make-demo-input.mjs",
+    "serve": "npx --yes serve ."
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4"
+  }
+}

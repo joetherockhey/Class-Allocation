@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tutorial Presentation Groups</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1 id="courseTitle">Tutorial Presentation Groups</h1>
+    <span class="spacer"></span>
+    <span id="whoami" class="badge ok hidden"></span>
+    <button id="switchBtn" class="ghost hidden">Not you?</button>
+  </header>
+  <p class="sub" id="intro"></p>
+
+  <div id="banner" class="notice hidden"></div>
+
+  <!-- Step 1 -->
+  <section id="stepName" class="panel hidden">
+    <h2>Find your name</h2>
+    <input id="nameSearch" type="search" placeholder="Start typing your name…" autocomplete="off">
+    <div style="height:12px"></div>
+    <div id="nameGrid" class="namegrid"></div>
+    <p class="sub" style="margin:14px 0 0">A green dot means that person has already submitted.</p>
+  </section>
+
+  <!-- Step 2 -->
+  <section id="stepPrefs" class="hidden">
+    <div class="panel">
+      <h2>Order the tutorials you can attend</h2>
+      <p class="sub" style="margin-bottom:0">
+        Add every slot you could realistically make, then drag or use ▲▼ so your favourite is at the top.
+        The more you add, the better the chance you get a slot near the top of your list.
+      </p>
+    </div>
+
+    <div class="cols">
+      <div class="panel">
+        <div class="colhead"><h2 style="margin:0">Available slots</h2><span class="count" id="availCount"></span></div>
+        <div id="poolList" class="list" data-empty="You have added every tutorial."></div>
+      </div>
+      <div class="panel">
+        <div class="colhead"><h2 style="margin:0">My preferences</h2><span class="count" id="prefCount"></span></div>
+        <div id="prefList" class="list" data-empty="Nothing chosen yet — add slots from the left."></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="row">
+        <button id="saveBtn" class="primary">Submit my preferences</button>
+        <span id="saveMsg" class="sub" style="margin:0"></span>
+        <span class="spacer"></span>
+        <button id="clearBtn" class="ghost">Clear all</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 3 -->
+  <section id="stepResult" class="panel hidden">
+    <h2>Your group</h2>
+    <div id="resultBody"></div>
+  </section>
+
+  <footer>Preferences can be changed any time before the deadline — just pick your name again.</footer>
+</div>
+<script type="module" src="assets/student.js"></script>
+</body>
+</html>
