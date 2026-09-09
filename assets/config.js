@@ -6,7 +6,7 @@ export const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiO
 
 // Shown at the top of the student page.
 export const COURSE_TITLE = "Tutorial Presentation Groups";
-export const INTRO = "Pick your name, then tap every tutorial time you could attend. You will be placed in a group of about five and given one of the times you chose.";
+export const INTRO = "Pick your name, then tap every slot you could attend. You only need to be there for the first 30 minutes, which is the time shown. You will be placed in a group of about five and given one of the slots you chose.";
 
 // Fewest times a student must pick before they can submit.
 export const MIN_PICKS = 5;
