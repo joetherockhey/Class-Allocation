@@ -95,15 +95,23 @@ a{color:var(--accent)}
 .weekgrid{border-collapse:separate;border-spacing:4px;width:100%;min-width:440px}
 .weekgrid th{padding:2px;font-size:12px;text-transform:none;letter-spacing:0;white-space:nowrap;border:none}
 .weekgrid tbody th{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;padding-right:8px}
-.weekgrid td{padding:0;border:none}
+.weekgrid td{padding:0;border:none;vertical-align:top}
+.weekgrid tbody th{white-space:nowrap}
 .weekgrid .daybtn{width:100%;font-weight:700}
 button.slot{
-  width:100%;height:38px;padding:0;border-radius:7px;
+  position:relative;display:block;width:100%;margin-bottom:4px;
+  padding:9px 6px;border-radius:7px;line-height:1.25;
   background:var(--bg);border:1px solid var(--line);
-  color:var(--accent);font-weight:700;font-size:12px;
+  color:var(--accent);font-weight:600;font-size:11.5px;white-space:nowrap;
+}
+button.slot:last-child{margin-bottom:0}
+button.slot .pin{
+  position:absolute;top:-7px;left:-7px;width:19px;height:19px;border-radius:50%;
+  background:var(--ink);color:#fff;font-size:10.5px;font-weight:700;
+  display:grid;place-items:center;
 }
 button.slot:hover{border-color:var(--accent);background:var(--accent-soft)}
 button.slot.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 button.namebtn.slotflat.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-@media (max-width:520px){button.slot{height:34px}}
+@media (max-width:520px){button.slot{font-size:10.5px;padding:8px 4px}}
 #qrThumb svg{width:100%;height:100%;display:block}

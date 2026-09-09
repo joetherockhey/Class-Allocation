@@ -127,31 +127,48 @@ function parseSlot(t) {
 
 function renderAll() { renderGrid(); renderPrefs(); }
 
+/** Minutes past midnight for the start of a label like "8-10am",
+ *  "10am-12pm" or "11:30am-1:30pm". A start with no am/pm borrows the
+ *  suffix from the end time ("12-2pm" starts at noon). NaN if unparseable,
+ *  in which case rows keep their sort_order sequence instead. */
+function startMinutes(label) {
+  const [lhs, rhs = ""] = String(label).split(/[-–]/);
+  const suffix = (/(am|pm)/i.exec(lhs) || /(am|pm)/i.exec(rhs) || [])[1];
+  const hm = /(\d{1,2})(?::(\d{2}))?/.exec(lhs);
+  if (!hm || !suffix) return NaN;
+  let h = Number(hm[1]);
+  const m = Number(hm[2] || 0);
+  if (/pm/i.test(suffix) && h < 12) h += 12;
+  if (/am/i.test(suffix) && h === 12) h = 0;
+  return h * 60 + m;
+}
+
 function renderGrid() {
   const wrap = el("gridWrap");
   const parsed = tutorials.map((t) => ({ t, p: parseSlot(t) }));
 
   if (parsed.some((x) => !x.p)) { renderFlatList(wrap, parsed); return; }
 
-  // Days and times both keep first-appearance order, which is sort_order and
-  // therefore chronological. Sorting the labels alphabetically would put
-  // "10-11am" before "9-10am".
   const days = [];
+  for (const { p } of parsed) if (!days.includes(p.day)) days.push(p.day);
+  if (days.length > 7) { renderFlatList(wrap, parsed); return; }
+
+  // Rows are clock-ordered. First-appearance order would follow sort_order,
+  // which lists all of Monday before Tuesday's 8am ever appears.
   const times = [];
-  for (const { p } of parsed) {
-    if (!days.includes(p.day)) days.push(p.day);
-    if (!times.includes(p.time)) times.push(p.time);
+  for (const { p } of parsed) if (!times.includes(p.time)) times.push(p.time);
+  const mins = new Map(times.map((t) => [t, startMinutes(t)]));
+  if ([...mins.values()].every((v) => !Number.isNaN(v))) {
+    times.sort((a, b) => mins.get(a) - mins.get(b));
   }
 
+  // A cell can hold several tutorials: same day and time, different rooms.
   const cellOf = new Map();
-  let collision = false;
   for (const { t, p } of parsed) {
     const key = p.day + "|" + p.time;
-    if (cellOf.has(key)) collision = true;
-    cellOf.set(key, t);
+    if (!cellOf.has(key)) cellOf.set(key, []);
+    cellOf.get(key).push(t);
   }
-  // Two slots in one cell, or a grid too sparse to be a timetable: use a list.
-  if (collision || days.length > 7) { renderFlatList(wrap, parsed); return; }
 
   let html = '<div class="scroll-x"><table class="weekgrid"><thead><tr><th></th>';
   for (const d of days) {
@@ -160,14 +177,16 @@ function renderGrid() {
   }
   html += "</tr></thead><tbody>";
   for (const time of times) {
-    html += "<tr><th>" + escapeHtml(time) + "</th>";
+    html += '<tr><th>' + escapeHtml(time) + "</th>";
     for (const d of days) {
-      const t = cellOf.get(d + "|" + time);
-      html += "<td>" + (t
-        ? '<button class="slot' + (prefs.includes(t.id) ? " on" : "") +
-          '" data-id="' + escapeHtml(t.id) + '">' +
-          (prefs.includes(t.id) ? prefs.indexOf(t.id) + 1 : "") + "</button>"
-        : "") + "</td>";
+      const here = cellOf.get(d + "|" + time) || [];
+      html += "<td>" + here.map((t) => {
+        const at = prefs.indexOf(t.id);
+        return '<button class="slot' + (at >= 0 ? " on" : "") + '" data-id="' +
+          escapeHtml(t.id) + '" title="' + escapeHtml(t.label) + '">' +
+          (at >= 0 ? '<span class="pin">' + (at + 1) + "</span>" : "") +
+          escapeHtml(t.location || t.label) + "</button>";
+      }).join("") + "</td>";
     }
     html += "</tr>";
   }
@@ -248,7 +267,7 @@ function prefRow(t, i) {
   d.innerHTML =
     '<span class="rank">' + (i + 1) + "</span>" +
     '<div class="meta"><b>' + escapeHtml(t.when_text) + "</b><span>" +
-      escapeHtml(t.label) + (t.location ? " · " + escapeHtml(t.location) : "") + "</span></div>" +
+      escapeHtml(t.location || t.label) + "</span></div>" +
     '<div class="acts">' +
       '<button class="tiny" data-a="up" title="Move up"' + (i === 0 ? " disabled" : "") + ">▲</button>" +
       '<button class="tiny" data-a="down" title="Move down"' + (i === prefs.length - 1 ? " disabled" : "") + ">▼</button>" +

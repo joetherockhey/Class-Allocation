@@ -1,8 +1,8 @@
 // Fill these in from Supabase: Dashboard > Project Settings > Data API.
 // The anon key is designed to be public - it is safe to commit. Never put the
 // service_role key in this file; it belongs in .env (which is gitignored).
-export const SUPABASE_URL      = "";  // e.g. "https://abcdefgh.supabase.co"
-export const SUPABASE_ANON_KEY = "";  // the "anon / public" key
+export const SUPABASE_URL      = "https://joujmarthnkvnwismcxo.supabase.co";
+export const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvdWptYXJ0aG5rdm53aXNtY3hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg5MjYxMDcsImV4cCI6MjEwNDUwMjEwN30.lC5WOqa7DcAO1mnMnfjn9_Rt9Nhc2m68zfttCCKhkxY";
 
 // Shown at the top of the student page.
 export const COURSE_TITLE = "Tutorial Presentation Groups";

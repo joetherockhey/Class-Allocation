@@ -1,41 +1,24 @@
 id,label,when,location,sort_order
-T01,Mon 9-10am,Mon 9-10am,,1
-T02,Mon 10-11am,Mon 10-11am,,2
-T03,Mon 11am-12pm,Mon 11am-12pm,,3
-T04,Mon 12-1pm,Mon 12-1pm,,4
-T05,Mon 1-2pm,Mon 1-2pm,,5
-T06,Mon 2-3pm,Mon 2-3pm,,6
-T07,Mon 3-4pm,Mon 3-4pm,,7
-T08,Mon 4-5pm,Mon 4-5pm,,8
-T09,Tue 9-10am,Tue 9-10am,,9
-T10,Tue 10-11am,Tue 10-11am,,10
-T11,Tue 11am-12pm,Tue 11am-12pm,,11
-T12,Tue 12-1pm,Tue 12-1pm,,12
-T13,Tue 1-2pm,Tue 1-2pm,,13
-T14,Tue 2-3pm,Tue 2-3pm,,14
-T15,Tue 3-4pm,Tue 3-4pm,,15
-T16,Tue 4-5pm,Tue 4-5pm,,16
-T17,Wed 9-10am,Wed 9-10am,,17
-T18,Wed 10-11am,Wed 10-11am,,18
-T19,Wed 11am-12pm,Wed 11am-12pm,,19
-T20,Wed 12-1pm,Wed 12-1pm,,20
-T21,Wed 1-2pm,Wed 1-2pm,,21
-T22,Wed 2-3pm,Wed 2-3pm,,22
-T23,Wed 3-4pm,Wed 3-4pm,,23
-T24,Wed 4-5pm,Wed 4-5pm,,24
-T25,Thu 9-10am,Thu 9-10am,,25
-T26,Thu 10-11am,Thu 10-11am,,26
-T27,Thu 11am-12pm,Thu 11am-12pm,,27
-T28,Thu 12-1pm,Thu 12-1pm,,28
-T29,Thu 1-2pm,Thu 1-2pm,,29
-T30,Thu 2-3pm,Thu 2-3pm,,30
-T31,Thu 3-4pm,Thu 3-4pm,,31
-T32,Thu 4-5pm,Thu 4-5pm,,32
-T33,Fri 9-10am,Fri 9-10am,,33
-T34,Fri 10-11am,Fri 10-11am,,34
-T35,Fri 11am-12pm,Fri 11am-12pm,,35
-T36,Fri 12-1pm,Fri 12-1pm,,36
-T37,Fri 1-2pm,Fri 1-2pm,,37
-T38,Fri 2-3pm,Fri 2-3pm,,38
-T39,Fri 3-4pm,Fri 3-4pm,,39
-T40,Fri 4-5pm,Fri 4-5pm,,40
+T11,Tut 11 · BHB 1160,Mon 10am-12pm,BHB 1160,1
+T22,Tut 22 · BHB 3280,Mon 2-4pm,BHB 3280,2
+T13,Tut 13 · BHB 3240,Mon 3-5pm,BHB 3240,3
+T21,Tut 21 · BHB 3003,Mon 4-6pm,BHB 3003,4
+T33,Tut 33 · BHB 3280,Mon 6-8pm,BHB 3280,5
+T14,Tut 14 · BHB 1140,Tue 8-10am,BHB 1140,6
+T02,Tut 02 · Institute N297,Tue 10am-12pm,Institute N297,7
+T07,Tut 07 · BHB 1080,Tue 11:30am-1:30pm,BHB 1080,8
+T19,Tut 19 · BHB 1140,Tue 12-2pm,BHB 1140,9
+T12,Tut 12 · BHB 2200,Tue 12-2pm,BHB 2200,10
+T10,Tut 10 · Mech Eng S246,Tue 3-5pm,Mech Eng S246,11
+T16,Tut 16 · BHB 1150,Wed 8-10am,BHB 1150,12
+T17,Tut 17 · BHB 1140,Wed 10am-12pm,BHB 1140,13
+T18,Tut 18 · BHB 1150,Wed 10am-12pm,BHB 1150,14
+T20,Tut 20 · BHB 1150,Wed 12-2pm,BHB 1150,15
+T23,Tut 23 · BHB 1140,Wed 4-6pm,BHB 1140,16
+T24,Tut 24 · BHB 1160,Wed 4-6pm,BHB 1160,17
+T26,Tut 26 · BHB 1160,Thu 8-10am,BHB 1160,18
+T27,Tut 27 · BHB 1140,Thu 10am-12pm,BHB 1140,19
+T28,Tut 28 · BHB 1160,Thu 10am-12pm,BHB 1160,20
+T30,Tut 30 · BHB 1160,Thu 12-2pm,BHB 1160,21
+T36,Tut 36 · BHB 3240,Fri 8-10am,BHB 3240,22
+T38,Tut 38 · BHB 3240,Fri 10am-12pm,BHB 3240,23
