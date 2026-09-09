@@ -3,139 +3,139 @@
  "tutorials": [
   {
    "id": "T11",
-   "label": "Tut 11 \u00b7 Mon 10am-12pm \u00b7 BHB 1160",
+   "label": "Tut 11 · Mon 10am-12pm · BHB 1160",
    "when": "Mon 10-10:30am",
    "location": "BHB 1160"
   },
   {
    "id": "T22",
-   "label": "Tut 22 \u00b7 Mon 2-4pm \u00b7 BHB 3280",
+   "label": "Tut 22 · Mon 2-4pm · BHB 3280",
    "when": "Mon 2-2:30pm",
    "location": "BHB 3280"
   },
   {
    "id": "T13",
-   "label": "Tut 13 \u00b7 Mon 3-5pm \u00b7 BHB 3240",
+   "label": "Tut 13 · Mon 3-5pm · BHB 3240",
    "when": "Mon 3-3:30pm",
    "location": "BHB 3240"
   },
   {
    "id": "T21",
-   "label": "Tut 21 \u00b7 Mon 4-6pm \u00b7 BHB 3003",
+   "label": "Tut 21 · Mon 4-6pm · BHB 3003",
    "when": "Mon 4-4:30pm",
    "location": "BHB 3003"
   },
   {
    "id": "T33",
-   "label": "Tut 33 \u00b7 Mon 6-8pm \u00b7 BHB 3280",
+   "label": "Tut 33 · Mon 6-8pm · BHB 3280",
    "when": "Mon 6-6:30pm",
    "location": "BHB 3280"
   },
   {
    "id": "T14",
-   "label": "Tut 14 \u00b7 Tue 8-10am \u00b7 BHB 1140",
+   "label": "Tut 14 · Tue 8-10am · BHB 1140",
    "when": "Tue 8-8:30am",
    "location": "BHB 1140"
   },
   {
    "id": "T02",
-   "label": "Tut 02 \u00b7 Tue 10am-12pm \u00b7 Institute N297",
+   "label": "Tut 02 · Tue 10am-12pm · Institute N297",
    "when": "Tue 10-10:30am",
    "location": "Institute N297"
   },
   {
    "id": "T07",
-   "label": "Tut 07 \u00b7 Tue 11:30am-1:30pm \u00b7 BHB 1080",
+   "label": "Tut 07 · Tue 11:30am-1:30pm · BHB 1080",
    "when": "Tue 11:30am-12pm",
    "location": "BHB 1080"
   },
   {
    "id": "T19",
-   "label": "Tut 19 \u00b7 Tue 12-2pm \u00b7 BHB 1140",
+   "label": "Tut 19 · Tue 12-2pm · BHB 1140",
    "when": "Tue 12-12:30pm",
    "location": "BHB 1140"
   },
   {
    "id": "T12",
-   "label": "Tut 12 \u00b7 Tue 12-2pm \u00b7 BHB 2200",
+   "label": "Tut 12 · Tue 12-2pm · BHB 2200",
    "when": "Tue 12-12:30pm",
    "location": "BHB 2200"
   },
   {
    "id": "T10",
-   "label": "Tut 10 \u00b7 Tue 3-5pm \u00b7 Mech Eng S246",
+   "label": "Tut 10 · Tue 3-5pm · Mech Eng S246",
    "when": "Tue 3-3:30pm",
    "location": "Mech Eng S246"
   },
   {
    "id": "T16",
-   "label": "Tut 16 \u00b7 Wed 8-10am \u00b7 BHB 1150",
+   "label": "Tut 16 · Wed 8-10am · BHB 1150",
    "when": "Wed 8-8:30am",
    "location": "BHB 1150"
   },
   {
    "id": "T17",
-   "label": "Tut 17 \u00b7 Wed 10am-12pm \u00b7 BHB 1140",
+   "label": "Tut 17 · Wed 10am-12pm · BHB 1140",
    "when": "Wed 10-10:30am",
    "location": "BHB 1140"
   },
   {
    "id": "T18",
-   "label": "Tut 18 \u00b7 Wed 10am-12pm \u00b7 BHB 1150",
+   "label": "Tut 18 · Wed 10am-12pm · BHB 1150",
    "when": "Wed 10-10:30am",
    "location": "BHB 1150"
   },
   {
    "id": "T20",
-   "label": "Tut 20 \u00b7 Wed 12-2pm \u00b7 BHB 1150",
+   "label": "Tut 20 · Wed 12-2pm · BHB 1150",
    "when": "Wed 12-12:30pm",
    "location": "BHB 1150"
   },
   {
    "id": "T23",
-   "label": "Tut 23 \u00b7 Wed 4-6pm \u00b7 BHB 1140",
+   "label": "Tut 23 · Wed 4-6pm · BHB 1140",
    "when": "Wed 4-4:30pm",
    "location": "BHB 1140"
   },
   {
    "id": "T24",
-   "label": "Tut 24 \u00b7 Wed 4-6pm \u00b7 BHB 1160",
+   "label": "Tut 24 · Wed 4-6pm · BHB 1160",
    "when": "Wed 4-4:30pm",
    "location": "BHB 1160"
   },
   {
    "id": "T26",
-   "label": "Tut 26 \u00b7 Thu 8-10am \u00b7 BHB 1160",
+   "label": "Tut 26 · Thu 8-10am · BHB 1160",
    "when": "Thu 8-8:30am",
    "location": "BHB 1160"
   },
   {
    "id": "T27",
-   "label": "Tut 27 \u00b7 Thu 10am-12pm \u00b7 BHB 1140",
+   "label": "Tut 27 · Thu 10am-12pm · BHB 1140",
    "when": "Thu 10-10:30am",
    "location": "BHB 1140"
   },
   {
    "id": "T28",
-   "label": "Tut 28 \u00b7 Thu 10am-12pm \u00b7 BHB 1160",
+   "label": "Tut 28 · Thu 10am-12pm · BHB 1160",
    "when": "Thu 10-10:30am",
    "location": "BHB 1160"
   },
   {
    "id": "T30",
-   "label": "Tut 30 \u00b7 Thu 12-2pm \u00b7 BHB 1160",
+   "label": "Tut 30 · Thu 12-2pm · BHB 1160",
    "when": "Thu 12-12:30pm",
    "location": "BHB 1160"
   },
   {
    "id": "T36",
-   "label": "Tut 36 \u00b7 Fri 8-10am \u00b7 BHB 3240",
+   "label": "Tut 36 · Fri 8-10am · BHB 3240",
    "when": "Fri 8-8:30am",
    "location": "BHB 3240"
   },
   {
    "id": "T38",
-   "label": "Tut 38 \u00b7 Fri 10am-12pm \u00b7 BHB 3240",
+   "label": "Tut 38 · Fri 10am-12pm · BHB 3240",
    "when": "Fri 10-10:30am",
    "location": "BHB 3240"
   }
@@ -702,7 +702,7 @@
   {
    "id": "818250c3-6ba4-4907-8c90-178b025ad502",
    "name": "Washiella Jessica",
-   "is_vet": false,
+   "is_vet": true,
    "submitted": true,
    "preferences": [
     "T11",
