@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-09T09:58:31.166Z",
+  "generated_at": "2026-09-09T11:14:38.261Z",
   "sets": [
     {
       "when": "Tue 12-12:30pm",
@@ -83,8 +83,8 @@
   "idea1": {
     "tally": {
       "1": 2,
-      "2": 12,
-      "3": 30,
+      "2": 11,
+      "3": 31,
       "4": 1
     },
     "once": [
@@ -92,13 +92,13 @@
       "Callum Franzman"
     ],
     "none": [],
-    "slots": 120,
-    "meanChoice": 3.41,
+    "slots": 121,
+    "meanChoice": 3.4,
     "minSize": 3,
-    "maxSize": 6,
+    "maxSize": 7,
     "covered": 23,
     "total": 23,
-    "clashes": 0
+    "clashes": 1
   },
   "idea2": {
     "tally": {

@@ -739,6 +739,12 @@
           "load": 2
         },
         {
+          "id": "1038aeb0-ea60-47ef-8e5f-7cf9e2b972f0",
+          "name": "Max Dewinter",
+          "is_vet": false,
+          "got_choice": 3
+        },
+        {
           "id": "05621c59-5f42-4846-ba4d-1826f0889967",
           "name": "Seyeon Lim",
           "is_vet": false,
@@ -1029,8 +1035,8 @@
   ],
   "loads": {
     "1": 2,
-    "2": 12,
-    "3": 30,
+    "2": 11,
+    "3": 31,
     "4": 1
   },
   "not_submitted": [
