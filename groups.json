@@ -810,6 +810,12 @@
           "load": 3
         },
         {
+          "id": "6f6035be-c5a2-4c22-b0e5-93909d63f67c",
+          "name": "Kenn Surya",
+          "is_vet": false,
+          "got_choice": 11
+        },
+        {
           "id": "4eef8e5e-5c81-4f46-bab4-b0a51cef1472",
           "name": "Madeleine Boris",
           "is_vet": true,
@@ -1071,7 +1077,8 @@
   ],
   "loads": {
     "2": 9,
-    "3": 36
+    "3": 35,
+    "4": 1
   },
   "not_submitted": [
     "Eleanor Forsyth",
