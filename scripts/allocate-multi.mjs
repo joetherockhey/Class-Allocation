@@ -75,6 +75,31 @@ const canDo = people.map((_, s) => {
   return out;
 });
 
+// Per-student caps on how much presenting they do, e.g. someone who asked for
+// two rather than three. Without this a re-run silently undoes such a request.
+let loadMin = new Int16Array(0), loadMax = new Int16Array(0);
+try {
+  const ov = JSON.parse(readFileSync("data/load-overrides.json", "utf8"));
+  loadMin = new Int16Array(people.length).fill(MIN_LOAD);
+  loadMax = new Int16Array(people.length).fill(MAX_LOAD);
+  people.forEach((p, i) => {
+    const o = ov[p.name];
+    if (o && typeof o === "object") {
+      if (Number.isFinite(o.min)) loadMin[i] = o.min;
+      if (Number.isFinite(o.max)) loadMax[i] = o.max;
+      if (loadMax[i] < loadMin[i]) loadMax[i] = loadMin[i];
+    }
+  });
+  const named = Object.keys(ov).filter((k) => !k.startsWith("_"));
+  const missing = named.filter((n) => !people.some((p) => p.name === n));
+  if (missing.length) console.log("Note: load overrides for unknown names: " + missing.join(", "));
+  if (named.length) console.log("Load overrides: " + named.filter((n) => !missing.includes(n))
+    .map((n) => `${n} ${ov[n].min ?? MIN_LOAD}-${ov[n].max ?? MAX_LOAD}`).join(", "));
+} catch {
+  loadMin = new Int16Array(people.length).fill(MIN_LOAD);
+  loadMax = new Int16Array(people.length).fill(MAX_LOAD);
+}
+
 let wishes = [];
 try {
   wishes = JSON.parse(readFileSync("data/together.json", "utf8"))
@@ -138,10 +163,12 @@ function cost(st) {
     if (st.size[t] > COMFY) c += (st.size[t] - COMFY) ** 2 * C_BIG;
   }
   for (let s = 0; s < N; s++) {
-    if (st.load[s] < MIN_LOAD) c += (MIN_LOAD - st.load[s]) * C_LOAD_SHORT;
-    if (st.load[s] < 2) c += (2 - st.load[s]) * C_ONLY_ONE;
-    if (st.load[s] > MAX_LOAD) c += (st.load[s] - MAX_LOAD) * C_OVERLOAD;
-    if (st.load[s] < IDEAL_LOAD) c += (IDEAL_LOAD - st.load[s]) * C_ONLY_TWO;
+    const lo = loadMin[s], hi = loadMax[s];
+    if (st.load[s] < lo) c += (lo - st.load[s]) * C_LOAD_SHORT;
+    if (st.load[s] < Math.min(2, hi)) c += (Math.min(2, hi) - st.load[s]) * C_ONLY_ONE;
+    if (st.load[s] > hi) c += (st.load[s] - hi) * C_OVERLOAD;
+    const want = Math.min(IDEAL_LOAD, hi);
+    if (st.load[s] < want) c += (want - st.load[s]) * C_ONLY_TWO;
   }
   return c;
 }
@@ -156,7 +183,7 @@ function seedSolution(rnd) {
   for (const s of order) {
     const wanted = [...canDo[s]].sort((a, b) => rank[s][a] - rank[s][b]);
     for (const t of wanted) {
-      if (st.load[s] >= IDEAL_LOAD) break;
+      if (st.load[s] >= Math.min(IDEAL_LOAD, loadMax[s])) break;
       if (st.size[t] >= MAX_GROUP) continue;
       add(st, s, t);
     }

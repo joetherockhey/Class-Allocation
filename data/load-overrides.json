@@ -1,0 +1,5 @@
+{
+  "_note": "Per-student limits on how many tutorials they present at. Names must match data/roster.csv exactly. Anyone not listed gets the run's defaults.",
+  "Wenlong Ma": { "max": 2 },
+  "Kenn Surya": { "min": 4, "max": 4 }
+}

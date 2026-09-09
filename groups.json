@@ -438,13 +438,6 @@
           "load": 3
         },
         {
-          "id": "261012a0-da7f-4822-b332-5f0949450275",
-          "name": "Wenlong Ma",
-          "is_vet": false,
-          "got_choice": 5,
-          "load": 3
-        },
-        {
           "id": "722ee608-2622-4974-9db8-228073db5ba7",
           "name": "Xi Chen",
           "is_vet": false,
@@ -1076,8 +1069,8 @@
     }
   ],
   "loads": {
-    "2": 9,
-    "3": 35,
+    "2": 10,
+    "3": 34,
     "4": 1
   },
   "not_submitted": [
