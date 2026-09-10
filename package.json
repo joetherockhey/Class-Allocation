@@ -16,6 +16,7 @@
     "groups-page": "node scripts/gen-groups-page.mjs",
     "scenarios": "node scripts/make-scenarios.mjs",
     "use-plan": "node scripts/use-plan.mjs",
+    "trim": "node scripts/trim-groups.mjs",
     "serve": "npx --yes serve ."
   },
   "dependencies": {

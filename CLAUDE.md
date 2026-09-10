@@ -42,7 +42,8 @@ than trusting a browser refresh.
 ## Rules the allocator enforces, in priority order
 
 1. Every tutorial is covered by **at least 2** people
-2. **No more than 6** in any tutorial
+2. **No more than 5** in any tutorial (was 6; `scripts/trim-groups.mjs` applies
+   the tighter cap to an existing plan without reshuffling everything)
 3. Everyone who submitted presents **at least once**, ideally 2-3
 
 Above all of these sits a hard constraint that nobody is placed in two
@@ -74,8 +75,11 @@ swaps one in and rebuilds the page.
 
 - **og** — before the clash fix. Max Dewinter deliberately in both T23 and T24
   at the same hour; T24 holds seven.
-- **idea1** — live. Nobody is in two tutorials at once. Max kept T23 (his
-  second choice) over T24 (his third), which also brought T24 back to six.
+- **idea1** — nobody is in two tutorials at once. Max kept T23 (his second
+  choice) over T24 (his third), which also brought T24 back to six.
+- **max5** — live. idea1 trimmed to at most five per tutorial. Fifteen people
+  who were presenting three times came out of a six-person group and now
+  present twice. Kenn Surya was protected, and pinned placements were kept.
 
 The tutorial-clashes tab is off. `npm run groups-page -- groups.json
 groups.html --with-clashes` brings it back; `clashes.json` is still on disk.
