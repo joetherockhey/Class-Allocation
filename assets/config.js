@@ -5,7 +5,7 @@ export const SUPABASE_URL      = "https://joujmarthnkvnwismcxo.supabase.co";
 export const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvdWptYXJ0aG5rdm53aXNtY3hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg5MjYxMDcsImV4cCI6MjEwNDUwMjEwN30.lC5WOqa7DcAO1mnMnfjn9_Rt9Nhc2m68zfttCCKhkxY";
 
 // Shown at the top of the student page.
-export const COURSE_TITLE = "Tutorial Presentation Groups";
+export const COURSE_TITLE = "BUS1000 x WORK3601 Teamwork Tutorials";
 export const INTRO = "Pick your name, then tap every slot you could attend. You only need to be there for the first 30 minutes. You will be placed in a group of about five and given one of the slots you chose.";
 
 // Fewest times a student must pick before they can submit.

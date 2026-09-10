@@ -13,6 +13,13 @@ const IN = process.argv[2] || "groups.json";
 const OUT = process.argv.slice(3).find((a) => !a.startsWith("--")) || "groups.html";
 const plan = JSON.parse(readFileSync(IN, "utf8"));
 
+// take the course name from the same place the rest of the site does
+let COURSE_TITLE = "Presentation groups";
+try {
+  const m = /COURSE_TITLE\s*=\s*"([^"]*)"/.exec(readFileSync("assets/config.js", "utf8"));
+  if (m) COURSE_TITLE = m[1];
+} catch { /* keep the default */ }
+
 // The clash comparison tab is off by default now that a plan has been chosen.
 // Pass --with-clashes to bring it back; clashes.json is still on disk.
 let clash = null;
@@ -199,7 +206,7 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Presentation groups</title>
+<title>Groups &middot; ${esc(COURSE_TITLE)}</title>
 <style>
 :root{color-scheme:light;
   --bg:#f6f7f9;--panel:#fff;--ink:#16191d;--muted:#5f6874;
@@ -359,7 +366,8 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
 </head>
 <body>
 <div class="wrap">
-  <h1>Presentation groups</h1>
+  <h1>${esc(COURSE_TITLE)}</h1>
+  <h2 style="margin:0 0 4px">Presentation groups</h2>
   <p class="sub">Everyone presents at two or three tutorials. <a href="index.html">Back to preferences</a></p>
 
   <details class="tojoe">
