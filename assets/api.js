@@ -14,6 +14,17 @@ export const db = mode === "supabase"
   ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false } })
   : null;
 
+/** A client that sends the caller's edit token as a header. The update policy
+ *  on posts checks it, and the token column cannot be read back, so holding a
+ *  post's token is the only way to change it. */
+export function editingClient(token) {
+  if (mode !== "supabase") return null;
+  return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: false },
+    global: { headers: { "x-edit-token": token } },
+  });
+}
+
 /** True when there is a real backend behind the page. */
 export const ready = () => mode === "supabase";
 

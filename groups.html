@@ -6,15 +6,18 @@
 <title>Groups &middot; BUS1000 x WORK3601 Teamwork Tutorials</title>
 <style>
 :root{color-scheme:light;
-  --bg:#f6f7f9;--panel:#fff;--ink:#16191d;--muted:#5f6874;
-  --line:#e2e5ea;--line-strong:#cbd1da;--accent:#2f6df6;--accent-soft:#e8f0ff;
-  --hit:#fff8dd;--hit-line:#e3b341}
+  /* University of Sydney palette - colours only, no crest or wordmark */
+  --usyd:#e64626;--charcoal:#1c1c1b;
+  --bg:#f4f2ef;--panel:#fff;--ink:#1c1c1b;--muted:#6b6862;
+  --line:#e4dfd8;--line-strong:#cdc6bc;--accent:#e64626;--accent-soft:#fdeae5;
+  --hit:#fdf3d6;--hit-line:#c8901d}
+body::before{content:"";display:block;height:5px;background:var(--usyd)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
   font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   -webkit-font-smoothing:antialiased}
 .wrap{max-width:1180px;margin:0 auto;padding:24px 16px 70px}
-h1{font-size:clamp(20px,2.5vw,29px);margin:0 0 4px;letter-spacing:-.02em}
+h1{font-size:clamp(20px,2.5vw,29px);margin:0 0 4px;letter-spacing:-.02em;color:var(--charcoal)}
 .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
 a{color:var(--accent)}
 .stats{display:flex;gap:20px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);
