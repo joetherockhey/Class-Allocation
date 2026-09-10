@@ -101,16 +101,27 @@ function measure(planFile, sourceFile) {
     times.get(g.when).push(g);
   }
   let clashes = 0;
+  const doubled = new Set();
   for (const [, list] of times) {
     if (list.length < 2) continue;
     const c = new Map();
     for (const g of list) for (const m of g.members) c.set(m.name, (c.get(m.name) || 0) + 1);
-    clashes += [...c.values()].filter((n) => n > 1).length;
+    for (const [n, k] of c) if (k > 1) { clashes++; doubled.add(n); }
   }
+  const withLoad = (n) => submitted.filter((s) => (load.get(s.name) || 0) === n)
+    .map((s) => s.name).sort();
   return {
     tally,
-    once: submitted.filter((s) => (load.get(s.name) || 0) === 1).map((s) => s.name).sort(),
+    once: withLoad(1),
+    twice: withLoad(2),
+    four: withLoad(4),
+    doubleBooked: [...doubled].sort(),
     none: submitted.filter((s) => !load.get(s.name)).map((s) => s.name).sort(),
+    // the full picture under this plan, so the two can be compared line by line
+    groups: plan.groups.map((g) => ({
+      id: g.tutorial_id, when: g.when, location: g.location || "",
+      members: g.members.map((m) => ({ name: m.name, is_vet: m.is_vet })),
+    })),
     slots: choices.length,
     meanChoice: +(choices.reduce((a, b) => a + b, 0) / choices.length).toFixed(2),
     minSize: Math.min(...sizes),

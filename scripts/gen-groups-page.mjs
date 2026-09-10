@@ -90,25 +90,58 @@ ${names.map((n) => {
 /* ------------------------------------------------------------- clashes tab */
 const nameList = (arr) => arr.length ? arr.map(esc).join(", ") : "nobody";
 
-function planCard(title, sub, m, extra, recommended) {
+/** Named consequences, not just counts - who this actually lands on. */
+function effects(m) {
+  const rows = [
+    ["Presenting only once", m.once],
+    ["Listed in two tutorials at the same time", m.doubleBooked],
+    ["Presenting four times", m.four],
+  ].filter(([, arr]) => arr && arr.length);
+  if (!rows.length) return '<p class="effect none">Everyone presents two or three times, and nobody is double-booked.</p>';
+  return rows.map(([label, arr]) =>
+    `<p class="effect"><b>${label} (${arr.length}):</b> ${nameList(arr)}</p>`).join("");
+}
+
+/** The full timetable under a plan, so the two can be read side by side. */
+function planGroups(m, id) {
+  const DAYORD = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4 };
+  const gs = [...m.groups].sort((a, b) =>
+    (DAYORD[a.when.split(" ")[0]] ?? 9) - (DAYORD[b.when.split(" ")[0]] ?? 9));
+  const moved = new Set((clash.moves || []).map((x) => x.id));
+  return `<details class="fullplan" id="${id}">
+      <summary>Show all 23 groups under this plan</summary>
+      <div class="scrollx"><table class="plangroups">
+        <thead><tr><th>Tutorial</th><th>When</th><th>Who presents</th></tr></thead>
+        <tbody>${gs.map((g) => `
+          <tr class="${moved.has(g.id) && id === "plan2" ? "movedrow" : ""}">
+            <td class="tid">${esc(g.id.replace(/^T/, "Tut "))}<span class="rm">${esc(g.location)}</span></td>
+            <td class="when">${esc(g.when)}${moved.has(g.id) && id === "plan2" ? '<span class="moved">moved</span>' : ""}</td>
+            <td>${g.members.map((x) => esc(x.name) + (x.is_vet ? '<span class="vt">vet</span>' : "")).join(", ")}
+              <span class="rm">${g.members.length} presenting</span></td>
+          </tr>`).join("")}
+        </tbody>
+      </table></div>
+    </details>`;
+}
+
+function planCard(title, sub, m, extra, id) {
   const t = m.tally || {};
-  return `      <article class="card plan${recommended ? " rec" : ""}">
-        <header><span class="code">${esc(title)}</span>${recommended ? '<span class="tag">better</span>' : ""}</header>
+  return `      <article class="card plan">
+        <header><span class="code">${esc(title)}</span></header>
         <p class="where">${sub}</p>
         ${extra}
         <table class="mini">
-          <tr><th>presents once</th><td class="${(t[1] || 0) ? "bad" : "good"}">${t[1] || 0}</td></tr>
+          <tr><th>presents once</th><td>${t[1] || 0}</td></tr>
           <tr><th>presents twice</th><td>${t[2] || 0}</td></tr>
           <tr><th>presents 3 times</th><td>${t[3] || 0}</td></tr>
           <tr><th>presents 4 times</th><td>${t[4] || 0}</td></tr>
           <tr><th>slots filled</th><td>${m.slots}</td></tr>
           <tr><th>average choice</th><td>${m.meanChoice}</td></tr>
           <tr><th>group sizes</th><td>${m.minSize}&ndash;${m.maxSize}</td></tr>
-          <tr><th>double-booked</th><td class="${m.clashes ? "bad" : "good"}">${m.clashes}</td></tr>
+          <tr><th>double-booked</th><td>${m.clashes}</td></tr>
         </table>
-        ${(m.once || []).length
-          ? `<p class="onlyonce"><b>Only presenting once:</b> ${nameList(m.once)}</p>`
-          : '<p class="onlyonce good">Everybody presents at least twice.</p>'}
+        ${effects(m)}
+        ${planGroups(m, id)}
       </article>`;
 }
 
@@ -116,7 +149,7 @@ const clashTab = !clash ? "" : `
   <div class="explain">
     <p>Some tutorials run <b>at the same time in different rooms</b>. Anyone free at that
     hour can only present at one of them, which is what limits how much some people can do.
-    Below are the overlapping slots, and two ways to handle them.</p>
+    Below are the overlapping slots, and two ways of handling them.</p>
   </div>
 
   <h2>Tutorials that overlap</h2>
@@ -129,22 +162,29 @@ ${clash.sets.map((s) => `      <tr><td class="when">${esc(s.when)}</td><td>${
     </tbody>
   </table></div>
 
-  <h2>Two ways forward</h2>
+  <h2>Two options</h2>
   <div class="grid plans">
-${planCard("Idea 1 &mdash; leave the times alone", "Anyone who could do both simply does one or the other. Nothing on the timetable changes.", clash.idea1, "", false)}
-${planCard("Idea 2 &mdash; stagger by half an hour", "The second tutorial of each overlapping pair presents half an hour later, so both can be attended.", clash.idea2,
+${planCard("Idea 1 &mdash; leave the times alone",
+  "Anyone who could do both simply does one or the other. Nothing on the timetable changes.",
+  clash.idea1, "", "plan1")}
+${planCard("Idea 2 &mdash; stagger by half an hour",
+  "The second tutorial of each overlapping pair presents half an hour later, so both can be attended.",
+  clash.idea2,
   `<ul class="moves">${clash.moves.map((m) =>
     `<li><b>${esc(m.id.replace(/^T/, "Tut "))}</b> ${esc(m.location)}<br><span class="from">${esc(m.from)}</span> &rarr; <span class="to">${esc(m.to)}</span></li>`).join("")}</ul>`,
-  true)}
+  "plan2")}
   </div>
 
   <div class="verdict">
-    <b>What changes:</b> staggering lifts ${(clash.idea1.tally[1] || 0)} student${(clash.idea1.tally[1] || 0) === 1 ? "" : "s"} off a single
-    presentation, moves ${(clash.idea2.tally[3] || 0) - (clash.idea1.tally[3] || 0)} more people up to three, and fills
-    ${clash.idea2.slots - clash.idea1.slots} extra slots. The cost is that the average person lands
-    ${(clash.idea2.meanChoice - clash.idea1.meanChoice).toFixed(2)} of a place further down their preference list,
-    and four tutorials start half an hour later than advertised.
-    ${clash.moves.length ? `Each moved slot still sits inside its own two-hour tutorial, so no room booking changes.` : ""}
+    <b>The differences, side by side.</b>
+    Idea 2 changes ${clash.moves.length} start times and leaves
+    ${clash.idea2.tally[1] || 0} student${(clash.idea2.tally[1] || 0) === 1 ? "" : "s"} presenting once
+    against ${clash.idea1.tally[1] || 0} under Idea 1; it fills
+    ${clash.idea2.slots - clash.idea1.slots > 0 ? clash.idea2.slots - clash.idea1.slots + " more" : Math.abs(clash.idea2.slots - clash.idea1.slots) + " fewer"}
+    presentation slots, and the average person lands
+    ${Math.abs(clash.idea2.meanChoice - clash.idea1.meanChoice).toFixed(2)} of a place
+    ${clash.idea2.meanChoice > clash.idea1.meanChoice ? "further down" : "further up"} their preference list.
+    Every moved slot still falls inside its own two-hour tutorial, so no room booking changes.
   </div>`;
 
 const loadLine = Object.entries(plan.loads || {}).sort()
@@ -248,10 +288,28 @@ table.clashes td.when{font-weight:700;white-space:nowrap;font-variant-numeric:ta
 .grid.plans{grid-template-columns:repeat(auto-fit,minmax(310px,1fr));align-items:start}
 .card.plan{padding:16px}
 .card.plan .code{font-size:15.5px;line-height:1.3}
-.card.plan.rec{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
-.card.plan .tag{margin-left:auto;font-size:10.5px;font-weight:800;letter-spacing:.05em;
-  text-transform:uppercase;background:var(--accent);color:#fff;border-radius:999px;padding:2px 9px;
-  align-self:flex-start;white-space:nowrap}
+p.effect{margin:9px 0 0;font-size:12.5px;background:var(--bg);border:1px solid var(--line);
+  border-radius:8px;padding:8px 10px;line-height:1.45}
+p.effect b{color:var(--ink)}
+p.effect.none{background:#e7f6ec;border-color:#15803d;color:#15803d}
+details.fullplan{margin-top:11px;border-top:1px solid var(--line);padding-top:9px}
+details.fullplan summary{cursor:pointer;font-size:12.5px;color:var(--accent);font-weight:600;
+  list-style:none;user-select:none}
+details.fullplan summary::-webkit-details-marker{display:none}
+details.fullplan summary::before{content:"▸ "}
+details.fullplan[open] summary::before{content:"▾ "}
+table.plangroups{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:9px}
+table.plangroups th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--muted);padding:6px 7px;border-bottom:1px solid var(--line-strong)}
+table.plangroups td{padding:7px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+table.plangroups td.tid{font-weight:700;white-space:nowrap}
+table.plangroups td.when{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted)}
+table.plangroups .rm{display:block;color:var(--muted);font-weight:400;font-size:11px}
+table.plangroups .vt{font-size:9.5px;font-weight:700;background:var(--accent-soft);color:var(--accent);
+  border-radius:999px;padding:0 5px;margin-left:3px}
+table.plangroups tr.movedrow{background:#fff8dd}
+table.plangroups .moved{display:inline-block;background:#e3b341;color:#4a3000;border-radius:999px;
+  padding:0 6px;margin-left:5px;font-size:9.5px;font-weight:700;text-transform:uppercase}
 table.mini{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
 table.mini th{text-align:left;font-weight:500;color:var(--muted);padding:5px 0;
   border-bottom:1px solid var(--line);font-size:13px;text-transform:none;letter-spacing:0}

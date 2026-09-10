@@ -96,10 +96,28 @@ table.clashes td.when{font-weight:700;white-space:nowrap;font-variant-numeric:ta
 .grid.plans{grid-template-columns:repeat(auto-fit,minmax(310px,1fr));align-items:start}
 .card.plan{padding:16px}
 .card.plan .code{font-size:15.5px;line-height:1.3}
-.card.plan.rec{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
-.card.plan .tag{margin-left:auto;font-size:10.5px;font-weight:800;letter-spacing:.05em;
-  text-transform:uppercase;background:var(--accent);color:#fff;border-radius:999px;padding:2px 9px;
-  align-self:flex-start;white-space:nowrap}
+p.effect{margin:9px 0 0;font-size:12.5px;background:var(--bg);border:1px solid var(--line);
+  border-radius:8px;padding:8px 10px;line-height:1.45}
+p.effect b{color:var(--ink)}
+p.effect.none{background:#e7f6ec;border-color:#15803d;color:#15803d}
+details.fullplan{margin-top:11px;border-top:1px solid var(--line);padding-top:9px}
+details.fullplan summary{cursor:pointer;font-size:12.5px;color:var(--accent);font-weight:600;
+  list-style:none;user-select:none}
+details.fullplan summary::-webkit-details-marker{display:none}
+details.fullplan summary::before{content:"▸ "}
+details.fullplan[open] summary::before{content:"▾ "}
+table.plangroups{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:9px}
+table.plangroups th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--muted);padding:6px 7px;border-bottom:1px solid var(--line-strong)}
+table.plangroups td{padding:7px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+table.plangroups td.tid{font-weight:700;white-space:nowrap}
+table.plangroups td.when{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted)}
+table.plangroups .rm{display:block;color:var(--muted);font-weight:400;font-size:11px}
+table.plangroups .vt{font-size:9.5px;font-weight:700;background:var(--accent-soft);color:var(--accent);
+  border-radius:999px;padding:0 5px;margin-left:3px}
+table.plangroups tr.movedrow{background:#fff8dd}
+table.plangroups .moved{display:inline-block;background:#e3b341;color:#4a3000;border-radius:999px;
+  padding:0 6px;margin-left:5px;font-size:9.5px;font-weight:700;text-transform:uppercase}
 table.mini{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
 table.mini th{text-align:left;font-weight:500;color:var(--muted);padding:5px 0;
   border-bottom:1px solid var(--line);font-size:13px;text-transform:none;letter-spacing:0}
@@ -817,7 +835,7 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
   <div class="explain">
     <p>Some tutorials run <b>at the same time in different rooms</b>. Anyone free at that
     hour can only present at one of them, which is what limits how much some people can do.
-    Below are the overlapping slots, and two ways to handle them.</p>
+    Below are the overlapping slots, and two ways of handling them.</p>
   </div>
 
   <h2>Tutorials that overlap</h2>
@@ -828,49 +846,344 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
     </tbody>
   </table></div>
 
-  <h2>Two ways forward</h2>
+  <h2>Two options</h2>
   <div class="grid plans">
       <article class="card plan">
         <header><span class="code">Idea 1 &amp;mdash; leave the times alone</span></header>
         <p class="where">Anyone who could do both simply does one or the other. Nothing on the timetable changes.</p>
         
         <table class="mini">
-          <tr><th>presents once</th><td class="bad">2</td></tr>
+          <tr><th>presents once</th><td>2</td></tr>
           <tr><th>presents twice</th><td>11</td></tr>
           <tr><th>presents 3 times</th><td>31</td></tr>
           <tr><th>presents 4 times</th><td>1</td></tr>
           <tr><th>slots filled</th><td>121</td></tr>
           <tr><th>average choice</th><td>3.4</td></tr>
           <tr><th>group sizes</th><td>3&ndash;7</td></tr>
-          <tr><th>double-booked</th><td class="bad">1</td></tr>
+          <tr><th>double-booked</th><td>1</td></tr>
         </table>
-        <p class="onlyonce"><b>Only presenting once:</b> Annabelle Campbell, Callum Franzman</p>
+        <p class="effect"><b>Presenting only once (2):</b> Annabelle Campbell, Callum Franzman</p><p class="effect"><b>Listed in two tutorials at the same time (1):</b> Max Dewinter</p><p class="effect"><b>Presenting four times (1):</b> Kenn Surya</p>
+        <details class="fullplan" id="plan1">
+      <summary>Show all 23 groups under this plan</summary>
+      <div class="scrollx"><table class="plangroups">
+        <thead><tr><th>Tutorial</th><th>When</th><th>Who presents</th></tr></thead>
+        <tbody>
+          <tr class="">
+            <td class="tid">Tut 11<span class="rm">BHB 1160</span></td>
+            <td class="when">Mon 10-10:30am</td>
+            <td>Ellery Huang<span class="vt">vet</span>, Kenn Surya, Washiella Jessica<span class="vt">vet</span>
+              <span class="rm">3 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 22<span class="rm">BHB 3280</span></td>
+            <td class="when">Mon 2-2:30pm</td>
+            <td>Jovan Jonathan, Le Nguyen, Mary Tran, Phan Nguyen
+              <span class="rm">4 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 13<span class="rm">BHB 3240</span></td>
+            <td class="when">Mon 3-3:30pm</td>
+            <td>Hongming Hu, Irfan Ahsan<span class="vt">vet</span>, Jovan Jonathan, Le Nguyen, Mary Tran, Washiella Jessica<span class="vt">vet</span>
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 21<span class="rm">BHB 3003</span></td>
+            <td class="when">Mon 4-4:30pm</td>
+            <td>Ellery Huang<span class="vt">vet</span>, Irfan Ahsan<span class="vt">vet</span>, Kenn Surya, Le Nguyen, Phan Nguyen, Washiella Jessica<span class="vt">vet</span>
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 33<span class="rm">BHB 3280</span></td>
+            <td class="when">Mon 6-6:30pm</td>
+            <td>Flynn Russell<span class="vt">vet</span>, Hongming Hu, Nikemie Dimitrov
+              <span class="rm">3 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 14<span class="rm">BHB 1140</span></td>
+            <td class="when">Tue 8-8:30am</td>
+            <td>Alyssa Hodge, Emily Dawson-Taylor, Flynn Russell<span class="vt">vet</span>, Gemma Rodham, Imani Qureshi, Nikemie Dimitrov
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 02<span class="rm">Institute N297</span></td>
+            <td class="when">Tue 10-10:30am</td>
+            <td>Alyssa Hodge, Dylan Simpson, Flynn Russell<span class="vt">vet</span>, Laam Cheung, Peimin Zheng
+              <span class="rm">5 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 07<span class="rm">BHB 1080</span></td>
+            <td class="when">Tue 11:30am-12pm</td>
+            <td>Heidi Boyd, Robert Diep, Ryan Ramsden<span class="vt">vet</span>, Shijie Peng, Xi Chen, Zara Lockhart
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 19<span class="rm">BHB 1140</span></td>
+            <td class="when">Tue 12-12:30pm</td>
+            <td>Chloe Lipham, Joseph Hoffmann<span class="vt">vet</span>, Ryan Ramsden<span class="vt">vet</span>, Shijie Peng, Xi Chen, Zara Lockhart
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 12<span class="rm">BHB 2200</span></td>
+            <td class="when">Tue 12-12:30pm</td>
+            <td>Dylan Simpson, Irfan Ahsan<span class="vt">vet</span>, Robert Diep, Saffron Little
+              <span class="rm">4 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 10<span class="rm">Mech Eng S246</span></td>
+            <td class="when">Tue 3-3:30pm</td>
+            <td>Dylan Simpson, Gemma Rodham, Imani Qureshi, Joseph Hoffmann<span class="vt">vet</span>, Ryan Ramsden<span class="vt">vet</span>, Seyeon Lim
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 16<span class="rm">BHB 1150</span></td>
+            <td class="when">Wed 8-8:30am</td>
+            <td>Alyssa Hodge, Heidi Boyd, Joseph Hoffmann<span class="vt">vet</span>, Josh Phipps
+              <span class="rm">4 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 17<span class="rm">BHB 1140</span></td>
+            <td class="when">Wed 10-10:30am</td>
+            <td>Ellery Huang<span class="vt">vet</span>, Laam Cheung, Peimin Zheng, Rohan Howard<span class="vt">vet</span>
+              <span class="rm">4 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 18<span class="rm">BHB 1150</span></td>
+            <td class="when">Wed 10-10:30am</td>
+            <td>Annabelle Campbell<span class="vt">vet</span>, Georgia Opit, Isabella Sheffield, Jinyuan Chen, Maya Cuthbert<span class="vt">vet</span>, Ziling Zhang
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 20<span class="rm">BHB 1150</span></td>
+            <td class="when">Wed 12-12:30pm</td>
+            <td>Gwilym Horlock, Isabella Sheffield, Leila Carr, Maya Cuthbert<span class="vt">vet</span>, Robert Diep, Xi Chen
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 23<span class="rm">BHB 1140</span></td>
+            <td class="when">Wed 4-4:30pm</td>
+            <td>Georgia Opit, Leila Carr, Max Dewinter, Maya Cuthbert<span class="vt">vet</span>, Wenlong Ma, Zhuoran Zhu
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 24<span class="rm">BHB 1160</span></td>
+            <td class="when">Wed 4-4:30pm</td>
+            <td>Callum Franzman<span class="vt">vet</span>, Chloe Lipham, Heidi Boyd, Isabella Sheffield, Jinyuan Chen, Max Dewinter, Seyeon Lim
+              <span class="rm">7 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 26<span class="rm">BHB 1160</span></td>
+            <td class="when">Thu 8-8:30am</td>
+            <td>Josh Phipps, Kenn Surya, Madeleine Boris<span class="vt">vet</span>
+              <span class="rm">3 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 27<span class="rm">BHB 1140</span></td>
+            <td class="when">Thu 10-10:30am</td>
+            <td>Imani Qureshi, Kenn Surya, Laam Cheung, Peimin Zheng, Rohan Howard<span class="vt">vet</span>, Saffron Little
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 28<span class="rm">BHB 1160</span></td>
+            <td class="when">Thu 10-10:30am</td>
+            <td>Gemma Rodham, Gwilym Horlock, Laura Allan, Zhuoran Zhu, Zhuoyue Zhu, Ziling Zhang
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 30<span class="rm">BHB 1160</span></td>
+            <td class="when">Thu 12-12:30pm</td>
+            <td>Laura Allan, Madeleine Boris<span class="vt">vet</span>, Saffron Little, Wenlong Ma, Zhuoran Zhu, Zhuoyue Zhu
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 36<span class="rm">BHB 3240</span></td>
+            <td class="when">Fri 8-8:30am</td>
+            <td>Hongming Hu, Josh Phipps, Jovan Jonathan, Madeleine Boris<span class="vt">vet</span>, Mary Tran, Phan Nguyen
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 38<span class="rm">BHB 3240</span></td>
+            <td class="when">Fri 10-10:30am</td>
+            <td>Chloe Lipham, Emily Dawson-Taylor, Max Dewinter, Rohan Howard<span class="vt">vet</span>, Seyeon Lim, Zhuoyue Zhu
+              <span class="rm">6 presenting</span></td>
+          </tr>
+        </tbody>
+      </table></div>
+    </details>
       </article>
-      <article class="card plan rec">
-        <header><span class="code">Idea 2 &amp;mdash; stagger by half an hour</span><span class="tag">better</span></header>
+      <article class="card plan">
+        <header><span class="code">Idea 2 &amp;mdash; stagger by half an hour</span></header>
         <p class="where">The second tutorial of each overlapping pair presents half an hour later, so both can be attended.</p>
         <ul class="moves"><li><b>Tut 12</b> BHB 2200<br><span class="from">Tue 12-12:30pm</span> &rarr; <span class="to">Tue 12:30-1pm</span></li><li><b>Tut 18</b> BHB 1150<br><span class="from">Wed 10-10:30am</span> &rarr; <span class="to">Wed 10:30-11am</span></li><li><b>Tut 24</b> BHB 1160<br><span class="from">Wed 4-4:30pm</span> &rarr; <span class="to">Wed 4:30-5pm</span></li><li><b>Tut 28</b> BHB 1160<br><span class="from">Thu 10-10:30am</span> &rarr; <span class="to">Thu 10:30-11am</span></li></ul>
         <table class="mini">
-          <tr><th>presents once</th><td class="good">0</td></tr>
+          <tr><th>presents once</th><td>0</td></tr>
           <tr><th>presents twice</th><td>9</td></tr>
           <tr><th>presents 3 times</th><td>35</td></tr>
           <tr><th>presents 4 times</th><td>1</td></tr>
           <tr><th>slots filled</th><td>127</td></tr>
           <tr><th>average choice</th><td>3.57</td></tr>
           <tr><th>group sizes</th><td>3&ndash;6</td></tr>
-          <tr><th>double-booked</th><td class="good">0</td></tr>
+          <tr><th>double-booked</th><td>0</td></tr>
         </table>
-        <p class="onlyonce good">Everybody presents at least twice.</p>
+        <p class="effect"><b>Presenting four times (1):</b> Kenn Surya</p>
+        <details class="fullplan" id="plan2">
+      <summary>Show all 23 groups under this plan</summary>
+      <div class="scrollx"><table class="plangroups">
+        <thead><tr><th>Tutorial</th><th>When</th><th>Who presents</th></tr></thead>
+        <tbody>
+          <tr class="">
+            <td class="tid">Tut 11<span class="rm">BHB 1160</span></td>
+            <td class="when">Mon 10-10:30am</td>
+            <td>Ellery Huang<span class="vt">vet</span>, Joseph Hoffmann<span class="vt">vet</span>, Kenn Surya, Washiella Jessica<span class="vt">vet</span>
+              <span class="rm">4 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 22<span class="rm">BHB 3280</span></td>
+            <td class="when">Mon 2-2:30pm</td>
+            <td>Jovan Jonathan, Kenn Surya, Le Nguyen, Mary Tran, Phan Nguyen
+              <span class="rm">5 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 13<span class="rm">BHB 3240</span></td>
+            <td class="when">Mon 3-3:30pm</td>
+            <td>Ellery Huang<span class="vt">vet</span>, Hongming Hu, Irfan Ahsan<span class="vt">vet</span>, Jovan Jonathan, Mary Tran, Washiella Jessica<span class="vt">vet</span>
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 21<span class="rm">BHB 3003</span></td>
+            <td class="when">Mon 4-4:30pm</td>
+            <td>Ellery Huang<span class="vt">vet</span>, Irfan Ahsan<span class="vt">vet</span>, Kenn Surya, Le Nguyen, Phan Nguyen, Washiella Jessica<span class="vt">vet</span>
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 33<span class="rm">BHB 3280</span></td>
+            <td class="when">Mon 6-6:30pm</td>
+            <td>Flynn Russell<span class="vt">vet</span>, Hongming Hu, Nikemie Dimitrov
+              <span class="rm">3 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 14<span class="rm">BHB 1140</span></td>
+            <td class="when">Tue 8-8:30am</td>
+            <td>Alyssa Hodge, Emily Dawson-Taylor, Gemma Rodham, Imani Qureshi, Nikemie Dimitrov, Rohan Howard<span class="vt">vet</span>
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 02<span class="rm">Institute N297</span></td>
+            <td class="when">Tue 10-10:30am</td>
+            <td>Alyssa Hodge, Dylan Simpson, Flynn Russell<span class="vt">vet</span>, Laam Cheung, Le Nguyen, Peimin Zheng
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 07<span class="rm">BHB 1080</span></td>
+            <td class="when">Tue 11:30am-12pm</td>
+            <td>Peimin Zheng, Robert Diep, Ryan Ramsden<span class="vt">vet</span>, Shijie Peng, Xi Chen, Zara Lockhart
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 19<span class="rm">BHB 1140</span></td>
+            <td class="when">Tue 12-12:30pm</td>
+            <td>Irfan Ahsan<span class="vt">vet</span>, Robert Diep, Saffron Little, Shijie Peng, Xi Chen, Zara Lockhart
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="movedrow">
+            <td class="tid">Tut 12<span class="rm">BHB 2200</span></td>
+            <td class="when">Tue 12:30-1pm<span class="moved">moved</span></td>
+            <td>Robert Diep, Ryan Ramsden<span class="vt">vet</span>, Saffron Little, Shijie Peng, Xi Chen, Zara Lockhart
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 10<span class="rm">Mech Eng S246</span></td>
+            <td class="when">Tue 3-3:30pm</td>
+            <td>Dylan Simpson, Flynn Russell<span class="vt">vet</span>, Gemma Rodham, Imani Qureshi, Joseph Hoffmann<span class="vt">vet</span>, Seyeon Lim
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 16<span class="rm">BHB 1150</span></td>
+            <td class="when">Wed 8-8:30am</td>
+            <td>Alyssa Hodge, Heidi Boyd, Joseph Hoffmann<span class="vt">vet</span>, Josh Phipps
+              <span class="rm">4 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 17<span class="rm">BHB 1140</span></td>
+            <td class="when">Wed 10-10:30am</td>
+            <td>Annabelle Campbell<span class="vt">vet</span>, Georgia Opit, Isabella Sheffield, Laam Cheung, Maya Cuthbert<span class="vt">vet</span>, Ziling Zhang
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="movedrow">
+            <td class="tid">Tut 18<span class="rm">BHB 1150</span></td>
+            <td class="when">Wed 10:30-11am<span class="moved">moved</span></td>
+            <td>Annabelle Campbell<span class="vt">vet</span>, Isabella Sheffield, Jinyuan Chen, Maya Cuthbert<span class="vt">vet</span>, Peimin Zheng, Ziling Zhang
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 20<span class="rm">BHB 1150</span></td>
+            <td class="when">Wed 12-12:30pm</td>
+            <td>Chloe Lipham, Leila Carr, Nikemie Dimitrov, Ryan Ramsden<span class="vt">vet</span>, Seyeon Lim, Wenlong Ma
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 23<span class="rm">BHB 1140</span></td>
+            <td class="when">Wed 4-4:30pm</td>
+            <td>Callum Franzman<span class="vt">vet</span>, Leila Carr, Max Dewinter, Maya Cuthbert<span class="vt">vet</span>, Seyeon Lim, Zhuoyue Zhu
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="movedrow">
+            <td class="tid">Tut 24<span class="rm">BHB 1160</span></td>
+            <td class="when">Wed 4:30-5pm<span class="moved">moved</span></td>
+            <td>Callum Franzman<span class="vt">vet</span>, Chloe Lipham, Georgia Opit, Heidi Boyd, Jinyuan Chen, Max Dewinter
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 26<span class="rm">BHB 1160</span></td>
+            <td class="when">Thu 8-8:30am</td>
+            <td>Josh Phipps, Kenn Surya, Madeleine Boris<span class="vt">vet</span>
+              <span class="rm">3 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 27<span class="rm">BHB 1140</span></td>
+            <td class="when">Thu 10-10:30am</td>
+            <td>Dylan Simpson, Gwilym Horlock, Laam Cheung, Rohan Howard<span class="vt">vet</span>, Saffron Little, Ziling Zhang
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="movedrow">
+            <td class="tid">Tut 28<span class="rm">BHB 1160</span></td>
+            <td class="when">Thu 10:30-11am<span class="moved">moved</span></td>
+            <td>Gemma Rodham, Gwilym Horlock, Imani Qureshi, Laura Allan, Zhuoran Zhu, Zhuoyue Zhu
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 30<span class="rm">BHB 1160</span></td>
+            <td class="when">Thu 12-12:30pm</td>
+            <td>Gwilym Horlock, Laura Allan, Madeleine Boris<span class="vt">vet</span>, Wenlong Ma, Zhuoran Zhu, Zhuoyue Zhu
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 36<span class="rm">BHB 3240</span></td>
+            <td class="when">Fri 8-8:30am</td>
+            <td>Hongming Hu, Josh Phipps, Jovan Jonathan, Madeleine Boris<span class="vt">vet</span>, Mary Tran, Phan Nguyen
+              <span class="rm">6 presenting</span></td>
+          </tr>
+          <tr class="">
+            <td class="tid">Tut 38<span class="rm">BHB 3240</span></td>
+            <td class="when">Fri 10-10:30am</td>
+            <td>Chloe Lipham, Emily Dawson-Taylor, Heidi Boyd, Max Dewinter, Rohan Howard<span class="vt">vet</span>, Zhuoran Zhu
+              <span class="rm">6 presenting</span></td>
+          </tr>
+        </tbody>
+      </table></div>
+    </details>
       </article>
   </div>
 
   <div class="verdict">
-    <b>What changes:</b> staggering lifts 2 students off a single
-    presentation, moves 4 more people up to three, and fills
-    6 extra slots. The cost is that the average person lands
-    0.17 of a place further down their preference list,
-    and four tutorials start half an hour later than advertised.
-    Each moved slot still sits inside its own two-hour tutorial, so no room booking changes.
+    <b>The differences, side by side.</b>
+    Idea 2 changes 4 start times and leaves
+    0 students presenting once
+    against 2 under Idea 1; it fills
+    6 more
+    presentation slots, and the average person lands
+    0.17 of a place
+    further down their preference list.
+    Every moved slot still falls inside its own two-hour tutorial, so no room booking changes.
   </div>
   </section>
 

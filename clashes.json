@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-09T11:14:38.261Z",
+  "generated_at": "2026-09-10T00:13:47.918Z",
   "sets": [
     {
       "when": "Tue 12-12:30pm",
@@ -91,7 +91,673 @@
       "Annabelle Campbell",
       "Callum Franzman"
     ],
+    "twice": [
+      "Emily Dawson-Taylor",
+      "Georgia Opit",
+      "Gwilym Horlock",
+      "Jinyuan Chen",
+      "Laura Allan",
+      "Leila Carr",
+      "Nikemie Dimitrov",
+      "Shijie Peng",
+      "Wenlong Ma",
+      "Zara Lockhart",
+      "Ziling Zhang"
+    ],
+    "four": [
+      "Kenn Surya"
+    ],
+    "doubleBooked": [
+      "Max Dewinter"
+    ],
     "none": [],
+    "groups": [
+      {
+        "id": "T11",
+        "when": "Mon 10-10:30am",
+        "location": "BHB 1160",
+        "members": [
+          {
+            "name": "Ellery Huang",
+            "is_vet": true
+          },
+          {
+            "name": "Kenn Surya",
+            "is_vet": false
+          },
+          {
+            "name": "Washiella Jessica",
+            "is_vet": true
+          }
+        ]
+      },
+      {
+        "id": "T22",
+        "when": "Mon 2-2:30pm",
+        "location": "BHB 3280",
+        "members": [
+          {
+            "name": "Jovan Jonathan",
+            "is_vet": false
+          },
+          {
+            "name": "Le Nguyen",
+            "is_vet": false
+          },
+          {
+            "name": "Mary Tran",
+            "is_vet": false
+          },
+          {
+            "name": "Phan Nguyen",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T13",
+        "when": "Mon 3-3:30pm",
+        "location": "BHB 3240",
+        "members": [
+          {
+            "name": "Hongming Hu",
+            "is_vet": false
+          },
+          {
+            "name": "Irfan Ahsan",
+            "is_vet": true
+          },
+          {
+            "name": "Jovan Jonathan",
+            "is_vet": false
+          },
+          {
+            "name": "Le Nguyen",
+            "is_vet": false
+          },
+          {
+            "name": "Mary Tran",
+            "is_vet": false
+          },
+          {
+            "name": "Washiella Jessica",
+            "is_vet": true
+          }
+        ]
+      },
+      {
+        "id": "T21",
+        "when": "Mon 4-4:30pm",
+        "location": "BHB 3003",
+        "members": [
+          {
+            "name": "Ellery Huang",
+            "is_vet": true
+          },
+          {
+            "name": "Irfan Ahsan",
+            "is_vet": true
+          },
+          {
+            "name": "Kenn Surya",
+            "is_vet": false
+          },
+          {
+            "name": "Le Nguyen",
+            "is_vet": false
+          },
+          {
+            "name": "Phan Nguyen",
+            "is_vet": false
+          },
+          {
+            "name": "Washiella Jessica",
+            "is_vet": true
+          }
+        ]
+      },
+      {
+        "id": "T33",
+        "when": "Mon 6-6:30pm",
+        "location": "BHB 3280",
+        "members": [
+          {
+            "name": "Flynn Russell",
+            "is_vet": true
+          },
+          {
+            "name": "Hongming Hu",
+            "is_vet": false
+          },
+          {
+            "name": "Nikemie Dimitrov",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T14",
+        "when": "Tue 8-8:30am",
+        "location": "BHB 1140",
+        "members": [
+          {
+            "name": "Alyssa Hodge",
+            "is_vet": false
+          },
+          {
+            "name": "Emily Dawson-Taylor",
+            "is_vet": false
+          },
+          {
+            "name": "Flynn Russell",
+            "is_vet": true
+          },
+          {
+            "name": "Gemma Rodham",
+            "is_vet": false
+          },
+          {
+            "name": "Imani Qureshi",
+            "is_vet": false
+          },
+          {
+            "name": "Nikemie Dimitrov",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T02",
+        "when": "Tue 10-10:30am",
+        "location": "Institute N297",
+        "members": [
+          {
+            "name": "Alyssa Hodge",
+            "is_vet": false
+          },
+          {
+            "name": "Dylan Simpson",
+            "is_vet": false
+          },
+          {
+            "name": "Flynn Russell",
+            "is_vet": true
+          },
+          {
+            "name": "Laam Cheung",
+            "is_vet": false
+          },
+          {
+            "name": "Peimin Zheng",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T07",
+        "when": "Tue 11:30am-12pm",
+        "location": "BHB 1080",
+        "members": [
+          {
+            "name": "Heidi Boyd",
+            "is_vet": false
+          },
+          {
+            "name": "Robert Diep",
+            "is_vet": false
+          },
+          {
+            "name": "Ryan Ramsden",
+            "is_vet": true
+          },
+          {
+            "name": "Shijie Peng",
+            "is_vet": false
+          },
+          {
+            "name": "Xi Chen",
+            "is_vet": false
+          },
+          {
+            "name": "Zara Lockhart",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T19",
+        "when": "Tue 12-12:30pm",
+        "location": "BHB 1140",
+        "members": [
+          {
+            "name": "Chloe Lipham",
+            "is_vet": false
+          },
+          {
+            "name": "Joseph Hoffmann",
+            "is_vet": true
+          },
+          {
+            "name": "Ryan Ramsden",
+            "is_vet": true
+          },
+          {
+            "name": "Shijie Peng",
+            "is_vet": false
+          },
+          {
+            "name": "Xi Chen",
+            "is_vet": false
+          },
+          {
+            "name": "Zara Lockhart",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T12",
+        "when": "Tue 12-12:30pm",
+        "location": "BHB 2200",
+        "members": [
+          {
+            "name": "Dylan Simpson",
+            "is_vet": false
+          },
+          {
+            "name": "Irfan Ahsan",
+            "is_vet": true
+          },
+          {
+            "name": "Robert Diep",
+            "is_vet": false
+          },
+          {
+            "name": "Saffron Little",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T10",
+        "when": "Tue 3-3:30pm",
+        "location": "Mech Eng S246",
+        "members": [
+          {
+            "name": "Dylan Simpson",
+            "is_vet": false
+          },
+          {
+            "name": "Gemma Rodham",
+            "is_vet": false
+          },
+          {
+            "name": "Imani Qureshi",
+            "is_vet": false
+          },
+          {
+            "name": "Joseph Hoffmann",
+            "is_vet": true
+          },
+          {
+            "name": "Ryan Ramsden",
+            "is_vet": true
+          },
+          {
+            "name": "Seyeon Lim",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T16",
+        "when": "Wed 8-8:30am",
+        "location": "BHB 1150",
+        "members": [
+          {
+            "name": "Alyssa Hodge",
+            "is_vet": false
+          },
+          {
+            "name": "Heidi Boyd",
+            "is_vet": false
+          },
+          {
+            "name": "Joseph Hoffmann",
+            "is_vet": true
+          },
+          {
+            "name": "Josh Phipps",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T17",
+        "when": "Wed 10-10:30am",
+        "location": "BHB 1140",
+        "members": [
+          {
+            "name": "Ellery Huang",
+            "is_vet": true
+          },
+          {
+            "name": "Laam Cheung",
+            "is_vet": false
+          },
+          {
+            "name": "Peimin Zheng",
+            "is_vet": false
+          },
+          {
+            "name": "Rohan Howard",
+            "is_vet": true
+          }
+        ]
+      },
+      {
+        "id": "T18",
+        "when": "Wed 10-10:30am",
+        "location": "BHB 1150",
+        "members": [
+          {
+            "name": "Annabelle Campbell",
+            "is_vet": true
+          },
+          {
+            "name": "Georgia Opit",
+            "is_vet": false
+          },
+          {
+            "name": "Isabella Sheffield",
+            "is_vet": false
+          },
+          {
+            "name": "Jinyuan Chen",
+            "is_vet": false
+          },
+          {
+            "name": "Maya Cuthbert",
+            "is_vet": true
+          },
+          {
+            "name": "Ziling Zhang",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T20",
+        "when": "Wed 12-12:30pm",
+        "location": "BHB 1150",
+        "members": [
+          {
+            "name": "Gwilym Horlock",
+            "is_vet": false
+          },
+          {
+            "name": "Isabella Sheffield",
+            "is_vet": false
+          },
+          {
+            "name": "Leila Carr",
+            "is_vet": false
+          },
+          {
+            "name": "Maya Cuthbert",
+            "is_vet": true
+          },
+          {
+            "name": "Robert Diep",
+            "is_vet": false
+          },
+          {
+            "name": "Xi Chen",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T23",
+        "when": "Wed 4-4:30pm",
+        "location": "BHB 1140",
+        "members": [
+          {
+            "name": "Georgia Opit",
+            "is_vet": false
+          },
+          {
+            "name": "Leila Carr",
+            "is_vet": false
+          },
+          {
+            "name": "Max Dewinter",
+            "is_vet": false
+          },
+          {
+            "name": "Maya Cuthbert",
+            "is_vet": true
+          },
+          {
+            "name": "Wenlong Ma",
+            "is_vet": false
+          },
+          {
+            "name": "Zhuoran Zhu",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T24",
+        "when": "Wed 4-4:30pm",
+        "location": "BHB 1160",
+        "members": [
+          {
+            "name": "Callum Franzman",
+            "is_vet": true
+          },
+          {
+            "name": "Chloe Lipham",
+            "is_vet": false
+          },
+          {
+            "name": "Heidi Boyd",
+            "is_vet": false
+          },
+          {
+            "name": "Isabella Sheffield",
+            "is_vet": false
+          },
+          {
+            "name": "Jinyuan Chen",
+            "is_vet": false
+          },
+          {
+            "name": "Max Dewinter",
+            "is_vet": false
+          },
+          {
+            "name": "Seyeon Lim",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T26",
+        "when": "Thu 8-8:30am",
+        "location": "BHB 1160",
+        "members": [
+          {
+            "name": "Josh Phipps",
+            "is_vet": false
+          },
+          {
+            "name": "Kenn Surya",
+            "is_vet": false
+          },
+          {
+            "name": "Madeleine Boris",
+            "is_vet": true
+          }
+        ]
+      },
+      {
+        "id": "T27",
+        "when": "Thu 10-10:30am",
+        "location": "BHB 1140",
+        "members": [
+          {
+            "name": "Imani Qureshi",
+            "is_vet": false
+          },
+          {
+            "name": "Kenn Surya",
+            "is_vet": false
+          },
+          {
+            "name": "Laam Cheung",
+            "is_vet": false
+          },
+          {
+            "name": "Peimin Zheng",
+            "is_vet": false
+          },
+          {
+            "name": "Rohan Howard",
+            "is_vet": true
+          },
+          {
+            "name": "Saffron Little",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T28",
+        "when": "Thu 10-10:30am",
+        "location": "BHB 1160",
+        "members": [
+          {
+            "name": "Gemma Rodham",
+            "is_vet": false
+          },
+          {
+            "name": "Gwilym Horlock",
+            "is_vet": false
+          },
+          {
+            "name": "Laura Allan",
+            "is_vet": false
+          },
+          {
+            "name": "Zhuoran Zhu",
+            "is_vet": false
+          },
+          {
+            "name": "Zhuoyue Zhu",
+            "is_vet": false
+          },
+          {
+            "name": "Ziling Zhang",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T30",
+        "when": "Thu 12-12:30pm",
+        "location": "BHB 1160",
+        "members": [
+          {
+            "name": "Laura Allan",
+            "is_vet": false
+          },
+          {
+            "name": "Madeleine Boris",
+            "is_vet": true
+          },
+          {
+            "name": "Saffron Little",
+            "is_vet": false
+          },
+          {
+            "name": "Wenlong Ma",
+            "is_vet": false
+          },
+          {
+            "name": "Zhuoran Zhu",
+            "is_vet": false
+          },
+          {
+            "name": "Zhuoyue Zhu",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T36",
+        "when": "Fri 8-8:30am",
+        "location": "BHB 3240",
+        "members": [
+          {
+            "name": "Hongming Hu",
+            "is_vet": false
+          },
+          {
+            "name": "Josh Phipps",
+            "is_vet": false
+          },
+          {
+            "name": "Jovan Jonathan",
+            "is_vet": false
+          },
+          {
+            "name": "Madeleine Boris",
+            "is_vet": true
+          },
+          {
+            "name": "Mary Tran",
+            "is_vet": false
+          },
+          {
+            "name": "Phan Nguyen",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T38",
+        "when": "Fri 10-10:30am",
+        "location": "BHB 3240",
+        "members": [
+          {
+            "name": "Chloe Lipham",
+            "is_vet": false
+          },
+          {
+            "name": "Emily Dawson-Taylor",
+            "is_vet": false
+          },
+          {
+            "name": "Max Dewinter",
+            "is_vet": false
+          },
+          {
+            "name": "Rohan Howard",
+            "is_vet": true
+          },
+          {
+            "name": "Seyeon Lim",
+            "is_vet": false
+          },
+          {
+            "name": "Zhuoyue Zhu",
+            "is_vet": false
+          }
+        ]
+      }
+    ],
     "slots": 121,
     "meanChoice": 3.4,
     "minSize": 3,
@@ -107,7 +773,693 @@
       "4": 1
     },
     "once": [],
+    "twice": [
+      "Annabelle Campbell",
+      "Callum Franzman",
+      "Emily Dawson-Taylor",
+      "Georgia Opit",
+      "Isabella Sheffield",
+      "Jinyuan Chen",
+      "Laura Allan",
+      "Leila Carr",
+      "Wenlong Ma"
+    ],
+    "four": [
+      "Kenn Surya"
+    ],
+    "doubleBooked": [],
     "none": [],
+    "groups": [
+      {
+        "id": "T11",
+        "when": "Mon 10-10:30am",
+        "location": "BHB 1160",
+        "members": [
+          {
+            "name": "Ellery Huang",
+            "is_vet": true
+          },
+          {
+            "name": "Joseph Hoffmann",
+            "is_vet": true
+          },
+          {
+            "name": "Kenn Surya",
+            "is_vet": false
+          },
+          {
+            "name": "Washiella Jessica",
+            "is_vet": true
+          }
+        ]
+      },
+      {
+        "id": "T22",
+        "when": "Mon 2-2:30pm",
+        "location": "BHB 3280",
+        "members": [
+          {
+            "name": "Jovan Jonathan",
+            "is_vet": false
+          },
+          {
+            "name": "Kenn Surya",
+            "is_vet": false
+          },
+          {
+            "name": "Le Nguyen",
+            "is_vet": false
+          },
+          {
+            "name": "Mary Tran",
+            "is_vet": false
+          },
+          {
+            "name": "Phan Nguyen",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T13",
+        "when": "Mon 3-3:30pm",
+        "location": "BHB 3240",
+        "members": [
+          {
+            "name": "Ellery Huang",
+            "is_vet": true
+          },
+          {
+            "name": "Hongming Hu",
+            "is_vet": false
+          },
+          {
+            "name": "Irfan Ahsan",
+            "is_vet": true
+          },
+          {
+            "name": "Jovan Jonathan",
+            "is_vet": false
+          },
+          {
+            "name": "Mary Tran",
+            "is_vet": false
+          },
+          {
+            "name": "Washiella Jessica",
+            "is_vet": true
+          }
+        ]
+      },
+      {
+        "id": "T21",
+        "when": "Mon 4-4:30pm",
+        "location": "BHB 3003",
+        "members": [
+          {
+            "name": "Ellery Huang",
+            "is_vet": true
+          },
+          {
+            "name": "Irfan Ahsan",
+            "is_vet": true
+          },
+          {
+            "name": "Kenn Surya",
+            "is_vet": false
+          },
+          {
+            "name": "Le Nguyen",
+            "is_vet": false
+          },
+          {
+            "name": "Phan Nguyen",
+            "is_vet": false
+          },
+          {
+            "name": "Washiella Jessica",
+            "is_vet": true
+          }
+        ]
+      },
+      {
+        "id": "T33",
+        "when": "Mon 6-6:30pm",
+        "location": "BHB 3280",
+        "members": [
+          {
+            "name": "Flynn Russell",
+            "is_vet": true
+          },
+          {
+            "name": "Hongming Hu",
+            "is_vet": false
+          },
+          {
+            "name": "Nikemie Dimitrov",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T14",
+        "when": "Tue 8-8:30am",
+        "location": "BHB 1140",
+        "members": [
+          {
+            "name": "Alyssa Hodge",
+            "is_vet": false
+          },
+          {
+            "name": "Emily Dawson-Taylor",
+            "is_vet": false
+          },
+          {
+            "name": "Gemma Rodham",
+            "is_vet": false
+          },
+          {
+            "name": "Imani Qureshi",
+            "is_vet": false
+          },
+          {
+            "name": "Nikemie Dimitrov",
+            "is_vet": false
+          },
+          {
+            "name": "Rohan Howard",
+            "is_vet": true
+          }
+        ]
+      },
+      {
+        "id": "T02",
+        "when": "Tue 10-10:30am",
+        "location": "Institute N297",
+        "members": [
+          {
+            "name": "Alyssa Hodge",
+            "is_vet": false
+          },
+          {
+            "name": "Dylan Simpson",
+            "is_vet": false
+          },
+          {
+            "name": "Flynn Russell",
+            "is_vet": true
+          },
+          {
+            "name": "Laam Cheung",
+            "is_vet": false
+          },
+          {
+            "name": "Le Nguyen",
+            "is_vet": false
+          },
+          {
+            "name": "Peimin Zheng",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T07",
+        "when": "Tue 11:30am-12pm",
+        "location": "BHB 1080",
+        "members": [
+          {
+            "name": "Peimin Zheng",
+            "is_vet": false
+          },
+          {
+            "name": "Robert Diep",
+            "is_vet": false
+          },
+          {
+            "name": "Ryan Ramsden",
+            "is_vet": true
+          },
+          {
+            "name": "Shijie Peng",
+            "is_vet": false
+          },
+          {
+            "name": "Xi Chen",
+            "is_vet": false
+          },
+          {
+            "name": "Zara Lockhart",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T19",
+        "when": "Tue 12-12:30pm",
+        "location": "BHB 1140",
+        "members": [
+          {
+            "name": "Irfan Ahsan",
+            "is_vet": true
+          },
+          {
+            "name": "Robert Diep",
+            "is_vet": false
+          },
+          {
+            "name": "Saffron Little",
+            "is_vet": false
+          },
+          {
+            "name": "Shijie Peng",
+            "is_vet": false
+          },
+          {
+            "name": "Xi Chen",
+            "is_vet": false
+          },
+          {
+            "name": "Zara Lockhart",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T12",
+        "when": "Tue 12:30-1pm",
+        "location": "BHB 2200",
+        "members": [
+          {
+            "name": "Robert Diep",
+            "is_vet": false
+          },
+          {
+            "name": "Ryan Ramsden",
+            "is_vet": true
+          },
+          {
+            "name": "Saffron Little",
+            "is_vet": false
+          },
+          {
+            "name": "Shijie Peng",
+            "is_vet": false
+          },
+          {
+            "name": "Xi Chen",
+            "is_vet": false
+          },
+          {
+            "name": "Zara Lockhart",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T10",
+        "when": "Tue 3-3:30pm",
+        "location": "Mech Eng S246",
+        "members": [
+          {
+            "name": "Dylan Simpson",
+            "is_vet": false
+          },
+          {
+            "name": "Flynn Russell",
+            "is_vet": true
+          },
+          {
+            "name": "Gemma Rodham",
+            "is_vet": false
+          },
+          {
+            "name": "Imani Qureshi",
+            "is_vet": false
+          },
+          {
+            "name": "Joseph Hoffmann",
+            "is_vet": true
+          },
+          {
+            "name": "Seyeon Lim",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T16",
+        "when": "Wed 8-8:30am",
+        "location": "BHB 1150",
+        "members": [
+          {
+            "name": "Alyssa Hodge",
+            "is_vet": false
+          },
+          {
+            "name": "Heidi Boyd",
+            "is_vet": false
+          },
+          {
+            "name": "Joseph Hoffmann",
+            "is_vet": true
+          },
+          {
+            "name": "Josh Phipps",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T17",
+        "when": "Wed 10-10:30am",
+        "location": "BHB 1140",
+        "members": [
+          {
+            "name": "Annabelle Campbell",
+            "is_vet": true
+          },
+          {
+            "name": "Georgia Opit",
+            "is_vet": false
+          },
+          {
+            "name": "Isabella Sheffield",
+            "is_vet": false
+          },
+          {
+            "name": "Laam Cheung",
+            "is_vet": false
+          },
+          {
+            "name": "Maya Cuthbert",
+            "is_vet": true
+          },
+          {
+            "name": "Ziling Zhang",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T18",
+        "when": "Wed 10:30-11am",
+        "location": "BHB 1150",
+        "members": [
+          {
+            "name": "Annabelle Campbell",
+            "is_vet": true
+          },
+          {
+            "name": "Isabella Sheffield",
+            "is_vet": false
+          },
+          {
+            "name": "Jinyuan Chen",
+            "is_vet": false
+          },
+          {
+            "name": "Maya Cuthbert",
+            "is_vet": true
+          },
+          {
+            "name": "Peimin Zheng",
+            "is_vet": false
+          },
+          {
+            "name": "Ziling Zhang",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T20",
+        "when": "Wed 12-12:30pm",
+        "location": "BHB 1150",
+        "members": [
+          {
+            "name": "Chloe Lipham",
+            "is_vet": false
+          },
+          {
+            "name": "Leila Carr",
+            "is_vet": false
+          },
+          {
+            "name": "Nikemie Dimitrov",
+            "is_vet": false
+          },
+          {
+            "name": "Ryan Ramsden",
+            "is_vet": true
+          },
+          {
+            "name": "Seyeon Lim",
+            "is_vet": false
+          },
+          {
+            "name": "Wenlong Ma",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T23",
+        "when": "Wed 4-4:30pm",
+        "location": "BHB 1140",
+        "members": [
+          {
+            "name": "Callum Franzman",
+            "is_vet": true
+          },
+          {
+            "name": "Leila Carr",
+            "is_vet": false
+          },
+          {
+            "name": "Max Dewinter",
+            "is_vet": false
+          },
+          {
+            "name": "Maya Cuthbert",
+            "is_vet": true
+          },
+          {
+            "name": "Seyeon Lim",
+            "is_vet": false
+          },
+          {
+            "name": "Zhuoyue Zhu",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T24",
+        "when": "Wed 4:30-5pm",
+        "location": "BHB 1160",
+        "members": [
+          {
+            "name": "Callum Franzman",
+            "is_vet": true
+          },
+          {
+            "name": "Chloe Lipham",
+            "is_vet": false
+          },
+          {
+            "name": "Georgia Opit",
+            "is_vet": false
+          },
+          {
+            "name": "Heidi Boyd",
+            "is_vet": false
+          },
+          {
+            "name": "Jinyuan Chen",
+            "is_vet": false
+          },
+          {
+            "name": "Max Dewinter",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T26",
+        "when": "Thu 8-8:30am",
+        "location": "BHB 1160",
+        "members": [
+          {
+            "name": "Josh Phipps",
+            "is_vet": false
+          },
+          {
+            "name": "Kenn Surya",
+            "is_vet": false
+          },
+          {
+            "name": "Madeleine Boris",
+            "is_vet": true
+          }
+        ]
+      },
+      {
+        "id": "T27",
+        "when": "Thu 10-10:30am",
+        "location": "BHB 1140",
+        "members": [
+          {
+            "name": "Dylan Simpson",
+            "is_vet": false
+          },
+          {
+            "name": "Gwilym Horlock",
+            "is_vet": false
+          },
+          {
+            "name": "Laam Cheung",
+            "is_vet": false
+          },
+          {
+            "name": "Rohan Howard",
+            "is_vet": true
+          },
+          {
+            "name": "Saffron Little",
+            "is_vet": false
+          },
+          {
+            "name": "Ziling Zhang",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T28",
+        "when": "Thu 10:30-11am",
+        "location": "BHB 1160",
+        "members": [
+          {
+            "name": "Gemma Rodham",
+            "is_vet": false
+          },
+          {
+            "name": "Gwilym Horlock",
+            "is_vet": false
+          },
+          {
+            "name": "Imani Qureshi",
+            "is_vet": false
+          },
+          {
+            "name": "Laura Allan",
+            "is_vet": false
+          },
+          {
+            "name": "Zhuoran Zhu",
+            "is_vet": false
+          },
+          {
+            "name": "Zhuoyue Zhu",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T30",
+        "when": "Thu 12-12:30pm",
+        "location": "BHB 1160",
+        "members": [
+          {
+            "name": "Gwilym Horlock",
+            "is_vet": false
+          },
+          {
+            "name": "Laura Allan",
+            "is_vet": false
+          },
+          {
+            "name": "Madeleine Boris",
+            "is_vet": true
+          },
+          {
+            "name": "Wenlong Ma",
+            "is_vet": false
+          },
+          {
+            "name": "Zhuoran Zhu",
+            "is_vet": false
+          },
+          {
+            "name": "Zhuoyue Zhu",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T36",
+        "when": "Fri 8-8:30am",
+        "location": "BHB 3240",
+        "members": [
+          {
+            "name": "Hongming Hu",
+            "is_vet": false
+          },
+          {
+            "name": "Josh Phipps",
+            "is_vet": false
+          },
+          {
+            "name": "Jovan Jonathan",
+            "is_vet": false
+          },
+          {
+            "name": "Madeleine Boris",
+            "is_vet": true
+          },
+          {
+            "name": "Mary Tran",
+            "is_vet": false
+          },
+          {
+            "name": "Phan Nguyen",
+            "is_vet": false
+          }
+        ]
+      },
+      {
+        "id": "T38",
+        "when": "Fri 10-10:30am",
+        "location": "BHB 3240",
+        "members": [
+          {
+            "name": "Chloe Lipham",
+            "is_vet": false
+          },
+          {
+            "name": "Emily Dawson-Taylor",
+            "is_vet": false
+          },
+          {
+            "name": "Heidi Boyd",
+            "is_vet": false
+          },
+          {
+            "name": "Max Dewinter",
+            "is_vet": false
+          },
+          {
+            "name": "Rohan Howard",
+            "is_vet": true
+          },
+          {
+            "name": "Zhuoran Zhu",
+            "is_vet": false
+          }
+        ]
+      }
+    ],
     "slots": 127,
     "meanChoice": 3.57,
     "minSize": 3,
