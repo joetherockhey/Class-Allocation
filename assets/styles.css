@@ -246,3 +246,29 @@ form.cform button{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;b
   form.cform .cname{flex:1 1 100%}
   .post .shot img{max-height:320px}
 }
+
+/* upcoming tutorials sidebar -------------------------------------------- */
+.home{display:grid;grid-template-columns:minmax(0,1fr) 302px;gap:16px;align-items:start}
+#upcomingBox .panel{position:sticky;top:14px;padding:15px}
+#upcomingBox h2{margin:0}
+#upcoming{list-style:none;margin:0;padding:0;max-height:min(66vh,620px);overflow-y:auto;
+  border-top:1px solid var(--line)}
+#upcoming li{padding:10px 2px;border-bottom:1px solid var(--line)}
+#upcoming li:last-child{border-bottom:none}
+#upcoming li.next{background:var(--accent-soft);border-radius:8px;padding:10px;
+  margin:6px 0;border-bottom:none;box-shadow:inset 0 0 0 1px var(--accent)}
+#upcoming .hd{display:flex;align-items:baseline;gap:8px}
+#upcoming .hd b{font-size:14px}
+#upcoming .in{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--accent);white-space:nowrap}
+#upcoming li.next .in{background:var(--accent);color:#fff;border-radius:999px;padding:1px 8px}
+#upcoming .wh{font-size:12.5px;color:var(--muted);margin-top:2px}
+#upcoming .ppl{font-size:12px;margin-top:5px;line-height:1.5}
+#upcoming .v{font-size:9px;font-weight:700;background:var(--accent-soft);color:var(--accent);
+  border-radius:999px;padding:0 5px;margin-left:3px}
+#upcoming li.next .v{background:#fff}
+#upcoming .none,#upcomingBox .none{color:var(--muted);font-size:13px;margin:0}
+@media (max-width:900px){
+  .home{grid-template-columns:1fr}
+  #upcomingBox .panel{position:static}
+  #upcoming{max-height:340px}
+}

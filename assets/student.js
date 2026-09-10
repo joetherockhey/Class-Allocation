@@ -2,6 +2,7 @@ import { loadCore, getPrefs, savePrefs, loadAllocations, el, escapeHtml, backend
   strandedPrefs, clearStranded } from "./api.js";
 import { COURSE_TITLE, INTRO, MIN_PICKS, MIN_PICKS_BY_NAME } from "./config.js";
 import { initFeed } from "./feed.js";
+import { initUpcoming } from "./upcoming.js";
 
 const LS_KEY = "tutgroups.studentId";
 
@@ -19,10 +20,12 @@ init().catch((e) => {
 });
 
 function showFeed() {
+  document.querySelector(".home").classList.remove("hidden");
   el("feedArea").classList.remove("hidden");
   el("prefsArea").classList.add("hidden");
 }
 function showPrefs() {
+  document.querySelector(".home").classList.add("hidden");
   el("feedArea").classList.add("hidden");
   el("prefsArea").classList.remove("hidden");
   const known = students.find((s) => s.id === localStorage.getItem(LS_KEY));
@@ -36,6 +39,7 @@ async function init() {
 
   // the feed does not depend on the roster loading, so start it first
   initFeed().catch(() => {});
+  initUpcoming().catch(() => {});
   el("openPrefs").addEventListener("click", showPrefs);
   el("closePrefs").addEventListener("click", () => { showFeed(); signOut(true); });
 
