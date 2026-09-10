@@ -21,6 +21,14 @@ let seenPosts = null;       // ids known at the last poll - null until the first
 let seenComments = null;
 let polling = null;
 
+// The editing columns only exist once supabase/edit-posts.sql has been run.
+// Ask for them, but fall back cleanly if they are not there yet - otherwise the
+// whole feed fails to load over a column nobody has added.
+const COLS_FULL = "id,name,body,file_url,file_name,file_kind,created_at,edited_at";
+const COLS_BASE = "id,name,body,file_url,file_name,file_kind,created_at";
+let cols = COLS_FULL;
+let canEdit = true;
+
 export const myName = () => {
   try { return localStorage.getItem(NAME_KEY) || ""; } catch { return ""; }
 };
@@ -120,13 +128,17 @@ function startPolling() {
 async function refresh() {
   const box = el("feed");
   const [p, c, l] = await Promise.all([
-    db.from("posts").select("id,name,body,file_url,file_name,file_kind,created_at,edited_at")
-      .order("created_at", { ascending: false }).limit(200),
+    db.from("posts").select(cols).order("created_at", { ascending: false }).limit(200),
     db.from("post_comments").select("*").order("created_at"),
     db.from("post_likes").select("*"),
   ]);
+  if (p.error && /edited_at|edit_token/.test(p.error.message) && cols !== COLS_BASE) {
+    cols = COLS_BASE;                 // editing is not set up; show the feed anyway
+    canEdit = false;
+    return refresh();
+  }
   if (p.error) {
-    box.innerHTML = /posts/.test(p.error.message)
+    box.innerHTML = /relation|does not exist/.test(p.error.message)
       ? '<div class="notice">The feed is not set up yet.</div>'
       : '<div class="notice warn">' + escapeHtml(p.error.message) + "</div>";
     return;
@@ -178,7 +190,7 @@ function render() {
   const tokens = myTokens();
   box.innerHTML = posts.map((p) => {
     const mine = likes.get(p.id) || [];
-    const mineToEdit = Boolean(tokens[p.id]);
+    const mineToEdit = canEdit && Boolean(tokens[p.id]);
     const liked = mine.some((w) => w.toLowerCase() === me);
     const cs = comments.get(p.id) || [];
     return `<article class="post" data-id="${escapeHtml(p.id)}">
@@ -282,11 +294,16 @@ async function submitPost() {
     out.textContent = "Posting…";
     const token = (crypto.randomUUID && crypto.randomUUID()) ||
       String(Date.now()) + Math.random().toString(36).slice(2);
-    const { data, error } = await db.from("posts")
+    let { data, error } = await db.from("posts")
       .insert({ name, body, file_url, file_name, file_kind, edit_token: token })
       .select("id").single();
+    if (error && /edit_token/.test(error.message)) {
+      canEdit = false;                // no token column yet - post without one
+      ({ data, error } = await db.from("posts")
+        .insert({ name, body, file_url, file_name, file_kind }).select("id").single());
+    }
     if (error) throw new Error(error.message);
-    if (data && data.id) keepToken(data.id, token);
+    if (data && data.id && canEdit) keepToken(data.id, token);
     remember(name);
     el("postBody").value = "";
     clearFile();

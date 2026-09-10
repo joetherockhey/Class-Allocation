@@ -1,26 +1,19 @@
 :root{
-  color-scheme:light;
-  /* University of Sydney palette: the ochre-red masthead colour against a warm
-     off-white, with charcoal type. Colours only - no crest or wordmark. */
-  --usyd:#e64626; --usyd-dark:#c1341a; --charcoal:#1c1c1b;
-  --bg:#f4f2ef; --panel:#ffffff; --ink:#1c1c1b; --muted:#6b6862;
-  --line:#e4dfd8; --line-strong:#cdc6bc;
-  --accent:#e64626; --accent-ink:#ffffff; --accent-soft:#fdeae5;
-  --ok:#1d7a4c; --ok-soft:#e6f3ec; --warn:#a35a09; --warn-soft:#fdf1e0;
-  --radius:10px; --shadow:0 1px 2px rgba(28,28,27,.06),0 1px 3px rgba(28,28,27,.07);
+  color-scheme:light;   /* keep form controls and scrollbars light too */
+  --bg:#f6f7f9; --panel:#ffffff; --ink:#16191d; --muted:#5f6874;
+  --line:#e2e5ea; --line-strong:#cbd1da;
+  --accent:#2f6df6; --accent-ink:#ffffff; --accent-soft:#e8f0ff;
+  --ok:#15803d; --ok-soft:#e7f6ec; --warn:#b45309; --warn-soft:#fdf3e3;
+  --radius:10px; --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.08);
 }
 *{box-sizing:border-box}
-/* a slim masthead rule, the way the university's own pages carry one */
-body::before{content:"";display:block;height:5px;background:var(--usyd)}
 body{
   margin:0; background:var(--bg); color:var(--ink);
   font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   -webkit-font-smoothing:antialiased;
 }
 .wrap{max-width:1040px;margin:0 auto;padding:24px 18px 72px}
-header.top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;
-  padding-bottom:10px;border-bottom:2px solid var(--charcoal)}
-h1{color:var(--charcoal)}
+header.top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
 h1{font-size:21px;margin:0;letter-spacing:-.01em}
 h2{font-size:16px;margin:0 0 10px}
 .sub{color:var(--muted);font-size:13px;margin:0 0 22px}
@@ -32,7 +25,7 @@ button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line
 button:hover:not(:disabled){border-color:var(--accent)}
 button:disabled{opacity:.45;cursor:not-allowed}
 button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
-button.primary:hover:not(:disabled){background:var(--usyd-dark);border-color:var(--usyd-dark)}
+button.primary:hover:not(:disabled){filter:brightness(1.08)}
 button.ghost{background:transparent;border-color:transparent;color:var(--muted);padding:6px 8px}
 button.ghost:hover{color:var(--accent);border-color:transparent}
 button.tiny{padding:3px 8px;font-size:12px;line-height:1.4}
@@ -282,16 +275,6 @@ form.cform button{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;b
 #upcoming li.past{opacity:.5}
 #upcoming li.past .in{color:var(--muted)}
 
-/* notification prompt --------------------------------------------------- */
-.notifybar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-  background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent);
-  border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:12px}
-.notifybar b{font-weight:700}
-.notifybar button{margin-left:auto;background:var(--accent);border-color:var(--accent);
-  color:#fff;font-weight:600}
-.notifybar.on{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
-.notifybar.off{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
-
 /* post editing ---------------------------------------------------------- */
 .post .edited{color:var(--muted);font-size:11.5px;font-style:italic;margin-left:7px}
 form.editform{display:grid;gap:7px;margin:4px 0 2px}
@@ -301,3 +284,13 @@ form.editform button[type=submit]{font:inherit;font-size:13px;font-weight:600;pa
   border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
 form.editform .err{font-size:12px;color:var(--warn)}
 .post .acts button.edit{margin-left:2px}
+
+/* notification prompt --------------------------------------------------- */
+.notifybar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent);
+  border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:12px}
+.notifybar b{font-weight:700}
+.notifybar button{margin-left:auto;background:var(--accent);border-color:var(--accent);
+  color:#fff;font-weight:600}
+.notifybar.on{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.notifybar.off{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
