@@ -66,6 +66,20 @@ Nobody is ever placed in a tutorial they did not list.
 Names in all of these must match `data/roster.csv` exactly; unmatched names are
 reported rather than ignored.
 
+## Saved plans
+
+`plans/` holds the arrangements that have been agreed, each with the pin set
+that produced it. `npm run use-plan` lists them; `npm run use-plan -- og`
+swaps one in and rebuilds the page.
+
+- **og** — before the clash fix. Max Dewinter deliberately in both T23 and T24
+  at the same hour; T24 holds seven.
+- **idea1** — live. Nobody is in two tutorials at once. Max kept T23 (his
+  second choice) over T24 (his third), which also brought T24 back to six.
+
+The tutorial-clashes tab is off. `npm run groups-page -- groups.json
+groups.html --with-clashes` brings it back; `clashes.json` is still on disk.
+
 ## Current state
 
 50 students (11 vets), 23 tutorials, 45 submissions. Five students never
@@ -75,6 +89,7 @@ Stefan Ferster, Tara Stevens.
 Open threads:
 - `supabase/messages.sql` has **not** been run, so the per-tutorial message
   boards say "not set up yet" instead of working.
-- The clashes tab proposes staggering four tutorials by 30 minutes
-  (Tut 12, 18, 24, 28). Not applied — awaiting a decision.
+- Idea 2 (staggering Tut 12, 18, 24, 28 by 30 minutes) was measured and not
+  taken. `input-idea2.json` and `groups-idea2.json` still hold that working if
+  it comes back up.
 - T22 and T28 have no vet available at all; no vet listed those slots.

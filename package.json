@@ -15,6 +15,7 @@
     "allocate-multi": "node scripts/allocate-multi.mjs",
     "groups-page": "node scripts/gen-groups-page.mjs",
     "scenarios": "node scripts/make-scenarios.mjs",
+    "use-plan": "node scripts/use-plan.mjs",
     "serve": "npx --yes serve ."
   },
   "dependencies": {

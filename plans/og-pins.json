@@ -15,6 +15,11 @@
       "name": "Max Dewinter",
       "tutorial": "T23",
       "why": "tutor asked for him in 23; T24 is the same hour so he cannot have both"
+    },
+    {
+      "name": "Max Dewinter",
+      "tutorial": "T24",
+      "why": "OG plan only - deliberate same-hour double-booking"
     }
   ],
   "block": [

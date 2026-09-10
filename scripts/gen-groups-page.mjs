@@ -10,12 +10,16 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
 const IN = process.argv[2] || "groups.json";
-const OUT = process.argv[3] || "groups.html";
+const OUT = process.argv.slice(3).find((a) => !a.startsWith("--")) || "groups.html";
 const plan = JSON.parse(readFileSync(IN, "utf8"));
 
-// Optional: the clash comparison, if scripts/make-scenarios.mjs has been run.
+// The clash comparison tab is off by default now that a plan has been chosen.
+// Pass --with-clashes to bring it back; clashes.json is still on disk.
 let clash = null;
-try { clash = JSON.parse(readFileSync("clashes.json", "utf8")); } catch { /* tab omitted */ }
+if (process.argv.includes("--with-clashes")) {
+  try { clash = JSON.parse(readFileSync("clashes.json", "utf8")); }
+  catch { console.log("--with-clashes given but clashes.json is missing; run npm run scenarios"); }
+}
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -384,7 +388,7 @@ const db = SUPABASE_URL && SUPABASE_ANON_KEY
 
 /* ---------------------------------------------------------------- tabs */
 const tabs = [...document.querySelectorAll(".tabs button")];
-const views = { tut: "view-tut", person: "view-person", clash: "view-clash" };
+const views = { tut: "view-tut", person: "view-person"${clash ? ', clash: "view-clash"' : ""} };
 tabs.forEach((b) => b.addEventListener("click", () => {
   tabs.forEach((x) => x.setAttribute("aria-selected", String(x === b)));
   for (const [k, id] of Object.entries(views)) {
