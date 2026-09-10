@@ -10,9 +10,12 @@ import { DEMO_STUDENTS, DEMO_TUTORIALS } from "./demo-data.js";
 
 export const mode = SUPABASE_URL && SUPABASE_ANON_KEY ? "supabase" : "demo";
 
-const db = mode === "supabase"
+export const db = mode === "supabase"
   ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false } })
   : null;
+
+/** True when there is a real backend behind the page. */
+export const ready = () => mode === "supabase";
 
 const up = ({ data, error }) => { if (error) throw new Error(error.message); return data; };
 
@@ -106,6 +109,41 @@ export async function tutorMessages() {
   const { data, error } = await db.from("tutor_messages").select("*")
     .order("created_at", { ascending: false });
   return error ? { error: error.message } : { data };
+}
+
+/** Anyone who set preferences after the cutoff - i.e. after the groups were
+ *  worked out - with what they picked and when. */
+export async function latePreferences() {
+  if (mode === "demo") return { data: [] };
+  const [setting, subs, studs, avail, tuts] = await Promise.all([
+    db.from("settings").select("*").eq("key", "prefs_cutoff").maybeSingle(),
+    db.from("submissions").select("*"),
+    db.from("students").select("*"),
+    db.from("availability").select("*"),
+    db.from("tutorials").select("*").order("sort_order"),
+  ]);
+  const cutoff = setting.data && setting.data.value ? new Date(setting.data.value) : null;
+  if (!cutoff) return { data: [] };
+  const byId = new Map((studs.data || []).map((x) => [x.id, x]));
+  const tutById = new Map((tuts.data || []).map((t) => [t.id, t]));
+  return {
+    data: (subs.data || [])
+      .filter((x) => new Date(x.submitted_at) > cutoff)
+      .sort((a, b) => new Date(b.submitted_at) - new Date(a.submitted_at))
+      .map((x) => ({
+        name: (byId.get(x.student_id) || {}).name || "(unknown)",
+        is_vet: Boolean((byId.get(x.student_id) || {}).is_vet),
+        at: x.submitted_at,
+        note: x.note || "",
+        picks: (avail.data || [])
+          .filter((a) => a.student_id === x.student_id)
+          .sort((a, b) => a.rank - b.rank)
+          .map((a) => ({
+            id: a.tutorial_id,
+            when: (tutById.get(a.tutorial_id) || {}).when_text || a.tutorial_id,
+          })),
+      })),
+  };
 }
 
 /* ---------------------------------------------------------------- shared */

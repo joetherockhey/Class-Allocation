@@ -197,3 +197,52 @@ button.slot.dayslot{
   table{font-size:13px}
   th,td{padding:6px 7px}
 }
+
+/* class feed ------------------------------------------------------------ */
+button.small{font-size:12.5px;padding:6px 11px}
+.composer{display:grid;gap:8px}
+.composer input,.composer textarea{font:inherit;font-size:14.5px;padding:9px 12px;border-radius:9px;
+  border:1px solid var(--line-strong);background:var(--bg);color:var(--ink);width:100%;resize:vertical}
+.composer input:focus,.composer textarea:focus{outline:2px solid var(--accent);outline-offset:-1px}
+.filepick{display:flex;align-items:center;gap:9px;background:var(--accent-soft);color:var(--accent);
+  border-radius:8px;padding:7px 11px;font-size:12.5px;font-weight:600}
+#postMsg{font-size:13px}
+#postMsg.ok{color:var(--ok);font-weight:600}
+#postMsg.err{color:var(--warn)}
+#feed{display:grid;gap:12px}
+#feed .empty{color:var(--muted);text-align:center;padding:28px 14px;background:var(--panel);
+  border:1px dashed var(--line-strong);border-radius:12px;margin:0}
+.post{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 15px;
+  box-shadow:0 1px 2px rgba(16,24,40,.05)}
+.post header{display:flex;align-items:baseline;gap:9px;margin-bottom:5px}
+.post .who{font-weight:700;font-size:14.5px}
+.post time{color:var(--muted);font-size:12px}
+.post .body{margin:0;white-space:pre-wrap;word-break:break-word;font-size:14.5px}
+.post .shot{display:block;margin-top:11px;border-radius:10px;overflow:hidden;line-height:0;
+  border:1px solid var(--line)}
+.post .shot img{width:100%;max-height:460px;object-fit:cover;display:block}
+.post .fileline{display:inline-block;margin-top:10px;background:var(--bg);border:1px solid var(--line-strong);
+  border-radius:8px;padding:7px 11px;font-size:13px;text-decoration:none}
+.post .acts{display:flex;align-items:center;gap:8px;margin-top:11px;padding-top:9px;
+  border-top:1px solid var(--line);flex-wrap:wrap}
+.post .acts button{font:inherit;font-size:13px;font-weight:600;border-radius:8px;padding:5px 12px;
+  border:1px solid var(--line-strong);background:var(--panel);color:var(--muted);cursor:pointer}
+.post .acts button:hover{border-color:var(--accent);color:var(--accent)}
+.post .acts button.like.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.post .likers{color:var(--muted);font-size:12px;margin-left:2px}
+.post .comments{margin-top:10px;border-top:1px solid var(--line);padding-top:9px}
+.post .c{padding:6px 0;border-bottom:1px solid var(--line)}
+.post .c:last-of-type{border-bottom:none}
+.post .c b{font-size:13px}
+.post .c p{margin:2px 0 0;font-size:13.5px;white-space:pre-wrap;word-break:break-word}
+form.cform{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+form.cform .cname{flex:0 0 130px}
+form.cform .cbody{flex:1;min-width:150px}
+form.cform input{font:inherit;font-size:13px;padding:7px 10px;border-radius:8px;
+  border:1px solid var(--line-strong);background:var(--bg);color:var(--ink)}
+form.cform button{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;border-radius:8px;
+  border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+@media (max-width:520px){
+  form.cform .cname{flex:1 1 100%}
+  .post .shot img{max-height:320px}
+}

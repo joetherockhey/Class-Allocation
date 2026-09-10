@@ -1,6 +1,7 @@
 import { loadCore, getPrefs, savePrefs, loadAllocations, el, escapeHtml, backendNotice,
   strandedPrefs, clearStranded } from "./api.js";
 import { COURSE_TITLE, INTRO, MIN_PICKS, MIN_PICKS_BY_NAME } from "./config.js";
+import { initFeed } from "./feed.js";
 
 const LS_KEY = "tutgroups.studentId";
 
@@ -17,12 +18,29 @@ init().catch((e) => {
   b.classList.remove("hidden");
 });
 
+function showFeed() {
+  el("feedArea").classList.remove("hidden");
+  el("prefsArea").classList.add("hidden");
+}
+function showPrefs() {
+  el("feedArea").classList.add("hidden");
+  el("prefsArea").classList.remove("hidden");
+  const known = students.find((s) => s.id === localStorage.getItem(LS_KEY));
+  if (known && !el("stepPrefs").classList.contains("hidden")) return;
+  if (known) signIn(known); else showNamePicker();
+}
+
 async function init() {
   el("courseTitle").textContent = COURSE_TITLE;
   document.title = COURSE_TITLE;
-  el("intro").textContent = INTRO;
+
+  // the feed does not depend on the roster loading, so start it first
+  initFeed().catch(() => {});
+  el("openPrefs").addEventListener("click", showPrefs);
+  el("closePrefs").addEventListener("click", () => { showFeed(); signOut(true); });
 
   ({ tutorials, students, settings, submitted } = await loadCore());
+  el("intro").textContent = INTRO;
 
   const note = [backendNotice(), settings.deadline_text].filter(Boolean).join(" ");
   if (note) {
@@ -33,7 +51,7 @@ async function init() {
   }
 
   el("nameSearch").addEventListener("input", renderNameGrid);
-  el("switchBtn").addEventListener("click", signOut);
+  el("switchBtn").addEventListener("click", () => signOut(false));
   el("saveBtn").addEventListener("click", save);
   el("sortBtn").addEventListener("click", () => {
     prefs.sort((a, b) => order(a) - order(b));
@@ -50,9 +68,7 @@ async function init() {
     if (dirty) { e.preventDefault(); e.returnValue = ""; }
   });
 
-  const known = students.find((s) => s.id === localStorage.getItem(LS_KEY));
-  if (known) await signIn(known);
-  else showNamePicker();
+  showFeed();
 }
 
 const tut = (id) => tutorials.find((t) => t.id === id);
@@ -137,12 +153,16 @@ async function signIn(student) {
   renderAll();
 }
 
-function signOut() {
+function signOut(quiet) {
   if (dirty && !confirm("You have unsaved changes. Leave anyway?")) return;
-  localStorage.removeItem(LS_KEY);
+  if (!quiet) localStorage.removeItem(LS_KEY);
   me = null; prefs = []; dirty = false;
   el("nameSearch").value = "";
-  showNamePicker();
+  el("whoami").classList.add("hidden");
+  el("switchBtn").classList.add("hidden");
+  el("stepPrefs").classList.add("hidden");
+  el("stepResult").classList.add("hidden");
+  if (!quiet) showNamePicker();
 }
 
 /* ------------------------------------------------------------- week grid */

@@ -1,4 +1,4 @@
-import { loadAdmin, el, escapeHtml, backendNotice, mode, tutorMessages } from "./api.js";
+import { loadAdmin, el, escapeHtml, backendNotice, mode, tutorMessages, latePreferences } from "./api.js";
 import { SITE_URL } from "./config.js";
 
 let tutorials = [], students = [], avail = [], allocs = [], settings = {}, submitted = new Set();
@@ -42,9 +42,31 @@ async function loadInbox() {
     "</td></tr>").join("") + "</tbody></table></div>";
 }
 
-loadInbox();
+async function loadLate() {
+  const res = await latePreferences();
+  const rows = res.data || [];
+  if (!rows.length) { el("latePanel").classList.add("hidden"); return; }
+  el("latePanel").classList.remove("hidden");
+  el("lateCount").textContent = rows.length + " waiting";
+  el("latePrefs").innerHTML =
+    '<div class="scroll-x"><table><thead><tr><th>Who</th><th>Submitted</th><th>What they picked</th></tr></thead><tbody>' +
+    rows.map((r) =>
+      "<tr><td><b>" + escapeHtml(r.name) + "</b>" +
+      (r.is_vet ? ' <span class="badge vet">vet</span>' : "") +
+      (r.note ? '<br><span class="sub">' + escapeHtml(r.note) + "</span>" : "") + "</td>" +
+      "<td>" + new Date(r.at).toLocaleString("en-GB",
+        { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) + "</td>" +
+      "<td>" + (r.picks.length
+        ? r.picks.map((p, i) => '<span class="badge ok" style="margin:0 5px 4px 0">' +
+            (i + 1) + ". " + escapeHtml(p.when) + "</span>").join("")
+        : '<span class="sub">nothing picked</span>') + "</td></tr>").join("") +
+    "</tbody></table></div>";
+}
 
-el("refreshBtn").addEventListener("click", () => { load().catch(fail); loadInbox(); });
+loadInbox();
+loadLate();
+
+el("refreshBtn").addEventListener("click", () => { load().catch(fail); loadInbox(); loadLate(); });
 el("exportBtn").addEventListener("click", exportJson);
 
 load().catch(fail);

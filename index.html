@@ -3,74 +3,110 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tutorial Presentation Groups</title>
+<title>Tutorial Presentations</title>
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <h1 id="courseTitle">Tutorial Presentation Groups</h1>
+    <h1 id="courseTitle">Tutorial Presentations</h1>
     <span class="spacer"></span>
     <span id="whoami" class="badge ok hidden"></span>
     <button id="switchBtn" class="ghost hidden">Not you?</button>
   </header>
-  <p class="sub" id="intro"></p>
+  <p class="sub" id="intro">How did your tutorial go? Post about it below.</p>
 
   <div id="banner" class="notice hidden"></div>
 
-  <p class="row" style="margin:0 0 16px">
+  <div class="row" style="margin:0 0 18px">
     <a href="groups.html"><button class="primary">See the presentation groups</button></a>
-    <span class="sub" style="margin:0">Who is presenting at which tutorial.</span>
-  </p>
+    <button id="openPrefs" class="ghost small">Set presentation preferences (if you haven't already)</button>
+  </div>
 
-  <section id="stepName" class="panel hidden">
-    <h2>Find your name</h2>
-    <input id="nameSearch" type="search" placeholder="Start typing your name…" autocomplete="off">
-    <div style="height:12px"></div>
-    <div id="nameGrid" class="namegrid"></div>
-    <p class="sub" style="margin:14px 0 0">A green dot means that person has already submitted.</p>
-  </section>
-
-  <section id="stepPrefs" class="hidden">
-    <div class="panel">
-      <h2>Which tutorials could you attend?</h2>
-      <p class="sub" style="margin-bottom:0">
-        You only need to be there for the first 30 minutes, starting at the time on the left.
-        The tutorial's full length is in brackets. Tap every slot you could make, at least five —
-        a day name takes the whole column. The more you pick, the better your chances.
-      </p>
-      <div id="gridWrap" style="margin-top:16px"></div>
-    </div>
-
-    <div class="panel">
-      <div class="colhead">
-        <h2 style="margin:0">Your order of preference</h2>
-        <span class="count" id="prefCount"></span>
-        <span class="spacer"></span>
-        <button id="sortBtn" class="tiny">Sort by time</button>
+  <!-- ------------------------------------------------------------- the feed -->
+  <section id="feedArea">
+    <div class="panel composer">
+      <input id="postName" type="text" placeholder="Your name" maxlength="60" autocomplete="name">
+      <textarea id="postBody" rows="3" maxlength="2000"
+        placeholder="Went this morning and it was great…"></textarea>
+      <div id="filePick" class="filepick" hidden>
+        <span id="fileName"></span>
+        <button id="clearFile" class="tiny ghost">Remove</button>
       </div>
-      <p class="sub">Top of the list = you'd most like this one. Drag or use ▲▼. If you don't mind, leave it as it is.</p>
-      <div id="prefList" class="list" data-empty="Nothing picked yet — tap some hours above."></div>
-    </div>
-
-    <div class="panel">
-      <div id="needMore" class="notice"></div>
       <div class="row">
-        <button id="saveBtn" class="primary">Submit my preferences</button>
-        <span id="saveMsg" class="sub" style="margin:0"></span>
+        <button id="dropFile" class="tiny">Add photo or file</button>
+        <input id="postFile" type="file" hidden
+          accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.txt,.csv">
         <span class="spacer"></span>
-        <button id="clearBtn" class="ghost">Clear all</button>
+        <span id="postMsg"></span>
+        <button id="postBtn" class="primary">Post</button>
       </div>
     </div>
+
+    <div id="feed"></div>
   </section>
 
-  <section id="stepResult" class="panel hidden">
-    <h2>Your group</h2>
-    <div id="resultBody"></div>
+  <!-- ------------------------------------------------------ preference picker -->
+  <section id="prefsArea" class="hidden">
+    <div class="panel">
+      <div class="row">
+        <h2 style="margin:0">Set your presentation preferences</h2>
+        <span class="spacer"></span>
+        <button id="closePrefs" class="ghost">Back to the feed</button>
+      </div>
+      <p class="sub" style="margin:10px 0 0">
+        Only needed if you have not done this already. You only need to be there for the
+        first 30 minutes, starting at the time on the left; the tutorial's full length is
+        in brackets. Tap every slot you could make, at least five — a day name takes the
+        whole column.
+      </p>
+    </div>
+
+    <section id="stepName" class="panel hidden">
+      <h2>Find your name</h2>
+      <input id="nameSearch" type="search" placeholder="Start typing your name…" autocomplete="off">
+      <div style="height:12px"></div>
+      <div id="nameGrid" class="namegrid"></div>
+      <p class="sub" style="margin:14px 0 0">A green dot means that person has already submitted.</p>
+    </section>
+
+    <section id="stepPrefs" class="hidden">
+      <div class="panel">
+        <h2>Which tutorials could you attend?</h2>
+        <div id="gridWrap" style="margin-top:16px"></div>
+      </div>
+
+      <div class="panel">
+        <div class="colhead">
+          <h2 style="margin:0">Your order of preference</h2>
+          <span class="count" id="prefCount"></span>
+          <span class="spacer"></span>
+          <button id="sortBtn" class="tiny">Sort by time</button>
+        </div>
+        <p class="sub">Top of the list = you'd most like this one. Drag or use ▲▼.</p>
+        <div id="prefList" class="list" data-empty="Nothing picked yet — tap some hours above."></div>
+      </div>
+
+      <div class="panel">
+        <div id="needMore" class="notice"></div>
+        <div class="row">
+          <button id="saveBtn" class="primary">Submit my preferences</button>
+          <span id="saveMsg" class="sub" style="margin:0"></span>
+          <span class="spacer"></span>
+          <button id="clearBtn" class="ghost">Clear all</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="stepResult" class="panel hidden">
+      <h2>Your group</h2>
+      <div id="resultBody"></div>
+    </section>
   </section>
 
-  <footer>You can come back and change this any time before the deadline.<br>
-    <a href="share.html">Show the QR code</a> to pass this on to someone else.</footer>
+  <footer>
+    <a href="groups.html">Presentation groups</a> &middot; <a href="share.html">QR code</a>
+  </footer>
 </div>
 <script type="module" src="assets/student.js"></script>
 </body>
