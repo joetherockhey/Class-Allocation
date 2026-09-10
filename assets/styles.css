@@ -272,3 +272,5 @@ form.cform button{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;b
   #upcomingBox .panel{position:static}
   #upcoming{max-height:340px}
 }
+#upcoming li.past{opacity:.5}
+#upcoming li.past .in{color:var(--muted)}

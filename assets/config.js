@@ -24,3 +24,8 @@ export const MIN_PICKS_BY_NAME = {
 // Public address of this site. Used for the QR code shown on the share page.
 // Change it and re-run `npm run gen-qr` if the site ever moves.
 export const SITE_URL = "https://joetherockhey.github.io/Class-Allocation/";
+
+// The Monday of the single week these tutorials run in. Everything is dated
+// from here, so the countdowns are real dates rather than a weekly repeat.
+// Change it if the week moves.
+export const WEEK_START = "2026-09-14";

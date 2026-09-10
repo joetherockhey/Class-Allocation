@@ -67,6 +67,13 @@ Nobody is ever placed in a tutorial they did not list.
 Names in all of these must match `data/roster.csv` exactly; unmatched names are
 reported rather than ignored.
 
+## Dates
+
+The tutorials run once, in the week beginning `WEEK_START` in
+`assets/config.js` (Monday 14 September 2026). They are not weekly fixtures.
+The upcoming-tutorials panel dates everything from there; move that one value
+if the week moves.
+
 ## Saved plans
 
 `plans/` holds the arrangements that have been agreed, each with the pin set

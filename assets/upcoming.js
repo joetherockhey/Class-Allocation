@@ -1,14 +1,15 @@
 /**
  * "Upcoming tutorials" panel on the home page.
  *
- * The timetable has no dates, only a day and a time, so each tutorial is
- * treated as a weekly fixture and ordered by how soon it next comes round.
- * Everything is listed - the soonest first - so the panel scrolls through the
- * whole week rather than showing a fixed few.
+ * These tutorials run once, in a single week, not weekly. Each one is dated
+ * from WEEK_START in config.js, so the countdowns are real - a Friday slot is
+ * eight days away, not eight hours - and anything already past is marked done
+ * and pushed to the bottom rather than reappearing as next week's.
  */
 import { el, escapeHtml } from "./api.js";
+import { WEEK_START } from "./config.js";
 
-const DAY = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+const OFFSET = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4, Sat: 5, Sun: 6 };
 
 /** "Wed 10-10:30am" -> minutes past midnight for the start. */
 function startMinutes(when) {
@@ -24,24 +25,31 @@ function startMinutes(when) {
   return h * 60 + m;
 }
 
-/** Minutes from now until this weekly fixture next runs. */
-function until(when, now) {
-  const day = DAY[String(when).split(" ")[0]];
+/** The actual date and time this tutorial runs, or null if unparseable. */
+function dateOf(when) {
+  const day = OFFSET[String(when).split(" ")[0]];
   const mins = startMinutes(when);
-  if (day === undefined || Number.isNaN(mins)) return Infinity;
-  const nowMins = now.getDay() * 1440 + now.getHours() * 60 + now.getMinutes();
-  let d = day * 1440 + mins - nowMins;
-  if (d < -30) d += 7 * 1440;            // just started still counts as now
-  return d;
+  if (day === undefined || Number.isNaN(mins)) return null;
+  const [y, mo, d] = String(WEEK_START).split("-").map(Number);
+  if (!y || !mo || !d) return null;
+  const dt = new Date(y, mo - 1, d);            // local midnight that Monday
+  dt.setDate(dt.getDate() + day);
+  dt.setMinutes(mins);
+  return dt;
 }
 
-const soon = (mins) => {
-  if (mins < 0) return "on now";
-  if (mins < 60) return "in " + Math.round(mins) + " min";
-  if (mins < 24 * 60) return "in " + Math.round(mins / 60) + "h";
+const dayLabel = (dt) =>
+  dt.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+
+function countdown(dt, now) {
+  const mins = (dt - now) / 60000;
+  if (mins < -30) return { text: "done", past: true };
+  if (mins < 0) return { text: "on now", past: false };
+  if (mins < 60) return { text: "in " + Math.round(mins) + " min", past: false };
+  if (mins < 24 * 60) return { text: "in " + Math.round(mins / 60) + "h", past: false };
   const d = Math.round(mins / (24 * 60));
-  return "in " + d + (d === 1 ? " day" : " days");
-};
+  return { text: "in " + d + (d === 1 ? " day" : " days"), past: false };
+}
 
 export async function initUpcoming() {
   const box = el("upcoming");
@@ -52,25 +60,30 @@ export async function initUpcoming() {
     if (!r.ok) throw new Error(String(r.status));
     plan = await r.json();
   } catch {
-    box.innerHTML = '<p class="none">Groups have not been published yet.</p>';
+    box.innerHTML = '<li class="none">Groups have not been published yet.</li>';
     return;
   }
 
   const now = new Date();
   const rows = (plan.groups || [])
-    .map((g) => ({ g, mins: until(g.when, now) }))
-    .filter((x) => Number.isFinite(x.mins))
-    .sort((a, b) => a.mins - b.mins);
+    .map((g) => ({ g, dt: dateOf(g.when) }))
+    .filter((x) => x.dt)
+    .map((x) => ({ ...x, c: countdown(x.dt, now) }))
+    // still to come first, in order; anything finished collects at the bottom
+    .sort((a, b) => (a.c.past - b.c.past) || (a.dt - b.dt));
 
-  if (!rows.length) { box.innerHTML = '<p class="none">Nothing scheduled.</p>'; return; }
+  if (!rows.length) { box.innerHTML = '<li class="none">Nothing scheduled.</li>'; return; }
 
-  box.innerHTML = rows.map(({ g, mins }, i) => `
-    <li class="${i === 0 ? "next" : ""}">
+  const firstUpcoming = rows.findIndex((x) => !x.c.past);
+  box.innerHTML = rows.map(({ g, dt, c }, i) => `
+    <li class="${i === firstUpcoming ? "next" : ""}${c.past ? " past" : ""}">
       <div class="hd">
         <b>${escapeHtml(g.tutorial_id.replace(/^T/, "Tut "))}</b>
-        <span class="in">${escapeHtml(soon(mins))}</span>
+        <span class="in">${escapeHtml(c.text)}</span>
       </div>
-      <div class="wh">${escapeHtml(g.when)}${g.location ? " &middot; " + escapeHtml(g.location) : ""}</div>
+      <div class="wh">${escapeHtml(dayLabel(dt))} &middot; ${escapeHtml(
+        String(g.when).split(" ").slice(1).join(" "))}${
+        g.location ? " &middot; " + escapeHtml(g.location) : ""}</div>
       <div class="ppl">${g.members.length
         ? g.members.map((m) => escapeHtml(m.name) + (m.is_vet ? '<span class="v">vet</span>' : "")).join(", ")
         : "<i>nobody yet</i>"}</div>
