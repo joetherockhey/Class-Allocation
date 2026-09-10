@@ -1,4 +1,4 @@
-import { loadAdmin, el, escapeHtml, backendNotice, mode } from "./api.js";
+import { loadAdmin, el, escapeHtml, backendNotice, mode, tutorMessages } from "./api.js";
 import { SITE_URL } from "./config.js";
 
 let tutorials = [], students = [], avail = [], allocs = [], settings = {}, submitted = new Set();
@@ -16,7 +16,35 @@ fetch("assets/qr.svg")
   .then((svg) => { el("qrThumb").innerHTML = svg; })
   .catch(() => { el("qrThumb").textContent = ""; });
 
-el("refreshBtn").addEventListener("click", () => load().catch(fail));
+el("inboxRefresh").addEventListener("click", loadInbox);
+
+async function loadInbox() {
+  const box = el("joeInbox");
+  box.innerHTML = "Loading…";
+  const res = await tutorMessages();
+  if (res.error) {
+    el("inboxCount").textContent = "";
+    box.innerHTML = /tutor_messages/.test(res.error)
+      ? '<div class="notice">Not set up yet &mdash; run <code>supabase/tutor-messages.sql</code>.</div>'
+      : '<div class="notice warn">' + escapeHtml(res.error) + "</div>";
+    return;
+  }
+  const rows = res.data;
+  el("inboxCount").textContent = rows.length ? rows.length + " total" : "";
+  el("inboxCount").className = "badge " + (rows.some((r) => !r.handled) ? "warn" : "ok");
+  if (!rows.length) { box.innerHTML = '<p class="sub" style="margin:0">Nothing yet.</p>'; return; }
+  box.innerHTML = '<div class="scroll-x"><table><tbody>' + rows.map((m) =>
+    "<tr><td style=\"width:150px\"><b>" + escapeHtml(m.name) + "</b><br>" +
+    '<span class="sub">' + new Date(m.created_at).toLocaleString("en-GB",
+      { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) + "</span></td>" +
+    '<td style="white-space:pre-wrap">' + escapeHtml(m.body) + "</td>" +
+    '<td style="text-align:right">' + (m.handled ? '<span class="badge ok">done</span>' : "") +
+    "</td></tr>").join("") + "</tbody></table></div>";
+}
+
+loadInbox();
+
+el("refreshBtn").addEventListener("click", () => { load().catch(fail); loadInbox(); });
 el("exportBtn").addEventListener("click", exportJson);
 
 load().catch(fail);

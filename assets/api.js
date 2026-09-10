@@ -98,6 +98,16 @@ export async function loadAdmin() {
   return { ...core, avail, allocs };
 }
 
+/** Messages students sent through the "Message Joe" box. Returns {data} or
+ *  {error} rather than throwing, since the table may not exist yet and that is
+ *  a normal state, not a failure. */
+export async function tutorMessages() {
+  if (mode === "demo") return { data: [] };
+  const { data, error } = await db.from("tutor_messages").select("*")
+    .order("created_at", { ascending: false });
+  return error ? { error: error.message } : { data };
+}
+
 /* ---------------------------------------------------------------- shared */
 export const el = (id) => document.getElementById(id);
 

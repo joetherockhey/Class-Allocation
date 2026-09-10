@@ -80,6 +80,26 @@ form.post .err{font-size:12px;color:#b45309}
 .note{background:#fdf3e3;border:1px solid #e3b341;color:#7a4d05;border-radius:10px;
   padding:12px 14px;font-size:13.5px;margin-top:20px}
 footer.end{margin-top:30px;color:var(--muted);font-size:12.5px;text-align:center}
+details.tojoe{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;margin:0 0 16px}
+details.tojoe summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;
+  flex-wrap:wrap;user-select:none}
+details.tojoe summary::-webkit-details-marker{display:none}
+details.tojoe .btn{background:var(--accent);color:#fff;border-radius:9px;padding:9px 16px;
+  font-weight:700;font-size:14px;white-space:nowrap}
+details.tojoe .hint{color:var(--muted);font-size:13px}
+details.tojoe[open] .btn{background:var(--ink)}
+#joeForm{display:grid;gap:8px;margin-top:12px}
+#joeForm input,#joeForm textarea{font:inherit;font-size:14px;padding:9px 11px;border-radius:9px;
+  border:1px solid var(--line-strong);background:var(--bg);color:var(--ink);width:100%;resize:vertical}
+#joeForm input:focus,#joeForm textarea:focus{outline:2px solid var(--accent);outline-offset:-1px}
+#joeForm .row{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+#joeForm button{font:inherit;font-size:14px;font-weight:600;padding:9px 18px;border-radius:9px;
+  border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+#joeForm button:disabled{opacity:.5;cursor:not-allowed}
+#joeMsg{font-size:13px}
+#joeMsg.ok{color:#15803d;font-weight:600}
+#joeMsg.err{color:#b45309}
 .explain{background:var(--panel);border:1px solid var(--line);border-radius:12px;
   padding:14px 16px;margin:4px 0 6px;font-size:14px}
 .explain p{margin:0}
@@ -145,6 +165,19 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
 <div class="wrap">
   <h1>Presentation groups</h1>
   <p class="sub">Everyone presents at two or three tutorials. <a href="index.html">Back to preferences</a></p>
+
+  <details class="tojoe">
+    <summary><span class="btn">Send a message to Joe</span><span class="hint">Something wrong with your schedule? Tell me here.</span></summary>
+    <form id="joeForm" autocomplete="off">
+      <input id="joeName" type="text" placeholder="Your name" maxlength="60" required>
+      <textarea id="joeBody" rows="4" maxlength="1000" required
+        placeholder="What is the problem? For example: a clash with another class, or you cannot make one of the times you have been given."></textarea>
+      <div class="row">
+        <button type="submit">Send</button>
+        <span id="joeMsg"></span>
+      </div>
+    </form>
+  </details>
 
   <div class="stats">
     <div><b>23</b><span>tutorials</span></div>
@@ -888,6 +921,39 @@ function filter() {
   hits[0].scrollIntoView({ behavior: "smooth", block: "center" });
 }
 find.addEventListener("input", filter);
+
+/* ------------------------------------------------------- message to Joe */
+const joeForm = document.getElementById("joeForm");
+if (joeForm) {
+  const nameEl = document.getElementById("joeName");
+  const bodyEl = document.getElementById("joeBody");
+  const out = document.getElementById("joeMsg");
+  try { nameEl.value = localStorage.getItem("tutgroups.msgname") || ""; } catch { /* private mode */ }
+
+  joeForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    out.className = "";
+    out.textContent = "";
+    const name = nameEl.value.trim(), body = bodyEl.value.trim();
+    if (!name || !body) { out.className = "err"; out.textContent = "Name and message are both needed."; return; }
+    if (!db) { out.className = "err"; out.textContent = "Not connected."; return; }
+    const btn = joeForm.querySelector("button");
+    btn.disabled = true;
+    const { error } = await db.from("tutor_messages").insert({ name, body });
+    btn.disabled = false;
+    if (error) {
+      out.className = "err";
+      out.textContent = /tutor_messages/.test(error.message)
+        ? "Not set up yet - tell Joe in person."
+        : "Could not send: " + error.message;
+      return;
+    }
+    try { localStorage.setItem("tutgroups.msgname", name); } catch { /* ignore */ }
+    bodyEl.value = "";
+    out.className = "ok";
+    out.textContent = "Sent. Joe will see it on his dashboard.";
+  });
+}
 
 /* ------------------------------------------------------------ messages */
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
