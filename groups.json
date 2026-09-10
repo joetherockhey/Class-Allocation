@@ -454,13 +454,6 @@
           "load": 3
         },
         {
-          "id": "a312826e-41db-4ce7-bcf7-1333a387e9b9",
-          "name": "Joseph Hoffmann",
-          "is_vet": true,
-          "got_choice": 5,
-          "load": 3
-        },
-        {
           "id": "f674d608-5e84-4151-b7cf-52546114d39a",
           "name": "Josh Phipps",
           "is_vet": false,
@@ -924,8 +917,8 @@
   ],
   "loads": {
     "1": 2,
-    "2": 27,
-    "3": 15,
+    "2": 28,
+    "3": 14,
     "4": 1
   },
   "not_submitted": [
