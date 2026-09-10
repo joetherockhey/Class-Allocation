@@ -1,0 +1,32 @@
+{
+  "_note": "Decisions made by hand after an allocation run. Without these a re-run silently undoes them. Names and tutorial ids must match exactly; anything unmatched is reported.",
+  "force": [
+    {
+      "name": "Kenn Surya",
+      "tutorial": "T26",
+      "why": "told the tutor he can make Thursday 8am"
+    },
+    {
+      "name": "Laam Cheung",
+      "tutorial": "T27",
+      "why": "added at the tutor's request"
+    },
+    {
+      "name": "Max Dewinter",
+      "tutorial": "T23",
+      "why": "tutor asked for him in 23; T24 is the same hour so he cannot have both"
+    }
+  ],
+  "block": [
+    {
+      "name": "Wenlong Ma",
+      "tutorial": "T12",
+      "why": "asked to present twice, not three times"
+    },
+    {
+      "name": "Joseph Hoffmann",
+      "tutorial": "T16",
+      "why": "removed at the tutor's request"
+    }
+  ]
+}
