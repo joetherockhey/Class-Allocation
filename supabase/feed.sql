@@ -34,32 +34,32 @@ alter table posts         enable row level security;
 alter table post_comments enable row level security;
 alter table post_likes    enable row level security;
 
-drop policy if exists read_posts     on posts;
-drop policy if exists write_posts    on posts;
-drop policy if exists read_comments  on post_comments;
-drop policy if exists write_comments on post_comments;
-drop policy if exists read_likes     on post_likes;
-drop policy if exists write_likes    on post_likes;
-drop policy if exists unlike         on post_likes;
+drop policy if exists "read_posts"     on posts;
+drop policy if exists "write_posts"    on posts;
+drop policy if exists "read_comments"  on post_comments;
+drop policy if exists "write_comments" on post_comments;
+drop policy if exists "read_likes"     on post_likes;
+drop policy if exists "write_likes"    on post_likes;
+drop policy if exists "remove_likes" on post_likes;
 
-create policy read_posts     on posts         for select to anon, authenticated using (true);
-create policy write_posts    on posts         for insert to anon, authenticated with check (true);
-create policy read_comments  on post_comments for select to anon, authenticated using (true);
-create policy write_comments on post_comments for insert to anon, authenticated with check (true);
-create policy read_likes     on post_likes    for select to anon, authenticated using (true);
-create policy write_likes    on post_likes    for insert to anon, authenticated with check (true);
+create policy "read_posts"     on posts         for select to anon, authenticated using (true);
+create policy "write_posts"    on posts         for insert to anon, authenticated with check (true);
+create policy "read_comments"  on post_comments for select to anon, authenticated using (true);
+create policy "write_comments" on post_comments for insert to anon, authenticated with check (true);
+create policy "read_likes"     on post_likes    for select to anon, authenticated using (true);
+create policy "write_likes"    on post_likes    for insert to anon, authenticated with check (true);
 -- liking is the one thing that can be undone
-create policy unlike         on post_likes    for delete to anon, authenticated using (true);
+create policy "remove_likes" on post_likes    for delete to anon, authenticated using (true);
 
 -- ------------------------------------------------------------------ uploads
 insert into storage.buckets (id, name, public, file_size_limit)
 values ('uploads', 'uploads', true, 10485760)
 on conflict (id) do update set public = true, file_size_limit = 10485760;
 
-drop policy if exists uploads_read   on storage.objects;
-drop policy if exists uploads_write  on storage.objects;
+drop policy if exists "uploads_read"   on storage.objects;
+drop policy if exists "uploads_write"  on storage.objects;
 
-create policy uploads_read  on storage.objects
+create policy "uploads_read"  on storage.objects
   for select to anon, authenticated using (bucket_id = 'uploads');
-create policy uploads_write on storage.objects
+create policy "uploads_write" on storage.objects
   for insert to anon, authenticated with check (bucket_id = 'uploads');
