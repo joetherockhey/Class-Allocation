@@ -20,7 +20,7 @@ into presentation groups. Static site on GitHub Pages, data in Supabase.
 | `assets/api.js` | swaps between Supabase and a localStorage preview backend |
 | `.env` | **service-role key, gitignored, local only** — needed by every script below |
 | `data/*.csv` | roster and timetable, the source of truth |
-| `supabase/schema.sql`, `supabase/messages.sql` | run once each in the SQL editor |
+| `supabase/schema.sql`, `supabase/messages.sql` | both already run; re-runnable |
 
 ## Commands
 
@@ -87,8 +87,6 @@ submitted and are unplaced: Eleanor Forsyth, John El-Barhoun, Nhu Ngo,
 Stefan Ferster, Tara Stevens.
 
 Open threads:
-- `supabase/messages.sql` has **not** been run, so the per-tutorial message
-  boards say "not set up yet" instead of working.
 - Idea 2 (staggering Tut 12, 18, 24, 28 by 30 minutes) was measured and not
   taken. `input-idea2.json` and `groups-idea2.json` still hold that working if
   it comes back up.
