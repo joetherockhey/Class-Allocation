@@ -249,7 +249,9 @@ form.cform button{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;b
 
 /* upcoming tutorials sidebar -------------------------------------------- */
 .home{display:grid;grid-template-columns:minmax(0,1fr) 302px;gap:16px;align-items:start}
-#upcomingBox .panel{position:sticky;top:14px;padding:15px}
+#upcomingBox{position:sticky;top:14px}
+#upcomingBox .panel{padding:15px}
+#upcomingBox .panel.needy{margin-bottom:14px}
 #upcomingBox h2{margin:0}
 #upcoming{list-style:none;margin:0;padding:0;max-height:min(66vh,620px);overflow-y:auto;
   border-top:1px solid var(--line)}
@@ -269,7 +271,7 @@ form.cform button{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;b
 #upcoming .none,#upcomingBox .none{color:var(--muted);font-size:13px;margin:0}
 @media (max-width:900px){
   .home{grid-template-columns:1fr}
-  #upcomingBox .panel{position:static}
+  #upcomingBox{position:static}
   #upcoming{max-height:340px}
 }
 #upcoming li.past{opacity:.5}
