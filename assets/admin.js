@@ -1,4 +1,4 @@
-import { loadAdmin, el, escapeHtml, backendNotice, mode, tutorMessages, latePreferences } from "./api.js";
+import { loadAdmin, el, escapeHtml, backendNotice, mode, tutorMessages, latePreferences, markHandled } from "./api.js";
 import { SITE_URL } from "./config.js";
 
 let tutorials = [], students = [], avail = [], allocs = [], settings = {}, submitted = new Set();
@@ -34,12 +34,32 @@ async function loadInbox() {
   el("inboxCount").className = "badge " + (rows.some((r) => !r.handled) ? "warn" : "ok");
   if (!rows.length) { box.innerHTML = '<p class="sub" style="margin:0">Nothing yet.</p>'; return; }
   box.innerHTML = '<div class="scroll-x"><table><tbody>' + rows.map((m) =>
-    "<tr><td style=\"width:150px\"><b>" + escapeHtml(m.name) + "</b><br>" +
+    '<tr class="msgrow' + (m.handled ? " done" : "") + '">' +
+    '<td style="width:34px"><input type="checkbox" class="tick" data-id="' + escapeHtml(m.id) + '"' +
+      (m.handled ? " checked" : "") + ' title="Mark as dealt with"></td>' +
+    '<td style="width:150px"><b>' + escapeHtml(m.name) + "</b><br>" +
     '<span class="sub">' + new Date(m.created_at).toLocaleString("en-GB",
       { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) + "</span></td>" +
     '<td style="white-space:pre-wrap">' + escapeHtml(m.body) + "</td>" +
-    '<td style="text-align:right">' + (m.handled ? '<span class="badge ok">done</span>' : "") +
-    "</td></tr>").join("") + "</tbody></table></div>";
+    "</tr>").join("") + "</tbody></table></div>";
+
+  box.querySelectorAll("input.tick").forEach((cb) => {
+    cb.onchange = async () => {
+      const row = cb.closest("tr");
+      row.classList.toggle("done", cb.checked);
+      cb.disabled = true;
+      const res = await markHandled(cb.dataset.id, cb.checked);
+      cb.disabled = false;
+      if (res.error) {                       // put it back the way it was
+        cb.checked = !cb.checked;
+        row.classList.toggle("done", cb.checked);
+        el("inboxCount").textContent = /policy|permission|denied/i.test(res.error)
+          ? "run handle-messages.sql" : res.error;
+        return;
+      }
+      loadInbox();
+    };
+  });
 }
 
 async function loadLate() {

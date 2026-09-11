@@ -157,6 +157,13 @@ export async function latePreferences() {
   };
 }
 
+/** Tick a student message off, or put it back. */
+export async function markHandled(id, handled) {
+  if (mode === "demo") return {};
+  const { error } = await db.from("tutor_messages").update({ handled }).eq("id", id);
+  return error ? { error: error.message } : {};
+}
+
 /* ---------------------------------------------------------------- shared */
 export const el = (id) => document.getElementById(id);
 

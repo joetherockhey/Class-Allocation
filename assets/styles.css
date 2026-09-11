@@ -314,3 +314,6 @@ form.volform button{font:inherit;font-size:13.5px;font-weight:600;padding:7px 15
   border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
 form.volform .msg{font-size:12.5px}
 form.volform .msg.ok{color:var(--ok);font-weight:600}
+tr.msgrow.done{opacity:.45}
+tr.msgrow.done td{text-decoration:line-through;text-decoration-color:var(--line-strong)}
+input.tick{width:17px;height:17px;cursor:pointer;accent-color:var(--accent)}
