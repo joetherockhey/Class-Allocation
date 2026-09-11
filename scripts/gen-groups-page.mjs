@@ -368,7 +368,7 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
 <div class="wrap">
   <h1>${esc(COURSE_TITLE)}</h1>
   <h2 style="margin:0 0 4px">Presentation groups</h2>
-  <p class="sub">Everyone presents at two or three tutorials. <a href="index.html">Back to preferences</a></p>
+  <p class="sub">Everyone presents at two or three tutorials. <a href="index.html">Back to home</a></p>
 
   <details class="tojoe">
     <summary><span class="btn">Send a message to Joe</span><span class="hint">Something wrong with your schedule? Tell me here.</span></summary>
