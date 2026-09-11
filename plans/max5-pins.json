@@ -15,6 +15,11 @@
       "name": "Max Dewinter",
       "tutorial": "T23",
       "why": "tutor asked for him in 23; T24 is the same hour so he cannot have both"
+    },
+    {
+      "name": "Hongming Hu",
+      "tutorial": "T17",
+      "why": "asked to move here; not on his original list"
     }
   ],
   "block": [
@@ -37,6 +42,16 @@
       "name": "Josh Phipps",
       "tutorial": "T36",
       "why": "removed at the tutor's request"
+    },
+    {
+      "name": "Hongming Hu",
+      "tutorial": "T13",
+      "why": "asked to be moved out"
+    },
+    {
+      "name": "Hongming Hu",
+      "tutorial": "T33",
+      "why": "asked to be moved out"
     }
   ]
 }

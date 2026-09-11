@@ -6,7 +6,7 @@ export const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiO
 
 // Shown at the top of the student page.
 export const COURSE_TITLE = "BUS1000 x WORK3601 Teamwork Tutorials";
-export const INTRO = "Pick your name, then tap every slot you could attend. You only need to be there for the first 30 minutes. You will be placed in a group of about five and given one of the slots you chose.";
+export const INTRO = "We are going into BUS1000 tutorials to spend half an hour talking to first-year students about teamwork. Check the presentation groups to see which sessions you are on, then post here about how yours went - photos welcome.";
 
 // Fewest times a student must pick before they can submit.
 export const MIN_PICKS = 5;

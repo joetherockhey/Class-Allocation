@@ -294,3 +294,21 @@ form.editform .err{font-size:12px;color:var(--warn)}
   color:#fff;font-weight:600}
 .notifybar.on{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
 .notifybar.off{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+
+/* tutorials short of presenters ----------------------------------------- */
+.panel.needy{border-color:var(--warn);background:var(--warn-soft)}
+.panel.needy h2{color:var(--warn)}
+.need{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 13px;margin-bottom:10px}
+.need:last-child{margin-bottom:0}
+.need .hd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.need .hd b{font-size:15px}
+.need .hd span{color:var(--muted);font-size:12.5px}
+.need .cur{font-size:13.5px;margin-top:5px}
+.need .vols{font-size:12.5px;color:var(--ok);font-weight:600;margin-top:4px}
+form.volform{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+form.volform input{font:inherit;font-size:13.5px;padding:7px 11px;border-radius:8px;flex:0 1 190px;
+  border:1px solid var(--line-strong);background:var(--bg);color:var(--ink)}
+form.volform button{font:inherit;font-size:13.5px;font-weight:600;padding:7px 15px;border-radius:8px;
+  border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+form.volform .msg{font-size:12.5px}
+form.volform .msg.ok{color:var(--ok);font-weight:600}

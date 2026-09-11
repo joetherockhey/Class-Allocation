@@ -6,7 +6,7 @@
  * eight days away, not eight hours - and anything already past is marked done
  * and pushed to the bottom rather than reappearing as next week's.
  */
-import { el, escapeHtml } from "./api.js";
+import { db, el, escapeHtml, ready } from "./api.js";
 import { WEEK_START } from "./config.js";
 
 const OFFSET = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4, Sat: 5, Sun: 6 };
@@ -74,6 +74,8 @@ export async function initUpcoming() {
 
   if (!rows.length) { box.innerHTML = '<li class="none">Nothing scheduled.</li>'; return; }
 
+  renderNeedy(rows);
+
   const firstUpcoming = rows.findIndex((x) => !x.c.past);
   box.innerHTML = rows.map(({ g, dt, c }, i) => `
     <li class="${i === firstUpcoming ? "next" : ""}${c.past ? " past" : ""}">
@@ -88,4 +90,69 @@ export async function initUpcoming() {
         ? g.members.map((m) => escapeHtml(m.name) + (m.is_vet ? '<span class="v">vet</span>' : "")).join(", ")
         : "<i>nobody yet</i>"}</div>
     </li>`).join("");
+}
+
+/* ------------------------------------------------ tutorials short of people
+ * Volunteering is just a message to the tutor, so it lands in the inbox that
+ * already exists rather than needing a table of its own.
+ */
+const MARK = "Volunteering to present at ";
+
+async function renderNeedy(rows) {
+  const box = el("needy");
+  const panel = el("needyBox");
+  if (!box || !panel) return;
+  const thin = rows.filter((x) => !x.c.past && x.g.members.length < 3);
+  if (!thin.length) { panel.hidden = true; return; }
+  panel.hidden = false;
+
+  let already = [];
+  if (ready()) {
+    const { data } = await db.from("tutor_messages").select("name,body");
+    already = (data || []).filter((m) => m.body.startsWith(MARK));
+  }
+
+  box.innerHTML = thin.map(({ g, dt }) => {
+    const vols = already.filter((m) => m.body.startsWith(MARK + g.tutorial_id));
+    return `<div class="need" data-id="${escapeHtml(g.tutorial_id)}" data-when="${escapeHtml(g.when)}">
+      <div class="hd"><b>${escapeHtml(g.tutorial_id.replace(/^T/, "Tut "))}</b>
+        <span>${escapeHtml(dt.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }))}
+        &middot; ${escapeHtml(String(g.when).split(" ").slice(1).join(" "))}${
+          g.location ? " &middot; " + escapeHtml(g.location) : ""}</span></div>
+      <div class="cur">Presenting: ${g.members.length
+        ? g.members.map((m) => escapeHtml(m.name)).join(", ")
+        : "nobody yet"} &mdash; needs at least ${Math.max(1, 3 - g.members.length)} more</div>
+      ${vols.length ? `<div class="vols">Already volunteered: ${
+        vols.map((v) => escapeHtml(v.name)).join(", ")}</div>` : ""}
+      <form class="volform">
+        <input class="vname" type="text" placeholder="Your name" maxlength="60" required>
+        <button type="submit">I can do this one</button>
+        <span class="msg"></span>
+      </form>
+    </div>`;
+  }).join("");
+
+  box.querySelectorAll("form.volform").forEach((f) => {
+    const wrap = f.closest(".need");
+    try { f.querySelector(".vname").value = localStorage.getItem("tutgroups.msgname") || ""; } catch { /* ignore */ }
+    f.onsubmit = async (e) => {
+      e.preventDefault();
+      const out = f.querySelector(".msg");
+      const name = f.querySelector(".vname").value.trim();
+      if (!name) { out.textContent = "Name first."; return; }
+      if (!ready()) { out.textContent = "Not connected."; return; }
+      const btn = f.querySelector("button");
+      btn.disabled = true;
+      const { error } = await db.from("tutor_messages").insert({
+        name,
+        body: MARK + wrap.dataset.id + " (" + wrap.dataset.when + ")",
+      });
+      btn.disabled = false;
+      if (error) { out.textContent = "Could not send: " + error.message; return; }
+      try { localStorage.setItem("tutgroups.msgname", name); } catch { /* ignore */ }
+      out.className = "msg ok";
+      out.textContent = "Thanks - Joe will confirm.";
+      f.querySelector("button").hidden = true;
+    };
+  });
 }
