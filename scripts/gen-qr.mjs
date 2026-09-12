@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-// Render the two QR codes into assets/, so the share page needs no network
-// call and no CDN library. Re-run if SITE_URL changes.
+// Render the QR codes into assets/, so the share page needs no network call and
+// no CDN library. Re-run if SITE_URL changes.
 //   qr.svg          -> the site, for choosing a name and setting preferences
 //   qr-feedback.svg -> the questionnaire the audience fills in after a talk
+// Each also gets a .png, big enough to drop straight onto a slide.
 import { readFileSync, writeFileSync } from "node:fs";
 import QRCode from "qrcode";
 
@@ -22,5 +23,15 @@ for (const [file, url] of [
     color: { dark: "#000000", light: "#ffffff" },
   });
   writeFileSync(file, svg);
-  console.log(`${file} -> ${url}`);
+
+  // 1200px so it stays crisp blown up on a projector or printed on a handout.
+  const png = file.replace(/\.svg$/, ".png");
+  await QRCode.toFile(png, url, {
+    type: "png",
+    errorCorrectionLevel: "M",
+    margin: 2,                   // a quiet border, or scanners struggle
+    width: 1200,
+    color: { dark: "#000000", light: "#ffffff" },
+  });
+  console.log(`${file} + ${png} -> ${url}`);
 }

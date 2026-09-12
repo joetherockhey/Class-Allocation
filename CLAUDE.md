@@ -36,7 +36,7 @@ npm run allocate-multi -- input.json --out=groups.json
 npm run groups-page -- groups.json groups.html
 npm run scenarios     # build + measure the staggered-timetable alternative
 npm run publish -- --close|--open            # stop/allow further submissions
-npm run gen-qr        # both QR codes: the site, and the feedback form
+npm run gen-qr        # both QR codes, .svg for the pages and .png for slides
 npm test              # the feedback sums
 ```
 
