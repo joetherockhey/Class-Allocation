@@ -22,10 +22,6 @@ try {
 
 // The clash comparison tab is off by default now that a plan has been chosen.
 // Pass --with-clashes to bring it back; clashes.json is still on disk.
-let menti = {};
-try { menti = JSON.parse(readFileSync("data/menti.json", "utf8")); } catch { /* none yet */ }
-const mentiFor = (id) => menti[id] || menti.default || null;
-
 let clash = null;
 if (process.argv.includes("--with-clashes")) {
   try { clash = JSON.parse(readFileSync("clashes.json", "utf8")); }
@@ -71,9 +67,6 @@ const tutorialCard = (g) => `
         </header>
         <p class="where">${esc(g.location)}${fullTime(g) ? ` &middot; runs ${esc(fullTime(g))}` : ""}</p>
         <ol class="who">${memberList(g)}</ol>
-        ${mentiFor(g.tutorial_id)
-          ? `<a class="menti" href="${esc(mentiFor(g.tutorial_id))}" target="_blank" rel="noopener">Open the Menti for this tutorial</a>`
-          : ""}
         <details class="board" data-tut="${esc(g.tutorial_id)}">
           <summary>Messages <span class="count"></span></summary>
           <div class="msgs">Loading…</div>
@@ -267,9 +260,6 @@ ol.who .rm{width:100%;color:var(--muted);font-size:11.5px}
 .card.hit{border-color:var(--hit-line);box-shadow:0 0 0 3px var(--hit)}
 li.hit{background:var(--hit);border-radius:5px;font-weight:700;margin:0 -6px;padding:5px 6px}
 .card.dim{opacity:.32}
-a.menti{display:block;text-align:center;margin-top:11px;padding:9px 12px;border-radius:9px;
-  background:var(--accent);color:#fff;font-size:13px;font-weight:700;text-decoration:none}
-a.menti:hover{filter:brightness(1.08)}
 details.board{margin-top:11px;border-top:1px solid var(--line);padding-top:8px}
 details.board summary{cursor:pointer;font-size:12.5px;color:var(--muted);font-weight:600;
   list-style:none;user-select:none}

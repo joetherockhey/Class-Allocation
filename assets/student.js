@@ -1,10 +1,13 @@
 import { loadCore, getPrefs, savePrefs, loadAllocations, el, escapeHtml, backendNotice,
   strandedPrefs, clearStranded, notTest } from "./api.js";
-import { COURSE_TITLE, INTRO, MIN_PICKS, MIN_PICKS_BY_NAME } from "./config.js";
+import { COURSE_TITLE, INTRO, MIN_PICKS, MIN_PICKS_BY_NAME, SLIDES_URL } from "./config.js";
 import { initFeed } from "./feed.js";
 import { initUpcoming } from "./upcoming.js";
 
 const LS_KEY = "tutgroups.studentId";
+
+// Set before init(), so the deck is still one click away if the backend is down.
+el("slidesLink").href = SLIDES_URL;
 
 let tutorials = [], students = [], submitted = new Set(), settings = {};
 let me = null;

@@ -19,7 +19,7 @@ into presentation groups. Static site on GitHub Pages, data in Supabase.
 | `feedback.html` + `assets/feedback.js` | what the audience scans: pick a tutorial, four sliders, a comment |
 | `assets/feedback-stats.js` | the questions, and the sums behind the home-page panel. Pure, tested by `npm test` |
 | `assets/feedback-view.js` | the "Feedback per tutorial" panel on the home page |
-| `assets/config.js` | Supabase URL + anon key (public, committed), `MIN_PICKS*` |
+| `assets/config.js` | Supabase URL + anon key (public, committed), `MIN_PICKS*`, `SLIDES_URL` |
 | `assets/api.js` | swaps between Supabase and a localStorage preview backend |
 | `.env` | **service-role key, gitignored, local only** — needed by every script below |
 | `data/*.csv` | roster and timetable, the source of truth |
@@ -110,6 +110,17 @@ with `TEST` is filtered out of the preference grid and the dashboard counts by
 `notTest` in `assets/api.js` — it exists only so feedback has something safe to
 point at. Leaving it in costs nothing; deleting the row removes its feedback
 with it.
+
+## Slides
+
+One deck for the whole course, linked from the home page as **Link to the
+slides** (`SLIDES_URL` in `assets/config.js`). The per-tutorial Menti link is
+gone — `data/menti.json` and the button it put on every card came out.
+
+The stored URL is the `/view` form on purpose: the short link we were handed
+redirected to `/edit`, which puts an editable deck one tap away for anyone who
+finds the page. A `/view` URL is not a permission — set the Canva share option
+to view-only as well.
 
 ## Dates
 

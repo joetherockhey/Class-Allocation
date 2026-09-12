@@ -21,6 +21,16 @@ export const MIN_PICKS_BY_NAME = {
   "Max Dewinter": 4,
 };
 
+// The slide deck everyone presents from. One deck for the course, linked from
+// the home page - there is no per-tutorial version.
+//
+// This is the /view form. The short link we were given (canva.link/av681epx9s74pib)
+// redirects to /edit, which would hand every student who taps it the editable
+// deck from a public page. Check the sharing setting in Canva too: the URL alone
+// does not stop editing if the design is set to "anyone with the link can edit".
+export const SLIDES_URL =
+  "https://www.canva.com/design/DAHU6PXj11c/NDYvePauXs8TKYPAr5lctg/view";
+
 // Public address of this site. Used for the QR code shown on the share page.
 // Change it and re-run `npm run gen-qr` if the site ever moves.
 export const SITE_URL = "https://joetherockhey.github.io/Class-Allocation/";
