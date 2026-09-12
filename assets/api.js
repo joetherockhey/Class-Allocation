@@ -160,8 +160,11 @@ export async function latePreferences() {
 /** Tick a student message off, or put it back. */
 export async function markHandled(id, handled) {
   if (mode === "demo") return {};
-  const { error } = await db.from("tutor_messages").update({ handled }).eq("id", id);
-  return error ? { error: error.message } : {};
+  // .select() so a row comes back: without it RLS refuses the write with a
+  // 200 and an empty body, and the tick silently undoes itself on refresh.
+  const { data, error } = await db.from("tutor_messages").update({ handled }).eq("id", id).select();
+  if (error) return { error: error.message };
+  return data.length ? {} : { error: "denied - run supabase/handle-messages.sql" };
 }
 
 /* ---------------------------------------------------------------- shared */
