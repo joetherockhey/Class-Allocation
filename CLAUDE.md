@@ -16,11 +16,15 @@ into presentation groups. Static site on GitHub Pages, data in Supabase.
 | `index.html` + `assets/student.js` | student page: pick name, tap slots on a week grid |
 | `groups.html` | generated results page: by tutorial, by person, tutorial clashes |
 | `admin.html` | submission progress, slot coverage, export button |
+| `feedback.html` + `assets/feedback.js` | what the audience scans: pick a tutorial, four sliders, a comment |
+| `assets/feedback-stats.js` | the questions, and the sums behind the home-page panel. Pure, tested by `npm test` |
+| `assets/feedback-view.js` | the "Feedback per tutorial" panel on the home page |
 | `assets/config.js` | Supabase URL + anon key (public, committed), `MIN_PICKS*` |
 | `assets/api.js` | swaps between Supabase and a localStorage preview backend |
 | `.env` | **service-role key, gitignored, local only** — needed by every script below |
 | `data/*.csv` | roster and timetable, the source of truth |
 | `supabase/schema.sql`, `supabase/messages.sql` | both already run; re-runnable |
+| `supabase/feedback.sql` | the audience-feedback table. Re-runnable |
 
 ## Commands
 
@@ -32,6 +36,8 @@ npm run allocate-multi -- input.json --out=groups.json
 npm run groups-page -- groups.json groups.html
 npm run scenarios     # build + measure the staggered-timetable alternative
 npm run publish -- --close|--open            # stop/allow further submissions
+npm run gen-qr        # both QR codes: the site, and the feedback form
+npm test              # the feedback sums
 ```
 
 Typical loop: download `allocation-input.json` from the dashboard, save it as
@@ -66,6 +72,26 @@ Nobody is ever placed in a tutorial they did not list.
 
 Names in all of these must match `data/roster.csv` exactly; unmatched names are
 reported rather than ignored.
+
+## Audience feedback
+
+The BUS1000 students who *watch* a talk rate it at `feedback.html`, which they
+reach by scanning the QR on `share.html?for=feedback` — project that at the end
+of a session. They pick their tutorial, drag four 0-10 sliders, and can write a
+comment. The results are on the home page under **Feedback per tutorial**.
+
+It is anonymous, and deliberately so: the audience is not on our roster and
+unsigned feedback is more honest. The costs of that are worth knowing.
+
+- Nothing stops a second submission. The form remembers what this browser has
+  already rated and warns, but that is a speed bump, not a lock.
+- A slider that was never dragged is stored as `null`, not as a middling 5, so
+  averages only count answers somebody actually gave. `responses` counts the
+  person; `answered` counts the sliders.
+- Good is 7+, not good is under 4, and the bar is drawn from raw counts so the
+  three shares can never round to 101%.
+- Nobody can edit or delete feedback once it is in, including the tutor from
+  the browser. Use the service key if something has to go.
 
 ## Dates
 

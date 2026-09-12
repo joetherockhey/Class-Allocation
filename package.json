@@ -18,7 +18,8 @@
     "use-plan": "node scripts/use-plan.mjs",
     "trim": "node scripts/trim-groups.mjs",
     "inbox": "node scripts/inbox.mjs",
-    "serve": "npx --yes serve ."
+    "serve": "npx --yes serve .",
+    "test": "node scripts/test-feedback-stats.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4"

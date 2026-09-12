@@ -38,7 +38,7 @@
 <body>
 <div class="share">
   <h1 id="title">BUS1000 x WORK3601 Teamwork Tutorials</h1>
-  <p class="lead">Scan with your phone camera, then choose your name.</p>
+  <p class="lead" id="lead">Scan with your phone camera, then choose your name.</p>
 
   <div class="qrcard" id="qrcard">Loading…</div>
 
@@ -50,6 +50,7 @@
   <div class="controls">
     <button id="fsBtn">Full screen</button>
     <button id="printBtn" class="ghost">Print</button>
+    <a id="flip" href="share.html?for=feedback"><button class="ghost">Show the feedback code</button></a>
     <a href="index.html"><button class="ghost">Open the site</button></a>
   </div>
 
@@ -59,11 +60,24 @@
 <script type="module">
 import { SITE_URL } from "./assets/config.js";
 
-document.getElementById("url").textContent = SITE_URL;
+// Two codes, one page: the default sends students to the site, ?for=feedback
+// sends the room to the questionnaire. Project this one after a talk.
+const FEEDBACK = new URLSearchParams(location.search).get("for") === "feedback";
+const url = FEEDBACK ? SITE_URL.replace(/\/?$/, "/") + "feedback.html" : SITE_URL;
+
+if (FEEDBACK) {
+  document.getElementById("title").textContent = "How did the session go?";
+  document.getElementById("lead").textContent =
+    "Scan to tell the presenters what you thought. Anonymous, about thirty seconds.";
+  const flip = document.getElementById("flip");
+  flip.href = "share.html";
+  flip.firstElementChild.textContent = "Show the sign-up code";
+}
+document.getElementById("url").textContent = url;
 
 // The SVG is generated at build time (npm run gen-qr) and inlined here so the
 // page needs no CDN and works on a flaky classroom connection.
-fetch("assets/qr.svg")
+fetch(FEEDBACK ? "assets/qr-feedback.svg" : "assets/qr.svg")
   .then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); })
   .then((svg) => { document.getElementById("qrcard").innerHTML = svg; })
   .catch(() => {
@@ -74,7 +88,7 @@ fetch("assets/qr.svg")
 
 document.getElementById("copyBtn").onclick = async (e) => {
   try {
-    await navigator.clipboard.writeText(SITE_URL);
+    await navigator.clipboard.writeText(url);
     e.target.textContent = "Copied";
     setTimeout(() => (e.target.textContent = "Copy link"), 1600);
   } catch { /* clipboard blocked - the URL is on screen anyway */ }

@@ -317,3 +317,39 @@ form.volform .msg.ok{color:var(--ok);font-weight:600}
 tr.msgrow.done{opacity:.45}
 tr.msgrow.done td{text-decoration:line-through;text-decoration-color:var(--line-strong)}
 input.tick{width:17px;height:17px;cursor:pointer;accent-color:var(--accent)}
+
+/* ---------------------------------------------------- audience feedback form */
+.wrap.narrow{max-width:640px}
+.qrow{padding:16px 0;border-bottom:1px solid var(--line)}
+.qrow:last-child{border-bottom:0;padding-bottom:4px}
+.qrow label{display:block;font-weight:600;margin-bottom:12px}
+/* Big thumb and a tall hit area: this is used one-handed on a phone. */
+.qrow input[type=range]{width:100%;height:34px;margin:0;accent-color:var(--accent);cursor:pointer}
+.qrow .ends{display:flex;gap:10px;align-items:baseline;color:var(--muted);font-size:12px;margin-top:2px}
+.qrow .ends span{flex:1}
+.qrow .ends span:last-child{text-align:right}
+.qrow .val{flex:none;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:600}
+.qrow .val.set{color:var(--accent)}
+
+/* --------------------------------------------------- feedback on the home page */
+.fbpicker{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
+button.fbtut{display:flex;flex-direction:column;gap:1px;align-items:flex-start;text-align:left;padding:9px 11px;line-height:1.35}
+button.fbtut b{font-size:14px}
+button.fbtut .sub{margin:0;font-size:11px}
+button.fbtut .fbcount{font-size:11px;color:var(--accent);font-weight:600}
+button.fbtut.on{border-color:var(--accent);background:var(--accent-soft)}
+button.fbtut.empty{opacity:.5}
+button.fbtut.empty .fbcount{color:var(--muted);font-weight:400}
+.fbhead{display:flex;align-items:center;gap:10px;margin:22px 0 4px;flex-wrap:wrap}
+.fbhead h3{font-size:15px;margin:0}
+.fbmetric{margin-top:14px}
+.fbq{display:flex;justify-content:space-between;gap:12px;font-size:13px;margin-bottom:5px;flex-wrap:wrap}
+.fbq .sub{margin:0;display:inline}
+.fbbar{display:flex;height:9px;border-radius:5px;overflow:hidden;background:var(--line)}
+.fbbar i{display:block}
+.fbbar i.good{background:var(--ok)}
+.fbbar i.mid{background:var(--line-strong)}
+.fbbar i.bad{background:var(--warn)}
+.fbch{font-size:13px;margin:22px 0 8px}
+.fbcomments{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.fbcomments li{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:13px;white-space:pre-wrap}

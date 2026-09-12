@@ -21,6 +21,7 @@
   <div class="row" style="margin:0 0 18px">
     <a href="groups.html"><button class="primary">See the presentation groups</button></a>
     <button id="openPrefs" class="primary small">Set presentation preferences (if you haven't already)</button>
+    <a href="feedback.html"><button class="small">Audience feedback form</button></a>
   </div>
 
   <!-- ------------------------------------------------------------- the feed -->
@@ -65,6 +66,20 @@
     </div>
   </aside>
   </div>
+
+  <!-- --------------------------------------------------- feedback per tutorial -->
+  <section class="panel" id="fbPanel">
+    <div class="row" style="margin-bottom:4px">
+      <h2 style="margin:0">Feedback per tutorial</h2>
+      <span id="fbTotal" class="badge"></span>
+      <span class="spacer"></span>
+      <a href="share.html?for=feedback"><button class="tiny">Show the feedback QR</button></a>
+    </div>
+    <p class="sub" style="margin:6px 0 14px">
+      What the BUS1000 students in the room made of each talk. Pick a tutorial.
+    </p>
+    <div id="fbResults">Loading…</div>
+  </section>
 
   <!-- ------------------------------------------------------ preference picker -->
   <section id="prefsArea" class="hidden">
@@ -125,9 +140,10 @@
   </section>
 
   <footer>
-    <a href="groups.html">Presentation groups</a> &middot; <a href="share.html">QR code</a>
+    <a href="groups.html">Presentation groups</a> &middot; <a href="share.html">QR code</a> &middot; <a href="feedback.html">Feedback form</a>
   </footer>
 </div>
 <script type="module" src="assets/student.js"></script>
+<script type="module" src="assets/feedback-view.js"></script>
 </body>
 </html>

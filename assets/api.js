@@ -167,6 +167,22 @@ export async function markHandled(id, handled) {
   return data.length ? {} : { error: "denied - run supabase/handle-messages.sql" };
 }
 
+/** Audience feedback on a talk. Anonymous, so there is nothing to identify
+ *  and nothing to update afterwards. */
+export async function postFeedback(row) {
+  if (mode === "demo") return {};
+  const { error } = await db.from("feedback").insert(row);
+  return error ? { error: error.message } : {};
+}
+
+/** Every feedback response. Small enough to add up in the browser - a few
+ *  hundred rows at most - so there is no view or aggregate to keep in step. */
+export async function allFeedback() {
+  if (mode === "demo") return { data: [] };
+  const { data, error } = await db.from("feedback").select("*");
+  return error ? { error: error.message } : { data };
+}
+
 /* ---------------------------------------------------------------- shared */
 export const el = (id) => document.getElementById(id);
 

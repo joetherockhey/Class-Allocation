@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How did the session go? &middot; BUS1000 x WORK3601</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<div class="wrap narrow">
+  <header class="top">
+    <h1>How did the session go?</h1>
+  </header>
+  <p class="sub">
+    You just watched a short talk about teamwork. Tell the presenters how it landed —
+    it is anonymous and takes about thirty seconds.
+  </p>
+
+  <div id="banner" class="notice hidden"></div>
+
+  <form id="fbForm">
+    <section class="panel">
+      <h2><label for="tutPick">Which tutorial are you in?</label></h2>
+      <select id="tutPick" required>
+        <option value="" selected disabled>Choose your tutorial…</option>
+      </select>
+    </section>
+
+    <section class="panel">
+      <h2>Drag each slider</h2>
+      <p class="sub" style="margin:2px 0 4px">Leave one alone if you would rather not say.</p>
+      <div id="sliders"></div>
+    </section>
+
+    <section class="panel">
+      <h2><label for="fbComment">Anything else?</label></h2>
+      <p class="sub" style="margin:2px 0 10px">
+        What worked, what did not, anything you want the presenters to know. Optional.
+      </p>
+      <textarea id="fbComment" rows="4" maxlength="1000"
+        placeholder="The activity in the middle was the best bit…"></textarea>
+      <div class="row" style="margin-top:14px">
+        <button id="fbSend" class="primary" type="submit">Send feedback</button>
+        <span id="fbMsg" class="sub" style="margin:0"></span>
+      </div>
+    </section>
+  </form>
+
+  <section id="thanks" class="panel hidden">
+    <h2>Thanks — that is in.</h2>
+    <p class="sub" style="margin:0">
+      The presenters will see it on the class page. You can close this now.
+    </p>
+    <div class="row" style="margin-top:14px">
+      <button id="againBtn" class="ghost">Give feedback on another session</button>
+    </div>
+  </section>
+</div>
+<script type="module" src="assets/feedback.js"></script>
+</body>
+</html>
