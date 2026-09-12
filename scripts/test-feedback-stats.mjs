@@ -2,10 +2,11 @@
 // The only logic in the feedback feature that can be wrong quietly: the sums
 // on the home page. Run with `npm test`.
 import assert from "node:assert/strict";
-import { summarise, byTutorial, overall, METRICS } from "../assets/feedback-stats.js";
+import { summarise, byTutorial, overall, METRICS, CHOICES } from "../assets/feedback-stats.js";
 
 const row = (o) => ({ tutorial_id: "T22", useful: null, clear: null, engaging: null,
-  confident: null, comment: null, created_at: "2026-09-14T00:00:00Z", ...o });
+  confident: null, recommend: null, best_bit: null, comment: null,
+  created_at: "2026-09-14T00:00:00Z", ...o });
 
 /* buckets: 7+ good, under 4 bad, the rest mixed - and they always add up */
 {
@@ -69,6 +70,35 @@ const row = (o) => ({ tutorial_id: "T22", useful: null, clear: null, engaging: n
 {
   const s = summarise([row({ useful: 8, clear: 6 })]);
   assert.equal(overall(s), 7);
+}
+
+/* pick-one questions: counted per option, skipped answers are not an option */
+{
+  const s = summarise([
+    row({ recommend: "yes" }), row({ recommend: "yes" }),
+    row({ recommend: "no" }),  row({ recommend: null }),
+  ]);
+  const c = s.choices.recommend;
+  assert.equal(c.answered, 3, "a null answer is not a vote");
+  assert.equal(c.counts.find((x) => x.v === "yes").n, 2);
+  assert.equal(c.counts.find((x) => x.v === "maybe").n, 0);
+  assert.equal(c.counts.find((x) => x.v === "no").n, 1);
+  assert.equal(c.counts.reduce((a, x) => a + x.n, 0), c.answered);
+  // every declared option is present even at zero, so the bar has a full legend
+  assert.equal(c.counts.length, CHOICES.find((q) => q.key === "recommend").options.length);
+}
+
+/* a value the form could never produce is ignored, not counted */
+{
+  const s = summarise([row({ best_bit: "nonsense" }), row({ best_bit: "tips" })]);
+  assert.equal(s.choices.best_bit.answered, 1);
+  assert.equal(s.choices.best_bit.counts.find((x) => x.v === "tips").n, 1);
+}
+
+/* no answers at all */
+{
+  const s = summarise([]);
+  for (const q of CHOICES) assert.equal(s.choices[q.key].answered, 0);
 }
 
 console.log("feedback stats: all good");

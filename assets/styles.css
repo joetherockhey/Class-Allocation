@@ -353,3 +353,27 @@ button.fbtut.empty .fbcount{color:var(--muted);font-weight:400}
 .fbch{font-size:13px;margin:22px 0 8px}
 .fbcomments{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .fbcomments li{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:13px;white-space:pre-wrap}
+
+/* pick-one questions on the feedback form */
+.crow{border:0;padding:16px 0 0;margin:0;border-top:1px solid var(--line)}
+.crow:first-child{border-top:0;padding-top:0}
+.crow legend{padding:0;font-weight:600;margin-bottom:10px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+/* the whole chip is the hit area - this is thumbed, not clicked */
+label.opt{display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid var(--line-strong);
+  border-radius:999px;cursor:pointer;font-size:14px;background:var(--panel)}
+label.opt:hover{border-color:var(--accent)}
+label.opt input{accent-color:var(--accent);margin:0}
+label.opt:has(input:checked){background:var(--accent-soft);border-color:var(--accent);font-weight:600}
+label.opt:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+
+/* pick-one results */
+.fbopts{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:5px}
+.fbopts li{display:grid;grid-template-columns:42px minmax(0,1fr) 90px 24px;gap:10px;align-items:center;font-size:13px}
+.fbopts li.zero{opacity:.45}
+.fbopts .n{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.fbopts .ol{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fbopts .obar{background:var(--line);border-radius:4px;height:8px;overflow:hidden}
+.fbopts .obar i{display:block;height:100%;background:var(--accent)}
+.fbopts .sub{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:520px){.fbopts li{grid-template-columns:42px minmax(0,1fr) 24px}.fbopts .obar{display:none}}

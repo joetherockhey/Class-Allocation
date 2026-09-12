@@ -24,7 +24,7 @@ into presentation groups. Static site on GitHub Pages, data in Supabase.
 | `.env` | **service-role key, gitignored, local only** — needed by every script below |
 | `data/*.csv` | roster and timetable, the source of truth |
 | `supabase/schema.sql`, `supabase/messages.sql` | both already run; re-runnable |
-| `supabase/feedback.sql` | the audience-feedback table. Re-runnable |
+| `supabase/feedback.sql`, `supabase/feedback-choices.sql` | the audience-feedback table, then its two pick-one columns. Both re-runnable |
 
 ## Commands
 
@@ -75,10 +75,22 @@ reported rather than ignored.
 
 ## Audience feedback
 
-The BUS1000 students who *watch* a talk rate it at `feedback.html`, which they
-reach by scanning the QR on `share.html?for=feedback` — project that at the end
-of a session. They pick their tutorial, drag four 0-10 sliders, and can write a
-comment. The results are on the home page under **Feedback per tutorial**.
+The BUS1000 students who *watch* a talk rate it at `feedback.html`. The only
+way in is the QR on `share.html?for=feedback` — nothing on the site links to
+the form, and the form links nowhere back, so what a scanned phone gets is a
+single page that does one thing. It is not secret, just isolated: the URL is
+public if someone types it. That page also asks for the timetable alone and
+never `loadCore()`, so a room full of strangers is not handed the roster.
+
+They pick their tutorial, drag four 0-10 sliders, answer two pick-one
+questions, and can write a comment. Results appear under **Feedback per
+tutorial** on both the home page and the dashboard — the same
+`assets/feedback-view.js` drives both, keyed off the ids `fbResults` and
+`fbTotal`, so a page gets the panel by declaring those two ids.
+
+The questions live in `assets/feedback-stats.js`. Reword a label freely;
+adding or removing a pick-one *option* also means editing the check constraint
+in `supabase/feedback-choices.sql`, because the stored slugs are constrained.
 
 It is anonymous, and deliberately so: the audience is not on our roster and
 unsigned feedback is more honest. The costs of that are worth knowing.
@@ -92,6 +104,12 @@ unsigned feedback is more honest. The costs of that are worth knowing.
   three shares can never round to 101%.
 - Nobody can edit or delete feedback once it is in, including the tutor from
   the browser. Use the service key if something has to go.
+
+`TEST01` is a scratch tutorial for trying the form. Anything whose id starts
+with `TEST` is filtered out of the preference grid and the dashboard counts by
+`notTest` in `assets/api.js` — it exists only so feedback has something safe to
+point at. Leaving it in costs nothing; deleting the row removes its feedback
+with it.
 
 ## Dates
 

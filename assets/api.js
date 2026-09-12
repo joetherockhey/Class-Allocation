@@ -167,6 +167,14 @@ export async function markHandled(id, handled) {
   return data.length ? {} : { error: "denied - run supabase/handle-messages.sql" };
 }
 
+/** Just the tutorial list. The feedback form is handed to a room full of
+ *  BUS1000 students who are nothing to do with our roster, so that page asks
+ *  for the timetable and nothing else - loadCore() would hand them 50 names. */
+export async function tutorialList() {
+  if (mode === "demo") return DEMO_TUTORIALS;
+  return db.from("tutorials").select("*").order("sort_order").then(up);
+}
+
 /** Audience feedback on a talk. Anonymous, so there is nothing to identify
  *  and nothing to update afterwards. */
 export async function postFeedback(row) {

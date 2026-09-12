@@ -2,8 +2,8 @@
  * The questionnaire the audience scans into. Four sliders, a comment box, and
  * a tutorial to attach it to. No name, no login - see supabase/feedback.sql.
  */
-import { loadCore, postFeedback, el, escapeHtml, mode } from "./api.js";
-import { METRICS } from "./feedback-stats.js";
+import { tutorialList, postFeedback, el, escapeHtml, mode } from "./api.js";
+import { METRICS, CHOICES } from "./feedback-stats.js";
 
 const DONE_KEY = "tutgroups.feedback.done";     // tutorials this phone has rated
 
@@ -33,6 +33,23 @@ for (const m of METRICS) {
   });
 }
 
+/* ------------------------------------------------------ the pick-one questions */
+el("choices").innerHTML = CHOICES.map((q) => `
+  <fieldset class="crow">
+    <legend>${escapeHtml(q.question)}</legend>
+    <div class="opts">` + q.options.map((o) => `
+      <label class="opt">
+        <input type="radio" name="${q.key}" value="${escapeHtml(o.v)}">
+        <span>${escapeHtml(o.label)}</span>
+      </label>`).join("") + `
+    </div>
+  </fieldset>`).join("");
+
+const picked = (key) => {
+  const hit = form.querySelector(`input[name="${key}"]:checked`);
+  return hit ? hit.value : null;
+};
+
 const answer = (key) => {
   const s = el("s_" + key);
   return s.dataset.touched ? Number(s.value) : null;
@@ -40,7 +57,7 @@ const answer = (key) => {
 
 /* ------------------------------------------------------- the tutorial list */
 try {
-  const { tutorials } = await loadCore();
+  const tutorials = await tutorialList();
   // Grouped by day so a phone's picker reads like a timetable.
   const days = [];
   for (const t of tutorials) {
@@ -78,10 +95,13 @@ form.addEventListener("submit", async (e) => {
     tutorial_id: pick.value,
     comment: comment || null,
     ...Object.fromEntries(METRICS.map((m) => [m.key, answer(m.key)])),
+    ...Object.fromEntries(CHOICES.map((q) => [q.key, picked(q.key)])),
   };
   if (!row.tutorial_id) { msg.textContent = "Pick your tutorial first."; return; }
-  if (METRICS.every((m) => row[m.key] === null) && !comment) {
-    msg.textContent = "Move a slider or write something first.";
+  const blank = METRICS.every((m) => row[m.key] === null) &&
+                CHOICES.every((q) => row[q.key] === null);
+  if (blank && !comment) {
+    msg.textContent = "Answer something first — a slider, a question, or a comment.";
     return;
   }
 
@@ -110,6 +130,7 @@ el("againBtn").addEventListener("click", () => {
     el("v_" + m.key).textContent = "not answered";
     el("v_" + m.key).classList.remove("set");
   }
+  for (const q of CHOICES) for (const r of form.querySelectorAll(`input[name="${q.key}"]`)) r.checked = false;
   msg.textContent = "";
   el("thanks").classList.add("hidden");
   form.classList.remove("hidden");

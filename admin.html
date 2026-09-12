@@ -37,6 +37,19 @@
     <div id="joeInbox"></div>
   </section>
 
+  <section class="panel" id="fbPanel">
+    <div class="row" style="margin-bottom:4px">
+      <h2 style="margin:0">Feedback per tutorial</h2>
+      <span id="fbTotal" class="badge"></span>
+      <span class="spacer"></span>
+      <a href="share.html?for=feedback"><button class="tiny">Show the audience QR</button></a>
+    </div>
+    <p class="sub" style="margin:6px 0 14px">
+      What the BUS1000 students in the room made of each talk.
+    </p>
+    <div id="fbResults">Loading…</div>
+  </section>
+
   <section class="panel">
     <div class="row" style="align-items:flex-start;gap:18px">
       <a href="share.html" title="Open the projector page" style="line-height:0;flex:none">
@@ -91,5 +104,6 @@
   </section>
 </div>
 <script type="module" src="assets/admin.js"></script>
+<script type="module" src="assets/feedback-view.js"></script>
 </body>
 </html>

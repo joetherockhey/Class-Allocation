@@ -10,6 +10,32 @@ export const METRICS = [
   { key: "confident", question: "Do you feel better about teamwork?", low: "Not at all",    high: "A lot" },
 ];
 
+/** The two pick-one questions. `v` is what goes in the database and is fixed
+ *  by a check constraint (supabase/feedback-choices.sql); the labels are just
+ *  wording and can change freely. */
+export const CHOICES = [
+  {
+    key: "recommend",
+    question: "Should other tutorials get this session?",
+    options: [
+      { v: "yes",   label: "Yes" },
+      { v: "maybe", label: "Maybe" },
+      { v: "no",    label: "No" },
+    ],
+  },
+  {
+    key: "best_bit",
+    question: "What was the most useful part?",
+    options: [
+      { v: "examples",  label: "The examples and stories" },
+      { v: "tips",      label: "The practical tips" },
+      { v: "activity",  label: "The activity" },
+      { v: "questions", label: "Being able to ask questions" },
+      { v: "none",      label: "Honestly, not much" },
+    ],
+  },
+];
+
 export const GOOD = 7;   // 7 and over out of 10 is a thumbs up
 export const BAD  = 4;   // under 4 is a thumbs down; the rest is in between
 
@@ -31,11 +57,20 @@ function metric(rows, key) {
   };
 }
 
+/** How the pick-one answers fell. Anything not on the option list is ignored
+ *  rather than shown - only the form writes here, and the database will not
+ *  accept a value the constraint does not know. */
+function choice(rows, q) {
+  const counts = q.options.map((o) => ({ ...o, n: rows.filter((r) => r[q.key] === o.v).length }));
+  return { answered: counts.reduce((a, c) => a + c.n, 0), counts };
+}
+
 /** Summarise every response for one tutorial. */
 export function summarise(rows) {
   return {
     responses: rows.length,
     metrics: Object.fromEntries(METRICS.map((m) => [m.key, metric(rows, m.key)])),
+    choices: Object.fromEntries(CHOICES.map((q) => [q.key, choice(rows, q)])),
     comments: rows
       .filter((r) => r.comment && r.comment.trim())
       .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
