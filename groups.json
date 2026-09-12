@@ -13,7 +13,7 @@
           "name": "Ellery Huang",
           "is_vet": true,
           "got_choice": 1,
-          "load": 3
+          "load": 2
         },
         {
           "id": "6f6035be-c5a2-4c22-b0e5-93909d63f67c",
@@ -42,7 +42,7 @@
           "name": "Jovan Jonathan",
           "is_vet": false,
           "got_choice": 2,
-          "load": 3
+          "load": 2
         },
         {
           "id": "86211254-e6e6-479b-a10c-9e05a806cf9a",
@@ -56,7 +56,7 @@
           "name": "Mary Tran",
           "is_vet": false,
           "got_choice": 1,
-          "load": 3
+          "load": 2
         },
         {
           "id": "542b1f5d-0bd1-48e3-b765-83d5ece85814",
@@ -78,7 +78,7 @@
           "name": "Jovan Jonathan",
           "is_vet": false,
           "got_choice": 3,
-          "load": 3
+          "load": 2
         },
         {
           "id": "86211254-e6e6-479b-a10c-9e05a806cf9a",
@@ -92,7 +92,7 @@
           "name": "Mary Tran",
           "is_vet": false,
           "got_choice": 2,
-          "load": 3
+          "load": 2
         },
         {
           "id": "818250c3-6ba4-4907-8c90-178b025ad502",
@@ -114,7 +114,7 @@
           "name": "Irfan Ahsan",
           "is_vet": true,
           "got_choice": 3,
-          "load": 3
+          "load": 2
         },
         {
           "id": "6f6035be-c5a2-4c22-b0e5-93909d63f67c",
@@ -193,7 +193,7 @@
           "name": "Gemma Rodham",
           "is_vet": false,
           "got_choice": 1,
-          "load": 3
+          "load": 2
         },
         {
           "id": "c53411a5-7c9d-4da2-af2b-8df6320aacec",
@@ -222,7 +222,7 @@
           "name": "Alyssa Hodge",
           "is_vet": false,
           "got_choice": 3,
-          "load": 3
+          "load": 2
         },
         {
           "id": "c0856f20-d9a2-4ce6-99d9-12762807b3d9",
@@ -250,7 +250,7 @@
           "name": "Peimin Zheng",
           "is_vet": false,
           "got_choice": 6,
-          "load": 3
+          "load": 2
         }
       ]
     },
@@ -265,14 +265,14 @@
           "name": "Heidi Boyd",
           "is_vet": false,
           "got_choice": 3,
-          "load": 3
+          "load": 2
         },
         {
           "id": "79b5288b-f813-4bab-8232-165d86f65bf8",
           "name": "Ryan Ramsden",
           "is_vet": true,
           "got_choice": 4,
-          "load": 3
+          "load": 2
         },
         {
           "id": "f95caceb-4194-449b-b249-4b87bfaf02bb",
@@ -286,7 +286,7 @@
           "name": "Xi Chen",
           "is_vet": false,
           "got_choice": 3,
-          "load": 3
+          "load": 2
         },
         {
           "id": "5c48db09-ec6e-4ab3-ac20-6bb1c0e32c45",
@@ -308,14 +308,14 @@
           "name": "Joseph Hoffmann",
           "is_vet": true,
           "got_choice": 2,
-          "load": 3
+          "load": 2
         },
         {
           "id": "79b5288b-f813-4bab-8232-165d86f65bf8",
           "name": "Ryan Ramsden",
           "is_vet": true,
           "got_choice": 5,
-          "load": 3
+          "load": 2
         },
         {
           "id": "f95caceb-4194-449b-b249-4b87bfaf02bb",
@@ -329,7 +329,7 @@
           "name": "Xi Chen",
           "is_vet": false,
           "got_choice": 4,
-          "load": 3
+          "load": 2
         },
         {
           "id": "5c48db09-ec6e-4ab3-ac20-6bb1c0e32c45",
@@ -358,21 +358,21 @@
           "name": "Irfan Ahsan",
           "is_vet": true,
           "got_choice": 7,
-          "load": 3
+          "load": 2
         },
         {
           "id": "57b19f94-5520-4aa7-bf00-1cecc4447068",
           "name": "Robert Diep",
           "is_vet": false,
           "got_choice": 6,
-          "load": 3
+          "load": 2
         },
         {
           "id": "f8068285-2dfc-4fc8-a3de-8ecf5208c2ea",
           "name": "Saffron Little",
           "is_vet": false,
           "got_choice": 1,
-          "load": 3
+          "load": 2
         }
       ]
     },
@@ -394,7 +394,7 @@
           "name": "Gemma Rodham",
           "is_vet": false,
           "got_choice": 2,
-          "load": 3
+          "load": 2
         },
         {
           "id": "c53411a5-7c9d-4da2-af2b-8df6320aacec",
@@ -408,7 +408,7 @@
           "name": "Joseph Hoffmann",
           "is_vet": true,
           "got_choice": 4,
-          "load": 3
+          "load": 2
         },
         {
           "id": "05621c59-5f42-4846-ba4d-1826f0889967",
@@ -430,21 +430,21 @@
           "name": "Alyssa Hodge",
           "is_vet": false,
           "got_choice": 5,
-          "load": 3
+          "load": 2
         },
         {
           "id": "00fd3f4b-12f7-4e66-95a4-818ea3fa238e",
           "name": "Heidi Boyd",
           "is_vet": false,
           "got_choice": 6,
-          "load": 3
+          "load": 2
         },
         {
           "id": "f674d608-5e84-4151-b7cf-52546114d39a",
           "name": "Josh Phipps",
           "is_vet": false,
           "got_choice": 1,
-          "load": 3
+          "load": 2
         }
       ]
     },
@@ -459,13 +459,14 @@
           "name": "Ellery Huang",
           "is_vet": true,
           "got_choice": 4,
-          "load": 3
+          "load": 2
         },
         {
           "id": "6b273e08-3aa2-4cdd-b727-6715d08a2b1c",
           "name": "Hongming Hu",
           "is_vet": false,
-          "got_choice": 0
+          "got_choice": 0,
+          "load": 2
         },
         {
           "id": "a2760a56-b98e-4e9d-ad40-ef217182b623",
@@ -479,7 +480,7 @@
           "name": "Peimin Zheng",
           "is_vet": false,
           "got_choice": 1,
-          "load": 3
+          "load": 2
         },
         {
           "id": "d6337265-e9ee-46e1-bd03-84523f325c2e",
@@ -551,7 +552,7 @@
           "name": "Isabella Sheffield",
           "is_vet": false,
           "got_choice": 3,
-          "load": 3
+          "load": 1
         },
         {
           "id": "82c520be-78dd-478c-adf9-54084d9ab8f4",
@@ -572,7 +573,7 @@
           "name": "Robert Diep",
           "is_vet": false,
           "got_choice": 1,
-          "load": 3
+          "load": 2
         }
       ]
     },
@@ -637,7 +638,7 @@
           "name": "Chloe Lipham",
           "is_vet": false,
           "got_choice": 2,
-          "load": 3
+          "load": 2
         },
         {
           "id": "407ea69d-f143-4762-9576-9c2eb919a9ae",
@@ -666,7 +667,7 @@
           "name": "Josh Phipps",
           "is_vet": false,
           "got_choice": 4,
-          "load": 3
+          "load": 2
         },
         {
           "id": "6f6035be-c5a2-4c22-b0e5-93909d63f67c",
@@ -723,7 +724,7 @@
           "name": "Saffron Little",
           "is_vet": false,
           "got_choice": 3,
-          "load": 3
+          "load": 2
         }
       ]
     },
@@ -752,14 +753,14 @@
           "name": "Zhuoran Zhu",
           "is_vet": false,
           "got_choice": 5,
-          "load": 3
+          "load": 2
         },
         {
           "id": "bdebcb06-c37b-426a-9e06-7fb3f8b09d1d",
           "name": "Zhuoyue Zhu",
           "is_vet": false,
           "got_choice": 4,
-          "load": 3
+          "load": 2
         },
         {
           "id": "6ab1ad51-1b6e-4bfb-85be-de0c0eaef542",
@@ -802,14 +803,14 @@
           "name": "Zhuoran Zhu",
           "is_vet": false,
           "got_choice": 3,
-          "load": 3
+          "load": 2
         },
         {
           "id": "bdebcb06-c37b-426a-9e06-7fb3f8b09d1d",
           "name": "Zhuoyue Zhu",
           "is_vet": false,
           "got_choice": 3,
-          "load": 3
+          "load": 2
         }
       ]
     },
@@ -824,14 +825,7 @@
           "name": "Hongming Hu",
           "is_vet": false,
           "got_choice": 6,
-          "load": 3
-        },
-        {
-          "id": "27c22a7a-1bc7-4654-9262-7dc5d2aa9c35",
-          "name": "Jovan Jonathan",
-          "is_vet": false,
-          "got_choice": 6,
-          "load": 3
+          "load": 2
         },
         {
           "id": "4eef8e5e-5c81-4f46-bab4-b0a51cef1472",
@@ -860,7 +854,7 @@
           "name": "Chloe Lipham",
           "is_vet": false,
           "got_choice": 4,
-          "load": 3
+          "load": 2
         },
         {
           "id": "b3b4521e-9585-4452-aa4b-5a6e9b2d39f4",
@@ -895,8 +889,8 @@
   ],
   "loads": {
     "1": 3,
-    "2": 29,
-    "3": 12,
+    "2": 30,
+    "3": 11,
     "4": 1
   },
   "not_submitted": [
