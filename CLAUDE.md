@@ -113,9 +113,16 @@ with it.
 
 ## Slides
 
-One deck for the whole course, linked from the home page as **Link to the
-slides** (`SLIDES_URL` in `assets/config.js`). The per-tutorial Menti link is
-gone — `data/menti.json` and the button it put on every card came out.
+One deck for the whole course, two ways to it from the home page:
+
+- **Present slides on Canva** — `SLIDES_URL` in `assets/config.js`
+- **Download slides as PowerPoint** — `assets/red-flag-green-flag.pptx`, 15MB,
+  committed so GitHub Pages serves it. The `download` attribute gives it a
+  readable filename; that only works because it is same-origin.
+
+Replacing the deck means replacing that file: same path, and the link needs no
+change. The per-tutorial Menti link is gone — `data/menti.json` and the button
+it put on every card came out.
 
 The stored URL is the `/view` form on purpose: the short link we were handed
 redirected to `/edit`, which puts an editable deck one tap away for anyone who
