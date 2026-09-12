@@ -183,6 +183,11 @@ export async function allFeedback() {
   return error ? { error: error.message } : { data };
 }
 
+/** Tutorials whose id starts with TEST are scratch rows for trying the site
+ *  out. They exist in the database so feedback can point at them, but they are
+ *  not real classes: keep them out of anything that allocates or counts. */
+export const notTest = (t) => !String(t.id).startsWith("TEST");
+
 /* ---------------------------------------------------------------- shared */
 export const el = (id) => document.getElementById(id);
 

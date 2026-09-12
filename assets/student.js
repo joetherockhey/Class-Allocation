@@ -1,5 +1,5 @@
 import { loadCore, getPrefs, savePrefs, loadAllocations, el, escapeHtml, backendNotice,
-  strandedPrefs, clearStranded } from "./api.js";
+  strandedPrefs, clearStranded, notTest } from "./api.js";
 import { COURSE_TITLE, INTRO, MIN_PICKS, MIN_PICKS_BY_NAME } from "./config.js";
 import { initFeed } from "./feed.js";
 import { initUpcoming } from "./upcoming.js";
@@ -44,6 +44,7 @@ async function init() {
   el("closePrefs").addEventListener("click", () => { showFeed(); signOut(true); });
 
   ({ tutorials, students, settings, submitted } = await loadCore());
+  tutorials = tutorials.filter(notTest);
   el("intro").textContent = INTRO;
 
   const note = [backendNotice(), settings.deadline_text].filter(Boolean).join(" ");

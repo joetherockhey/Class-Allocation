@@ -1,4 +1,4 @@
-import { loadAdmin, el, escapeHtml, backendNotice, mode, tutorMessages, latePreferences, markHandled } from "./api.js";
+import { loadAdmin, el, escapeHtml, backendNotice, mode, tutorMessages, latePreferences, markHandled, notTest } from "./api.js";
 import { SITE_URL } from "./config.js";
 
 let tutorials = [], students = [], avail = [], allocs = [], settings = {}, submitted = new Set();
@@ -107,6 +107,7 @@ async function load() {
     b.classList.remove("hidden");
   }
   ({ tutorials, students, avail, allocs, settings, submitted } = await loadAdmin());
+  tutorials = tutorials.filter(notTest);
   renderStats();
   renderMissing();
   renderCoverage();
