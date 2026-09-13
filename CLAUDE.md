@@ -16,7 +16,7 @@ into presentation groups. Static site on GitHub Pages, data in Supabase.
 | `index.html` + `assets/student.js` | student page: pick name, tap slots on a week grid |
 | `groups.html` | generated results page: by tutorial, by person, tutorial clashes |
 | `admin.html` | submission progress, slot coverage, export button |
-| `feedback.html` + `assets/feedback.js` | what the audience scans: pick a tutorial, four sliders, a comment |
+| `feedback.html` + `assets/feedback.js` | what the audience scans: pick a tutorial, four pick-one questions, a written answer |
 | `assets/feedback-stats.js` | the questions, and the sums behind the home-page panel. Pure, tested by `npm test` |
 | `assets/feedback-view.js` | the "Feedback per tutorial" panel on the home page |
 | `assets/config.js` | Supabase URL + anon key (public, committed), `MIN_PICKS*`, `SLIDES_URL` |
@@ -24,7 +24,7 @@ into presentation groups. Static site on GitHub Pages, data in Supabase.
 | `.env` | **service-role key, gitignored, local only** — needed by every script below |
 | `data/*.csv` | roster and timetable, the source of truth |
 | `supabase/schema.sql`, `supabase/messages.sql` | both already run; re-runnable |
-| `supabase/feedback.sql`, `supabase/feedback-choices.sql` | the audience-feedback table, then its two pick-one columns. Both re-runnable |
+| `supabase/feedback.sql`, `supabase/feedback-choices.sql` | the audience-feedback table, then the pick-one columns. Both re-runnable |
 
 ## Commands
 
@@ -37,7 +37,7 @@ npm run groups-page -- groups.json groups.html
 npm run scenarios     # build + measure the staggered-timetable alternative
 npm run publish -- --close|--open            # stop/allow further submissions
 npm run gen-qr        # both QR codes, .svg for the pages and .png for slides
-npm test              # the feedback sums
+npm test              # the feedback sums, and form options vs the SQL constraint
 ```
 
 Typical loop: download `allocation-input.json` from the dashboard, save it as
@@ -82,26 +82,36 @@ single page that does one thing. It is not secret, just isolated: the URL is
 public if someone types it. That page also asks for the timetable alone and
 never `loadCore()`, so a room full of strangers is not handed the roster.
 
-They pick their tutorial, drag four 0-10 sliders, answer two pick-one
-questions, and can write a comment. Results appear under **Feedback per
+They pick their tutorial, answer four pick-one questions (three of them
+"compared with before today's session" scales), and can write an answer to
+"What is one thing you could do in your team this week to help someone feel
+they belong?". Results appear under **Feedback per
 tutorial** on both the home page and the dashboard — the same
 `assets/feedback-view.js` drives both, keyed off the ids `fbResults` and
 `fbTotal`, so a page gets the panel by declaring those two ids.
 
 The questions live in `assets/feedback-stats.js`. Reword a label freely;
-adding or removing a pick-one *option* also means editing the check constraint
-in `supabase/feedback-choices.sql`, because the stored slugs are constrained.
+adding or removing an *option* also means editing the check constraint in
+`supabase/feedback-choices.sql`, because the stored slugs are constrained.
+`npm test` fails if the two lists drift apart, which is otherwise a bug nobody
+sees until a student taps the new option and the insert is rejected.
+
+The 0-10 sliders the form used to open with (`useful`, `clear`, `engaging`,
+`confident`) and the `recommend` question were replaced in September 2026. The
+columns are still there and still nullable - nothing writes to them now, and
+the four rows collected under them stay readable.
 
 It is anonymous, and deliberately so: the audience is not on our roster and
 unsigned feedback is more honest. The costs of that are worth knowing.
 
 - Nothing stops a second submission. The form remembers what this browser has
   already rated and warns, but that is a speed bump, not a lock.
-- A slider that was never dragged is stored as `null`, not as a middling 5, so
-  averages only count answers somebody actually gave. `responses` counts the
-  person; `answered` counts the sliders.
-- Good is 7+, not good is under 4, and the bar is drawn from raw counts so the
-  three shares can never round to 101%.
+- A question nobody answered is stored as `null`, and nothing is preselected,
+  so a skipped question is never counted as whatever happened to be first.
+  `responses` counts the person; `answered` counts the votes on one question.
+- The share bars are drawn from raw counts, so they can never round to 101%.
+- On the belonging question "Not sure" is an opt-out rather than a point on the
+  scale, but it is counted like any other option.
 - Nobody can edit or delete feedback once it is in, including the tutor from
   the browser. Use the service key if something has to go.
 

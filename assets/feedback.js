@@ -1,39 +1,18 @@
 /**
- * The questionnaire the audience scans into. Four sliders, a comment box, and
- * a tutorial to attach it to. No name, no login - see supabase/feedback.sql.
+ * The questionnaire the audience scans into. Four pick-one questions, a
+ * written answer, and a tutorial to attach it to. No name, no login - see
+ * supabase/feedback.sql.
  */
 import { tutorialList, postFeedback, el, escapeHtml, mode } from "./api.js";
-import { METRICS, CHOICES } from "./feedback-stats.js";
+import { CHOICES, COMMENT_QUESTION } from "./feedback-stats.js";
 
 const DONE_KEY = "tutgroups.feedback.done";     // tutorials this phone has rated
 
 const form = el("fbForm"), msg = el("fbMsg"), pick = el("tutPick");
 
-/* ------------------------------------------------------------- the sliders */
-// A slider starts in the middle but reports nothing until it is moved, so an
-// untouched control never gets counted as a lukewarm 5.
-el("sliders").innerHTML = METRICS.map((m) => `
-  <div class="qrow" data-key="${m.key}">
-    <label for="s_${m.key}">${escapeHtml(m.question)}</label>
-    <input id="s_${m.key}" type="range" min="0" max="10" step="1" value="5"
-           aria-describedby="v_${m.key}">
-    <div class="ends">
-      <span>${escapeHtml(m.low)}</span>
-      <b id="v_${m.key}" class="val">not answered</b>
-      <span>${escapeHtml(m.high)}</span>
-    </div>
-  </div>`).join("");
-
-for (const m of METRICS) {
-  const slider = el("s_" + m.key);
-  slider.addEventListener("input", () => {
-    slider.dataset.touched = "1";
-    el("v_" + m.key).textContent = slider.value + " / 10";
-    el("v_" + m.key).classList.add("set");
-  });
-}
-
 /* ------------------------------------------------------ the pick-one questions */
+// Nothing is preselected, so a question the student skipped is stored as null
+// rather than as whatever happened to be first.
 el("choices").innerHTML = CHOICES.map((q) => `
   <fieldset class="crow">
     <legend>${escapeHtml(q.question)}</legend>
@@ -45,14 +24,11 @@ el("choices").innerHTML = CHOICES.map((q) => `
     </div>
   </fieldset>`).join("");
 
+el("fbCommentQ").textContent = COMMENT_QUESTION;
+
 const picked = (key) => {
   const hit = form.querySelector(`input[name="${key}"]:checked`);
   return hit ? hit.value : null;
-};
-
-const answer = (key) => {
-  const s = el("s_" + key);
-  return s.dataset.touched ? Number(s.value) : null;
 };
 
 /* ------------------------------------------------------- the tutorial list */
@@ -94,14 +70,11 @@ form.addEventListener("submit", async (e) => {
   const row = {
     tutorial_id: pick.value,
     comment: comment || null,
-    ...Object.fromEntries(METRICS.map((m) => [m.key, answer(m.key)])),
     ...Object.fromEntries(CHOICES.map((q) => [q.key, picked(q.key)])),
   };
   if (!row.tutorial_id) { msg.textContent = "Pick your tutorial first."; return; }
-  const blank = METRICS.every((m) => row[m.key] === null) &&
-                CHOICES.every((q) => row[q.key] === null);
-  if (blank && !comment) {
-    msg.textContent = "Answer something first — a slider, a question, or a comment.";
+  if (CHOICES.every((q) => row[q.key] === null) && !comment) {
+    msg.textContent = "Answer something first — a question, or the box at the end.";
     return;
   }
 
@@ -124,12 +97,6 @@ form.addEventListener("submit", async (e) => {
 
 el("againBtn").addEventListener("click", () => {
   form.reset();
-  for (const m of METRICS) {
-    const s = el("s_" + m.key);
-    delete s.dataset.touched;
-    el("v_" + m.key).textContent = "not answered";
-    el("v_" + m.key).classList.remove("set");
-  }
   for (const q of CHOICES) for (const r of form.querySelectorAll(`input[name="${q.key}"]`)) r.checked = false;
   msg.textContent = "";
   el("thanks").classList.add("hidden");

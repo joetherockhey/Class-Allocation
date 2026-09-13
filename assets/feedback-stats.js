@@ -1,61 +1,64 @@
 /**
- * The four things we ask the audience, and how to turn a pile of responses
+ * The five things we ask the audience, and how to turn a pile of responses
  * into the numbers the home page shows. No DOM in here, so it can be tested
  * from node: `npm test`.
+ *
+ * Every question is pick-one. `v` is what goes in the database and is fixed by
+ * a check constraint (supabase/feedback-choices.sql); the labels are just
+ * wording and can change freely. Adding or removing an *option* means editing
+ * that constraint to match.
  */
-export const METRICS = [
-  { key: "useful",    question: "Was it useful?",                    low: "Not really",    high: "Very useful" },
-  { key: "clear",     question: "Was it easy to follow?",            low: "Hard to follow", high: "Very clear" },
-  { key: "engaging",  question: "Did it hold your attention?",       low: "Not really",    high: "Definitely" },
-  { key: "confident", question: "Do you feel better about teamwork?", low: "Not at all",    high: "A lot" },
+
+/** Two questions share the same agree scale, so it is written once. */
+const AGREE = [
+  { v: "strongly_disagree", label: "Strongly disagree" },
+  { v: "disagree",          label: "Disagree" },
+  { v: "same",              label: "About the same" },
+  { v: "agree",             label: "Agree" },
+  { v: "strongly_agree",    label: "Strongly agree" },
 ];
 
-/** The two pick-one questions. `v` is what goes in the database and is fixed
- *  by a check constraint (supabase/feedback-choices.sql); the labels are just
- *  wording and can change freely. */
 export const CHOICES = [
   {
-    key: "recommend",
-    question: "Should other tutorials get this session?",
+    key: "study_help",
+    question: "Compared with before today’s session, I interacted with others to give or receive study help",
+    options: AGREE,
+  },
+  {
+    key: "belonging",
+    question: "Compared with before today’s session, how much do you feel part of the Business School student community?",
     options: [
-      { v: "yes",   label: "Yes" },
-      { v: "maybe", label: "Maybe" },
-      { v: "no",    label: "No" },
+      { v: "much_less",   label: "Much less" },
+      { v: "little_less", label: "A little less" },
+      { v: "same",        label: "About the same" },
+      { v: "little_more", label: "A little more" },
+      { v: "much_more",   label: "Much more" },
+      // Not a point on the scale - an opt-out, counted like any other answer.
+      { v: "not_sure",    label: "Not sure" },
     ],
+  },
+  {
+    key: "teamwork",
+    question: "Compared with before today’s session, I think I understand much better what teamwork requires of me",
+    options: AGREE,
   },
   {
     key: "best_bit",
     question: "What was the most useful part?",
     options: [
-      { v: "examples",  label: "The examples and stories" },
-      { v: "tips",      label: "The practical tips" },
-      { v: "activity",  label: "The activity" },
-      { v: "questions", label: "Being able to ask questions" },
-      { v: "none",      label: "Honestly, not much" },
+      { v: "examples",     label: "The examples and stories" },
+      { v: "facilitators", label: "The fact that facilitators were BCom students as well" },
+      { v: "tips",         label: "The practical tips" },
+      { v: "activity",     label: "The activity" },
+      { v: "questions",    label: "Being able to ask questions" },
+      { v: "none",         label: "Honestly – not much" },
     ],
   },
 ];
 
-export const GOOD = 7;   // 7 and over out of 10 is a thumbs up
-export const BAD  = 4;   // under 4 is a thumbs down; the rest is in between
-
-/** Counts and an average for one metric. Percentages are deliberately not
- *  precomputed for the bar - it is drawn from the counts, so three rounded
- *  shares can never add up to 101%. */
-function metric(rows, key) {
-  const vals = rows.map((r) => r[key]).filter((v) => typeof v === "number" && !Number.isNaN(v));
-  if (!vals.length) return { answered: 0, good: 0, mixed: 0, bad: 0, average: null, goodPct: null };
-  const good = vals.filter((v) => v >= GOOD).length;
-  const bad  = vals.filter((v) => v <  BAD).length;
-  return {
-    answered: vals.length,
-    good,
-    bad,
-    mixed: vals.length - good - bad,
-    average: Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 10) / 10,
-    goodPct: Math.round((good / vals.length) * 100),
-  };
-}
+/** The free-text question at the end. */
+export const COMMENT_QUESTION =
+  "What is one thing you could do in your team this week to help someone feel they belong?";
 
 /** How the pick-one answers fell. Anything not on the option list is ignored
  *  rather than shown - only the form writes here, and the database will not
@@ -69,7 +72,6 @@ function choice(rows, q) {
 export function summarise(rows) {
   return {
     responses: rows.length,
-    metrics: Object.fromEntries(METRICS.map((m) => [m.key, metric(rows, m.key)])),
     choices: Object.fromEntries(CHOICES.map((q) => [q.key, choice(rows, q)])),
     comments: rows
       .filter((r) => r.comment && r.comment.trim())
@@ -86,12 +88,4 @@ export function byTutorial(rows) {
     bins.get(r.tutorial_id).push(r);
   }
   return new Map([...bins].map(([id, rs]) => [id, summarise(rs)]));
-}
-
-/** One headline number for a whole tutorial: the mean of the metric averages
- *  it actually has, or null when nobody moved a slider. */
-export function overall(summary) {
-  const avgs = METRICS.map((m) => summary.metrics[m.key].average).filter((a) => a !== null);
-  if (!avgs.length) return null;
-  return Math.round((avgs.reduce((a, b) => a + b, 0) / avgs.length) * 10) / 10;
 }

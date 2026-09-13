@@ -27,23 +27,16 @@
     </section>
 
     <section class="panel">
-      <h2>Drag each slider</h2>
-      <p class="sub" style="margin:2px 0 4px">Leave one alone if you would rather not say.</p>
-      <div id="sliders"></div>
-    </section>
-
-    <section class="panel">
-      <h2>A couple of quick questions</h2>
+      <h2>A few quick questions</h2>
+      <p class="sub" style="margin:2px 0 4px">Skip any you would rather not answer.</p>
       <div id="choices"></div>
     </section>
 
     <section class="panel">
-      <h2><label for="fbComment">Anything else?</label></h2>
-      <p class="sub" style="margin:2px 0 10px">
-        What worked, what did not, anything you want the presenters to know. Optional.
-      </p>
+      <h2><label for="fbComment" id="fbCommentQ"></label></h2>
+      <p class="sub" style="margin:2px 0 10px">Optional.</p>
       <textarea id="fbComment" rows="4" maxlength="1000"
-        placeholder="The activity in the middle was the best bit…"></textarea>
+        placeholder="One small thing you could actually do…"></textarea>
       <div class="row" style="margin-top:14px">
         <button id="fbSend" class="primary" type="submit">Send feedback</button>
         <span id="fbMsg" class="sub" style="margin:0"></span>
