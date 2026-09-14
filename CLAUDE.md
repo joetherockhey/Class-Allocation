@@ -171,9 +171,15 @@ groups.html --with-clashes` brings it back; `clashes.json` is still on disk.
 
 ## Current state
 
-50 students (11 vets), 23 tutorials, 45 submissions. Five students never
+51 students (11 vets), 23 tutorials, 45 submissions. Five students never
 submitted and are unplaced: Eleanor Forsyth, John El-Barhoun, Nhu Ngo,
 Stefan Ferster, Tara Stevens.
+
+Ihan Samaraweera joined after the roster was set (14 Sep) and was put in T16
+by hand. He is on `roster.csv` and in Supabase, but he never submitted
+preferences, so he is not in `input.json` - re-export the dashboard's
+allocation input before the next `allocate-multi` run or the pin will have
+nobody to match.
 
 Every tutorial now has two or three presenters, so the home page's "tutorials
 that need presenters" bar came out, and with it the form students used to
