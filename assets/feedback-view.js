@@ -120,7 +120,6 @@ async function render() {
  * against this page's white panel; every segment carries a visible label, which
  * is what the sub-3:1 fills are allowed on. */
 const NEG = ["#b3322f", "#e8716e"];        // far from neutral -> near
-const NEUTRAL = "#c9c8c3";
 const POS = ["#5598e7", "#1c5cab"];        // near neutral -> far
 const CATEGORICAL = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"];
 const OFF_SCALE = "not_sure";              // an opt-out, not a point on the scale
@@ -140,11 +139,15 @@ function divergingBars(questions) {
   const rows = questions.map(({ q, c }) => {
     const { neg, mid, pos, off } = arms(c.counts);
     const total = c.answered || 1;
-    const left = neg.reduce((a, o) => a + pct(o.n, total), 0) + pct(mid ? mid.n : 0, total) / 2;
-    return { q, c, neg, mid, pos, off, total, left };
+    // the middle is left out of the bar and reported as a number instead, so
+    // the split between disagree and agree is what the eye lands on
+    const left = neg.reduce((a, o) => a + pct(o.n, total), 0);
+    const right = pos.reduce((a, o) => a + pct(o.n, total), 0);
+    return { q, c, neg, mid, pos, off, total, left, right };
   });
+  // the middle is not drawn, so the track only has to hold the two arms
   const maxLeft = Math.max(...rows.map((r) => r.left));
-  const span = maxLeft + Math.max(...rows.map((r) => 100 - r.left));
+  const span = maxLeft + Math.max(...rows.map((r) => r.right));
   const k = 100 / span;
 
   const seg = (o, total, fill) => {
@@ -161,15 +164,16 @@ function divergingBars(questions) {
         '<div class="dvg-q">' + escapeHtml(r.q.question) +
           '<span class="sub">' + r.c.answered + " answered" +
           (r.c.excluded ? " &middot; " + r.c.excluded + " asked differently, left out" : "") +
+          (r.mid && r.mid.n ? " &middot; " + Math.round(pct(r.mid.n, r.total)) + "% " +
+            escapeHtml(r.mid.label.toLowerCase()) : "") +
           (r.off && r.off.n ? " &middot; " + r.off.n + " not sure" : "") + "</span></div>" +
         '<div class="dvg-track"><div class="dvg-bar" style="margin-left:' +
           ((maxLeft - r.left) * k) + '%">' +
           r.neg.map((o, i) => seg(o, r.total, NEG[Math.min(i, NEG.length - 1)])).join("") +
-          (r.mid ? seg(r.mid, r.total, NEUTRAL) : "") +
           r.pos.map((o, i) => seg(o, r.total, POS[Math.min(i, POS.length - 1)])).join("") +
         "</div></div>" +
         '<div class="dvg-key">' +
-          r.neg.concat(r.mid ? [r.mid] : []).concat(r.pos)
+          r.neg.concat(r.pos)
             .filter((o) => o.n)
             .map((o) => '<span><b>' + Math.round(pct(o.n, r.total)) + "%</b> " +
               escapeHtml(o.label) + "</span>").join("") +
@@ -211,9 +215,8 @@ export function summaryHtml(a) {
 
     (scales.length
       ? '<p class="sub dvg-legend"><span class="sw" style="background:' + NEG[0] + '"></span>less' +
-        '<span class="sw" style="background:' + NEUTRAL + '"></span>no change' +
         '<span class="sw" style="background:' + POS[1] + '"></span>more' +
-        '<span class="dvg-hint">centred on &ldquo;about the same&rdquo;</span></p>' +
+        '<span class="dvg-hint">&ldquo;about the same&rdquo; counted, not drawn</span></p>' +
         divergingBars(scales)
       : "") +
 
