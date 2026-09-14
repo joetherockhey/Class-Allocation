@@ -47,7 +47,7 @@ export const CHOICES = [
     question: "What was the most useful part of today’s session?",
     options: [
       { v: "examples",     label: "The examples and stories" },
-      { v: "facilitators", label: "The fact that facilitators were BCom students as well" },
+      { v: "facilitators", label: "Facilitators were students as well" },
       { v: "tips",         label: "The practical tips" },
       { v: "activity",     label: "The activity" },
       { v: "questions",    label: "Being able to ask questions" },
