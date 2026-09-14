@@ -371,11 +371,11 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
   <p class="sub">Everyone presents at two or three tutorials. <a href="index.html">Back to home</a></p>
 
   <details class="tojoe">
-    <summary><span class="btn">Send a message to Joe</span><span class="hint">Something wrong with your schedule? Tell me here.</span></summary>
+    <summary><span class="btn">Send a message to Joe</span><span class="hint">Want to join another tutorial, or something wrong with your schedule? Tell me here.</span></summary>
     <form id="joeForm" autocomplete="off">
       <input id="joeName" type="text" placeholder="Your name" maxlength="60" required>
       <textarea id="joeBody" rows="4" maxlength="1000" required
-        placeholder="What is the problem? For example: a clash with another class, or you cannot make one of the times you have been given."></textarea>
+        placeholder="For example: you would like to join another tutorial group, you have a clash with another class, or you cannot make one of the times you have been given."></textarea>
       <div class="row">
         <button type="submit">Send</button>
         <span id="joeMsg"></span>

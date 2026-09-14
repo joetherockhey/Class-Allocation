@@ -29,6 +29,7 @@ button.primary:hover:not(:disabled){filter:brightness(1.08)}
 button.ghost{background:transparent;border-color:transparent;color:var(--muted);padding:6px 8px}
 button.ghost:hover{color:var(--accent);border-color:transparent}
 button.tiny{padding:3px 8px;font-size:12px;line-height:1.4}
+button.big{padding:15px 26px;font-size:17px;border-radius:10px}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .spacer{flex:1}
 
@@ -251,7 +252,7 @@ form.cform button{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;b
 .home{display:grid;grid-template-columns:minmax(0,1fr) 302px;gap:16px;align-items:start}
 #upcomingBox{position:sticky;top:14px}
 #upcomingBox .panel{padding:15px}
-#upcomingBox .panel.needy{margin-bottom:14px}
+#upcomingBox .panel:not(:last-child){margin-bottom:14px}
 #upcomingBox h2{margin:0}
 #upcoming{list-style:none;margin:0;padding:0;max-height:min(66vh,620px);overflow-y:auto;
   border-top:1px solid var(--line)}
@@ -297,23 +298,6 @@ form.editform .err{font-size:12px;color:var(--warn)}
 .notifybar.on{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
 .notifybar.off{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
 
-/* tutorials short of presenters ----------------------------------------- */
-.panel.needy{border-color:var(--warn);background:var(--warn-soft)}
-.panel.needy h2{color:var(--warn)}
-.need{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 13px;margin-bottom:10px}
-.need:last-child{margin-bottom:0}
-.need .hd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.need .hd b{font-size:15px}
-.need .hd span{color:var(--muted);font-size:12.5px}
-.need .cur{font-size:13.5px;margin-top:5px}
-.need .vols{font-size:12.5px;color:var(--ok);font-weight:600;margin-top:4px}
-form.volform{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
-form.volform input{font:inherit;font-size:13.5px;padding:7px 11px;border-radius:8px;flex:0 1 190px;
-  border:1px solid var(--line-strong);background:var(--bg);color:var(--ink)}
-form.volform button{font:inherit;font-size:13.5px;font-weight:600;padding:7px 15px;border-radius:8px;
-  border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
-form.volform .msg{font-size:12.5px}
-form.volform .msg.ok{color:var(--ok);font-weight:600}
 tr.msgrow.done{opacity:.45}
 tr.msgrow.done td{text-decoration:line-through;text-decoration-color:var(--line-strong)}
 input.tick{width:17px;height:17px;cursor:pointer;accent-color:var(--accent)}
@@ -379,7 +363,7 @@ label.opt:focus-within{outline:2px solid var(--accent);outline-offset:2px}
 @media (max-width:520px){.fbopts li{grid-template-columns:42px minmax(0,1fr) 24px}.fbopts .obar{display:none}}
 
 /* the two things-to-do panels above the feed */
-.doing{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.doing{display:grid;grid-template-columns:1fr;gap:16px;align-items:start}
 .doing .panel{margin-bottom:16px}
 .doing .row{gap:8px}
 @media (max-width:760px){.doing{grid-template-columns:1fr;gap:0}}
