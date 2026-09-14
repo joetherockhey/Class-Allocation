@@ -127,6 +127,20 @@ own bar, and the panel says how many. It still counts in `answered`. Timings com
 about a minute for Pages, and no response landed within 12 minutes of a
 change, so the split is not blurred by caching.
 
+**All tutorials** is charted rather than listed - the per-tutorial panels stay
+as plain bars, only the pooled view is drawn. The three scale questions are one
+diverging stacked bar each, centred on "about the same" and sharing a single
+scale so the rows can be read against each other; the pick-one is a
+part-to-whole bar with a legend carrying the numbers; the written answers
+collapse behind `<details>`. Colours were checked with the data-viz palette
+validator against the white panel - the six categorical hues pass every gate,
+and the diverging set passes both separation floors (the chroma/lightness
+"failures" it reports are the categorical rules being applied to a grey
+midpoint, which a diverging scale is meant to have). Every segment carries a
+visible percentage, which is what the sub-3:1 fills depend on. Options run
+most-extreme-first, so the arms must not be reversed when drawn - doing that
+once put "strongly disagree" next to the middle.
+
 **All tutorials** is the first button on the panel and what it opens on:
 `summariseAll()` pools every real tutorial into one set of percentages and
 re-runs every 30 seconds, so it keeps up while a session is still going.

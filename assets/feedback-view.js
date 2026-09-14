@@ -113,17 +113,93 @@ async function render() {
 }
 
 /* ------------------------------------------------- every tutorial at once */
-function summaryHtml(a) {
+/* The per-tutorial panels stay as lists. This one is read at a glance, so the
+ * scale questions become diverging stacked bars centred on "no change" - the
+ * form for ordered agree/disagree data - and the pick-one becomes a single
+ * part-to-whole bar. Palette validated with the data-viz palette checker
+ * against this page's white panel; every segment carries a visible label, which
+ * is what the sub-3:1 fills are allowed on. */
+const NEG = ["#b3322f", "#e8716e"];        // far from neutral -> near
+const NEUTRAL = "#c9c8c3";
+const POS = ["#5598e7", "#1c5cab"];        // near neutral -> far
+const CATEGORICAL = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"];
+const OFF_SCALE = "not_sure";              // an opt-out, not a point on the scale
+
+/** Split a question's options into the two arms and the middle. */
+function arms(counts) {
+  const on = counts.filter((o) => o.v !== OFF_SCALE);
+  const mid = on.findIndex((o) => o.v === "same");
+  const neg = on.slice(0, mid), pos = on.slice(mid + 1);
+  return { neg, mid: on[mid], pos, off: counts.find((o) => o.v === OFF_SCALE) };
+}
+
+const pct = (n, total) => (total ? (n / total) * 100 : 0);
+
+function divergingBars(questions) {
+  // one scale for every row, so the rows can be compared to each other
+  const rows = questions.map(({ q, c }) => {
+    const { neg, mid, pos, off } = arms(c.counts);
+    const total = c.answered || 1;
+    const left = neg.reduce((a, o) => a + pct(o.n, total), 0) + pct(mid ? mid.n : 0, total) / 2;
+    return { q, c, neg, mid, pos, off, total, left };
+  });
+  const maxLeft = Math.max(...rows.map((r) => r.left));
+  const span = maxLeft + Math.max(...rows.map((r) => 100 - r.left));
+  const k = 100 / span;
+
+  const seg = (o, total, fill) => {
+    const w = pct(o.n, total);
+    if (!w) return "";
+    return '<i style="width:' + (w * k) + '%;background:' + fill + '" title="' +
+      escapeHtml(o.label) + ": " + o.n + " (" + Math.round(w) + '%)"></i>';
+  };
+
+  return '<div class="dvg">' +
+    '<div class="dvg-axis" style="left:' + (maxLeft * k) + '%"></div>' +
+    rows.map((r) =>
+      '<div class="dvg-row">' +
+        '<div class="dvg-q">' + escapeHtml(r.q.question) +
+          '<span class="sub">' + r.c.answered + " answered" +
+          (r.c.excluded ? " &middot; " + r.c.excluded + " asked differently, left out" : "") +
+          (r.off && r.off.n ? " &middot; " + r.off.n + " not sure" : "") + "</span></div>" +
+        '<div class="dvg-track"><div class="dvg-bar" style="margin-left:' +
+          ((maxLeft - r.left) * k) + '%">' +
+          r.neg.map((o, i) => seg(o, r.total, NEG[Math.min(i, NEG.length - 1)])).join("") +
+          (r.mid ? seg(r.mid, r.total, NEUTRAL) : "") +
+          r.pos.map((o, i) => seg(o, r.total, POS[Math.min(i, POS.length - 1)])).join("") +
+        "</div></div>" +
+        '<div class="dvg-key">' +
+          r.neg.concat(r.mid ? [r.mid] : []).concat(r.pos)
+            .filter((o) => o.n)
+            .map((o) => '<span><b>' + Math.round(pct(o.n, r.total)) + "%</b> " +
+              escapeHtml(o.label) + "</span>").join("") +
+        "</div>" +
+      "</div>").join("") +
+    "</div>";
+}
+
+function partToWhole(q, c) {
+  // ponytail: six hues for six options. A seventh would repeat one - fold the
+  // tail into "Other" rather than inventing a colour, which never survives
+  // colour-blind checking.
+  const ranked = c.counts.map((o, i) => ({ ...o, fill: CATEGORICAL[i % CATEGORICAL.length] }));
+  return '<div class="fbmetric"><div class="fbq">' + escapeHtml(q.question) +
+    '<span class="sub">' + c.answered + " answered</span></div>" +
+    '<div class="ptw">' + ranked.filter((o) => o.n).map((o) =>
+      '<i style="width:' + pct(o.n, c.answered) + '%;background:' + o.fill + '" title="' +
+      escapeHtml(o.label) + ": " + o.n + '"></i>').join("") + "</div>" +
+    '<ul class="ptw-key">' + ranked.map((o) =>
+      '<li' + (o.n ? "" : ' class="zero"') + '><span class="sw" style="background:' + o.fill + '"></span>' +
+      "<b>" + Math.round(pct(o.n, c.answered)) + "%</b> " + escapeHtml(o.label) +
+      '<span class="sub">' + o.n + "</span></li>").join("") + "</ul></div>";
+}
+
+export function summaryHtml(a) {
   if (!a.responses) return '<p class="sub" style="margin:0">No feedback yet.</p>';
 
-  const bars = (counts, answered) =>
-    '<ul class="fbopts">' + counts.map((o) => {
-      const pct = answered ? Math.round((o.n / answered) * 100) : 0;
-      return '<li' + (o.n ? "" : ' class="zero"') + '><span class="n">' + pct + "%</span>" +
-        '<span class="ol">' + escapeHtml(o.label) + "</span>" +
-        '<span class="obar"><i style="width:' + (answered ? (o.n / answered) * 100 : 0) + '%"></i></span>' +
-        '<span class="sub">' + o.n + "</span></li>";
-    }).join("") + "</ul>";
+  const scales = CHOICES.filter((q) => q.options.some((o) => o.v === "same") && a.choices[q.key].answered)
+    .map((q) => ({ q, c: a.choices[q.key] }));
+  const picks = CHOICES.filter((q) => !q.options.some((o) => o.v === "same") && a.choices[q.key].answered);
 
   const quotes = (list) => '<ul class="fbcomments">' + list.map((x) =>
     "<li>" + escapeHtml(x.answer) +
@@ -133,14 +209,15 @@ function summaryHtml(a) {
     '<span class="badge ok">' + a.responses + " response" + (a.responses === 1 ? "" : "s") +
     " across " + a.tutorials + " tutorial" + (a.tutorials === 1 ? "" : "s") + "</span></div>" +
 
-    CHOICES.map((q) => {
-      const c = a.choices[q.key];
-      if (!c.answered) return "";
-      return '<div class="fbmetric"><div class="fbq">' + escapeHtml(q.question) +
-        '<span class="sub">' + c.answered + " answered" +
-        (c.excluded ? " &middot; " + c.excluded + " left out, asked differently" : "") +
-        "</span></div>" + bars(c.counts, c.answered) + "</div>";
-    }).join("") +
+    (scales.length
+      ? '<p class="sub dvg-legend"><span class="sw" style="background:' + NEG[0] + '"></span>less' +
+        '<span class="sw" style="background:' + NEUTRAL + '"></span>no change' +
+        '<span class="sw" style="background:' + POS[1] + '"></span>more' +
+        '<span class="dvg-hint">centred on &ldquo;about the same&rdquo;</span></p>' +
+        divergingBars(scales)
+      : "") +
+
+    picks.map((q) => partToWhole(q, a.choices[q.key])).join("") +
 
     TEXT_QUESTIONS.map((q) => {
       const t = a.text[q.key];
@@ -149,15 +226,25 @@ function summaryHtml(a) {
         '<span class="sub">' + t.total + " answered" +
         (t.skipped ? " &middot; " + t.skipped + " blank or “n/a”" : "") + "</span></div>";
 
-      // only the question that actually asks for an opinion gets sorted by one
-      if (!q.sentiment) return '<div class="fbmetric">' + head + quotes(t.answers) + "</div>";
+      if (!q.sentiment)
+        return '<div class="fbmetric">' + head +
+          "<details class=\"fbmore\"><summary>Read all " + t.total + "</summary>" + quotes(t.answers) + "</details></div>";
 
-      return '<div class="fbmetric">' + head +
+      const bar = '<div class="ptw">' + CATEGORICAL_TONE.map(([key, fill]) => {
+        const n = t.byCategory[key].length;
+        return n ? '<i style="width:' + pct(n, t.total) + '%;background:' + fill + '" title="' +
+          key + ": " + n + '"></i>' : "";
+      }).join("") + "</div>";
+
+      return '<div class="fbmetric">' + head + bar +
         CATEGORIES.map((c) => {
           const list = t.byCategory[c.key];
           if (!list.length) return "";
-          return '<div class="fbcat fbcat-' + c.key + '"><h5>' + escapeHtml(c.label) +
-            "<span>" + list.length + "</span></h5>" + quotes(list) + "</div>";
+          return '<details class="fbcat fbcat-' + c.key + '"><summary>' + escapeHtml(c.label) +
+            "<span>" + list.length + "</span></summary>" + quotes(list) + "</details>";
         }).join("") + "</div>";
     }).join("");
 }
+
+/** Status-ish tones for the three feedback buckets, in the order they are shown. */
+const CATEGORICAL_TONE = [["positive", "#0ca30c"], ["constructive", "#2a78d6"], ["critical", "#d03b3b"]];
