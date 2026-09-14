@@ -382,6 +382,9 @@ async function toggleLike(postId) {
   if (!name) {
     el("postMsg").className = "err";
     el("postMsg").textContent = "Put your name in the box above first, then you can like things.";
+    // the composer is collapsed by default, so open it before pointing at it
+    const box = el("postName").closest("details");
+    if (box) box.open = true;
     el("postName").focus();
     return;
   }

@@ -38,7 +38,9 @@
     <div id="notifyBar" class="notifybar"></div>
 
 
-    <div class="panel composer">
+    <details class="panel composerbox">
+      <summary><span class="btn">Say something on this page</span></summary>
+      <div class="composer">
       <input id="postName" type="text" placeholder="Your name" maxlength="60" autocomplete="name">
       <textarea id="postBody" rows="3" maxlength="2000"
         placeholder="Went this morning and it was great…"></textarea>
@@ -54,7 +56,8 @@
         <span id="postMsg"></span>
         <button id="postBtn" class="primary">Post</button>
       </div>
-    </div>
+      </div>
+    </details>
 
     <div id="feed"></div>
   </section>

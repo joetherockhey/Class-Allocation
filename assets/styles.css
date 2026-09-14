@@ -202,6 +202,18 @@ button.slot.dayslot{
 
 /* class feed ------------------------------------------------------------ */
 button.small{font-size:12.5px;padding:6px 11px}
+/* the composer stays shut until someone wants it - open it takes the page */
+details.composerbox{padding:0;overflow:hidden}
+details.composerbox summary{cursor:pointer;list-style:none;padding:14px 18px}
+details.composerbox summary::-webkit-details-marker{display:none}
+details.composerbox summary .btn{display:block;width:100%;text-align:center;font-weight:600;
+  background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);
+  border-radius:9px;padding:11px 16px}
+details.composerbox summary:hover .btn{background:var(--accent);color:var(--accent-ink)}
+details.composerbox[open] summary{padding-bottom:0}
+details.composerbox[open] summary .btn{background:transparent;color:var(--muted);
+  border-color:transparent;font-weight:600}
+details.composerbox > .composer{padding:12px 18px 18px}
 .composer{display:grid;gap:8px}
 .composer input,.composer textarea{font:inherit;font-size:14.5px;padding:9px 12px;border-radius:9px;
   border:1px solid var(--line-strong);background:var(--bg);color:var(--ink);width:100%;resize:vertical}
