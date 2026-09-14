@@ -246,8 +246,30 @@ function attachment(p) {
 }
 
 /* ------------------------------------------------------------- writing posts */
-function pickFile(e) {
-  const f = e.target.files && e.target.files[0];
+
+/* iPhones hand over .heic, which only Safari can draw - every other browser
+ * shows an empty box in the feed. There is no native way to decode it, so the
+ * converter is fetched only when someone actually picks one. */
+const isHeic = (f) =>
+  /\.hei[cf]$/i.test(f.name) || /^image\/hei[cf]/i.test(f.type || "");
+
+async function toJpeg(f) {
+  if (!window.heic2any) {
+    await new Promise((ok, fail) => {
+      const t = document.createElement("script");
+      t.src = "https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js";
+      t.onload = ok;
+      t.onerror = () => fail(new Error("converter would not load"));
+      document.head.appendChild(t);
+    });
+  }
+  const blob = await window.heic2any({ blob: f, toType: "image/jpeg", quality: 0.85 });
+  const out = Array.isArray(blob) ? blob[0] : blob;
+  return new File([out], f.name.replace(/\.hei[cf]$/i, ".jpg"), { type: "image/jpeg" });
+}
+
+async function pickFile(e) {
+  let f = e.target.files && e.target.files[0];
   if (!f) return;
   if (f.size > MAX_BYTES) {
     el("postMsg").className = "err";
@@ -255,10 +277,22 @@ function pickFile(e) {
     e.target.value = "";
     return;
   }
+  if (isHeic(f)) {
+    el("postMsg").className = "";
+    el("postMsg").textContent = "Converting the photo so everyone can see it…";
+    try {
+      f = await toJpeg(f);
+    } catch (err) {
+      // better an attachment nobody can preview than no post at all
+      el("postMsg").className = "err";
+      el("postMsg").textContent =
+        "Could not convert that iPhone photo (" + err.message + ") - it will post as a file you have to click.";
+    }
+  }
   pending = f;
   el("fileName").textContent = f.name + " (" + Math.round(f.size / 1024) + "KB)";
   el("filePick").hidden = false;
-  el("postMsg").textContent = "";
+  if (!/^Could not convert/.test(el("postMsg").textContent)) el("postMsg").textContent = "";
 }
 
 function clearFile() {
@@ -289,7 +323,8 @@ async function submitPost() {
       if (up.error) throw new Error(up.error.message);
       file_url = db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
       file_name = pending.name;
-      file_kind = (pending.type || "").startsWith("image/") ? "image" : "file";
+      file_kind = (pending.type || "").startsWith("image/") ||
+                  /\.(jpe?g|png|gif|webp|avif)$/i.test(pending.name) ? "image" : "file";
     }
     out.textContent = "Posting…";
     const token = (crypto.randomUUID && crypto.randomUUID()) ||
