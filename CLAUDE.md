@@ -129,11 +129,10 @@ change, so the split is not blurred by caching.
 
 **All tutorials** is charted rather than listed - the per-tutorial panels stay
 as plain bars, only the pooled view is drawn. The three scale questions are one
-diverging stacked bar each, sharing a single scale so the rows can be read
-against each other. "About the same" is counted but not drawn - the bars are
-centred on the split between disagree and agree, and the middle is reported as
-a number beside the question, so a big neutral block does not swamp the
-comparison; the pick-one is a
+stacked bar each, all the same full width, so what is compared is the shape of
+the split rather than how many answered. Widths are of the people who picked a
+point on the scale; "not sure" is not one, so it is counted beside the question
+instead of drawn; the pick-one is a
 part-to-whole bar with a legend carrying the numbers; the written answers
 collapse behind `<details>`. Colours were checked with the data-viz palette
 validator against the white panel - the six categorical hues pass every gate,
