@@ -316,10 +316,18 @@ tr.msgrow.done td{text-decoration:line-through;text-decoration-color:var(--line-
 input.tick{width:17px;height:17px;cursor:pointer;accent-color:var(--accent)}
 
 /* the all-tutorials summary ---------------------------------------------- */
-button.fbtut.fball{border-color:var(--accent);background:var(--accent-soft)}
-button.fbtut.fball b{color:var(--accent)}
-button.fbtut.fball.on{background:var(--accent);border-color:var(--accent)}
-button.fbtut.fball.on b,button.fbtut.fball.on .sub,button.fbtut.fball.on .fbcount{color:var(--accent-ink)}
+button.fball{display:flex;align-items:baseline;gap:10px;width:100%;text-align:left;
+  padding:10px 14px;margin-bottom:10px;line-height:1.3;
+  border-color:var(--accent);background:var(--accent-soft)}
+button.fball b{font-size:14px;color:var(--accent)}
+button.fball .sub{margin:0;font-size:11.5px}
+button.fball .fbcount{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--accent)}
+button.fball.on{background:var(--accent);border-color:var(--accent)}
+button.fball.on b,button.fball.on .sub,button.fball.on .fbcount{color:var(--accent-ink)}
+@media (max-width:420px){
+  button.fball{flex-wrap:wrap;gap:2px 10px}
+  button.fball .fbcount{margin-left:0;flex-basis:100%}
+}
 .fbcat{margin:12px 0 0;padding:10px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg)}
 .fbcat h5{margin:0 0 6px;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;
   display:flex;align-items:center;gap:7px}

@@ -47,13 +47,16 @@ async function render() {
 
   const all = summariseAll(rows);
 
+  // the all-tutorials bar sits above the grid rather than in it, so the
+  // tutorials themselves fall into even rows
   box.innerHTML =
-    '<div class="fbpicker" id="fbPicker">' +
-    '<button type="button" class="fbtut fball" data-id="__all__">' +
+    '<div id="fbNav">' +
+    '<button type="button" class="fball" data-id="__all__">' +
       "<b>All tutorials</b>" +
       '<span class="sub">everyone so far</span>' +
       '<span class="fbcount">' + all.responses + " response" + (all.responses === 1 ? "" : "s") +
       " &middot; " + all.tutorials + " tutorial" + (all.tutorials === 1 ? "" : "s") + "</span></button>" +
+    '<div class="fbpicker">' +
     tutorials.map((t) => {
       const s = stats.get(t.id);
       return '<button type="button" class="fbtut' + (s ? "" : " empty") + '" data-id="' +
@@ -63,17 +66,17 @@ async function render() {
         '<span class="fbcount">' + (s
           ? s.responses + (s.responses === 1 ? " response" : " responses")
           : "no feedback") + "</span></button>";
-    }).join("") + "</div><div id='fbDetail'></div>";
+    }).join("") + "</div></div><div id='fbDetail'></div>";
 
-  el("fbPicker").addEventListener("click", (e) => {
-    const b = e.target.closest("button.fbtut");
+  el("fbNav").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-id]");
     if (b) { chosen = b.dataset.id; show(chosen); }
   });
   if (chosen !== "__all__" && !stats.has(chosen)) chosen = "__all__";
   show(chosen);
 
   function show(id) {
-    for (const b of box.querySelectorAll("button.fbtut")) b.classList.toggle("on", b.dataset.id === id);
+    for (const b of box.querySelectorAll("button[data-id]")) b.classList.toggle("on", b.dataset.id === id);
     if (id === "__all__") { el("fbDetail").innerHTML = summaryHtml(all); return; }
     const t = tutorials.find((x) => x.id === id), s = stats.get(id);
     el("fbDetail").innerHTML =
