@@ -351,7 +351,6 @@ button.fbtut.empty .fbcount{color:var(--muted);font-weight:400}
 .crow:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
 .crow legend{padding:0;font-weight:600;margin-bottom:8px;line-height:1.45}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
-.fbnote{margin:2px 0 8px;font-style:italic}
 /* the whole chip is the hit area - this is thumbed, not clicked */
 label.opt{display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid var(--line-strong);
   border-radius:999px;cursor:pointer;font-size:14px;background:var(--panel)}

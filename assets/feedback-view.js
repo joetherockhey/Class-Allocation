@@ -70,13 +70,6 @@ async function render() {
           '<div class="fbmetric"><div class="fbq">' + escapeHtml(g.question) +
           '<span class="sub">' + g.answered + " answered" +
             (split ? " &middot; wording " + (i + 1) + " of " + c.asked.length : "") + "</span></div>" +
-          (i === 0 && (split || c.aside)
-            ? '<p class="sub fbnote">This question was reworded partway through. ' +
-              (split ? "The answers are split by what each person was shown. " : "") +
-              (c.aside ? c.aside + (c.aside === 1 ? " answer is" : " answers are") +
-                " not shown here, given under wording almost nobody in this tutorial saw." : "") +
-              "</p>"
-            : "") +
           '<ul class="fbopts">' + g.counts.map((o) =>
             '<li' + (o.n ? "" : ' class="zero"') + ">" +
             '<span class="n">' + Math.round((o.n / g.answered) * 100) + "%</span>" +
