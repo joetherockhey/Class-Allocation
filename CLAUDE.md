@@ -119,7 +119,9 @@ tutorial that answered either side of a change is shown split, with a note.
 T11 answered the original "Compared with before today's session..." (11 of
 them) and T22 answered "Before today's session..." with the middle option
 reading "Sometimes" - the wording live between 11:31 and 15:05 AEST on 14 Sep.
-One late T11 response falls in T22's window. Timings come from push time plus
+One late T11 response falls in T22's window; a wording group smaller than
+`MIN_WORDING_GROUP` alongside a bigger one is set aside rather than given its
+own bar, and the panel says how many. It still counts in `answered`. Timings come from push time plus
 about a minute for Pages, and no response landed within 12 minutes of a
 change, so the split is not blurred by caching.
 
@@ -137,7 +139,10 @@ unsigned feedback is more honest. The costs of that are worth knowing.
 - Nobody can edit or delete feedback once it is in, including the tutor from
   the browser. Use the service key if something has to go.
 
-`TEST01` is a scratch tutorial for trying the form. Anything whose id starts
+`TEST01` is a scratch tutorial for trying the form (labelled just "Test"; the
+id is what the filtering keys off, so leave it alone). Its responses are left
+out of the headline "N responses across M tutorials", though its own panel
+still works. Anything whose id starts
 with `TEST` is filtered out of the preference grid and the dashboard counts by
 `notTest` in `assets/api.js` — it exists only so feedback has something safe to
 point at. Leaving it in costs nothing; deleting the row removes its feedback

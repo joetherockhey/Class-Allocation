@@ -110,6 +110,9 @@ export const WORDING_HISTORY = [
   { from: "2026-09-14T05:08:39Z" },
 ];
 
+/** Fewer than this many answers under one wording is not worth its own bar. */
+export const MIN_WORDING_GROUP = 2;
+
 /** The wording in force when a response was given. */
 function wordingAt(when) {
   let hit = {};
@@ -151,7 +154,21 @@ function choice(rows, q) {
     if (hit) { hit.n++; g.answered++; }
   }
   groups.sort((a, b) => new Date(a.first) - new Date(b.first));
-  return { answered: counts.reduce((a, c) => a + c.n, 0), counts, asked: groups };
+
+  // A stray answer or two under a wording almost nobody saw says more about
+  // when the question changed than about the room, so it is set aside rather
+  // than shown as its own bar. Only ever applies when a bigger group exists.
+  let aside = 0;
+  let shown = groups;
+  if (groups.length > 1) {
+    const keep = groups.filter((g) => g.answered >= MIN_WORDING_GROUP);
+    if (keep.length) {
+      aside = groups.filter((g) => g.answered < MIN_WORDING_GROUP)
+                    .reduce((n, g) => n + g.answered, 0);
+      shown = keep;
+    }
+  }
+  return { answered: counts.reduce((a, c) => a + c.n, 0), counts, asked: shown, aside };
 }
 
 /** Summarise every response for one tutorial. */

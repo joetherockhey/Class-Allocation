@@ -114,10 +114,35 @@ const row = (o) => ({ tutorial_id: "T22", study_help: null, belonging: null,
   ]);
   const c = s.choices.study_help;
   assert.equal(c.answered, 2);
+  // one each side, so neither reaches MIN_WORDING_GROUP and both are still shown
   assert.equal(c.asked.length, 2, "two wordings were in play");
+  assert.equal(c.aside, 0);
   assert.equal(c.asked.reduce((n, g) => n + g.answered, 0), c.answered, "every answer lands in one group");
   assert.deepEqual(c.asked.map((g) => g.counts.find((o) => o.v === "same").label),
                    ["About the same", "Sometimes"]);
+}
+
+/* a lone answer under a wording the rest of the room never saw is set aside,
+ * not given a bar of its own - but it is still counted and reported */
+{
+  const early = "2026-09-14T00:30:00Z", mid = "2026-09-14T04:26:00Z";
+  const s = summarise([
+    row({ study_help: "agree", created_at: early }),
+    row({ study_help: "agree", created_at: early }),
+    row({ study_help: "same",  created_at: mid }),
+  ]);
+  const c = s.choices.study_help;
+  assert.equal(c.answered, 3, "the set-aside answer still counts in the total");
+  assert.equal(c.asked.length, 1, "only the wording the room actually saw gets a bar");
+  assert.equal(c.aside, 1, "and the odd one out is reported, not silently dropped");
+  assert.match(c.asked[0].question, /^Compared with before/);
+}
+
+/* nothing is set aside when there is only one wording to begin with */
+{
+  const s = summarise([row({ study_help: "agree", created_at: "2026-09-14T00:30:00Z" })]);
+  assert.equal(s.choices.study_help.aside, 0);
+  assert.equal(s.choices.study_help.asked.length, 1);
 }
 
 console.log("feedback stats: all good");

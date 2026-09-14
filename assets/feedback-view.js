@@ -3,7 +3,7 @@
  * rated it. Its own module rather than part of student.js, so the feed keeps
  * working if this breaks.
  */
-import { tutorialList, allFeedback, el, escapeHtml } from "./api.js";
+import { tutorialList, allFeedback, notTest, el, escapeHtml } from "./api.js";
 import { CHOICES, TEXT_QUESTIONS, byTutorial } from "./feedback-stats.js";
 
 const box = el("fbResults");
@@ -19,9 +19,13 @@ async function render() {
   }
   const rows = res.data;
   const stats = byTutorial(rows);
-  el("fbTotal").textContent = rows.length
-    ? rows.length + (rows.length === 1 ? " response" : " responses") +
-      " across " + stats.size + (stats.size === 1 ? " tutorial" : " tutorials")
+  // TEST rows are the scratch tutorial - its panel still works, but it is not
+  // a class and does not belong in the headline count.
+  const real = rows.filter((r) => notTest({ id: r.tutorial_id }));
+  const realTuts = new Set(real.map((r) => r.tutorial_id)).size;
+  el("fbTotal").textContent = real.length
+    ? real.length + (real.length === 1 ? " response" : " responses") +
+      " across " + realTuts + (realTuts === 1 ? " tutorial" : " tutorials")
     : "";
 
   if (!rows.length) {
@@ -66,9 +70,12 @@ async function render() {
           '<div class="fbmetric"><div class="fbq">' + escapeHtml(g.question) +
           '<span class="sub">' + g.answered + " answered" +
             (split ? " &middot; wording " + (i + 1) + " of " + c.asked.length : "") + "</span></div>" +
-          (split && i === 0
-            ? '<p class="sub fbnote">This question was reworded partway through, so the answers are' +
-              " split by what each person was shown.</p>"
+          (i === 0 && (split || c.aside)
+            ? '<p class="sub fbnote">This question was reworded partway through. ' +
+              (split ? "The answers are split by what each person was shown. " : "") +
+              (c.aside ? c.aside + (c.aside === 1 ? " answer is" : " answers are") +
+                " not shown here, given under wording almost nobody in this tutorial saw." : "") +
+              "</p>"
             : "") +
           '<ul class="fbopts">' + g.counts.map((o) =>
             '<li' + (o.n ? "" : ' class="zero"') + ">" +
