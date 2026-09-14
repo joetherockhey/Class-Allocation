@@ -343,8 +343,12 @@ button.fbtut.empty .fbcount{color:var(--muted);font-weight:400}
 .fbcomments li{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:13px;white-space:pre-wrap}
 
 /* pick-one questions on the feedback form */
-.crow{border:0;padding:24px 0 26px;margin:0;border-top:1px solid var(--line)}
-.crow:first-child{border-top:0;padding-top:0}
+/* A fieldset puts its legend in the border box, so padding-top lands BETWEEN
+ * the question and its options, not above the question. Keep the gap between
+ * questions on the margin and the rule on the bottom edge, or the options
+ * drift towards the next question. */
+.crow{border:0;padding:0 0 26px;margin:0 0 26px;border-bottom:1px solid var(--line)}
+.crow:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
 .crow legend{padding:0;font-weight:600;margin-bottom:8px;line-height:1.45}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
 /* the whole chip is the hit area - this is thumbed, not clicked */
