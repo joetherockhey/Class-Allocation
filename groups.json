@@ -215,6 +215,13 @@
           "is_vet": false,
           "got_choice": 4,
           "load": 2
+        },
+        {
+          "id": "d6337265-e9ee-46e1-bd03-84523f325c2e",
+          "name": "Rohan Howard",
+          "is_vet": true,
+          "got_choice": 2,
+          "load": 3
         }
       ]
     },
@@ -495,13 +502,6 @@
           "is_vet": false,
           "got_choice": 1,
           "load": 2
-        },
-        {
-          "id": "d6337265-e9ee-46e1-bd03-84523f325c2e",
-          "name": "Rohan Howard",
-          "is_vet": true,
-          "got_choice": 1,
-          "load": 3
         }
       ]
     },

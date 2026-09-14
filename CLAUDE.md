@@ -49,7 +49,9 @@ than trusting a browser refresh.
 
 1. Every tutorial is covered by **at least 2** people
 2. **No more than 5** in any tutorial (was 6; `scripts/trim-groups.mjs` applies
-   the tighter cap to an existing plan without reshuffling everything)
+   the tighter cap to an existing plan without reshuffling everything). T14
+   holds six on purpose - Rohan Howard was moved there from T17 on 14 Sep at
+   the tutor's request, knowing it went over
 3. Everyone who submitted presents **at least once**, ideally 2-3
 
 Above all of these sits a hard constraint that nobody is placed in two
