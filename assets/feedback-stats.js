@@ -252,7 +252,8 @@ export function classify(text) {
 
 export const CATEGORIES = [
   { key: "positive",     label: "Positive" },
-  { key: "constructive", label: "Constructive" },
+  // the slug stays "constructive" - it is the CSS class and the stored shape
+  { key: "constructive", label: "Developmental" },
   { key: "critical",     label: "Critical" },
 ];
 
