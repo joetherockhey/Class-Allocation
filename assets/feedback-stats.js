@@ -9,7 +9,9 @@
  * that constraint to match.
  */
 
-/** Two questions share the same agree scale, so it is written once. */
+/** The teamwork question's scale. The study-help one is nearly the same but
+ *  calls the middle "Sometimes", so it spells its own out below - do not merge
+ *  them back together. */
 const AGREE = [
   { v: "strongly_disagree", label: "Strongly disagree" },
   { v: "disagree",          label: "Disagree" },
@@ -22,7 +24,15 @@ export const CHOICES = [
   {
     key: "study_help",
     question: "Before today’s session, I interacted with others to give or receive study help",
-    options: AGREE,
+    // same slugs as AGREE - "same" already has answers stored against it, so
+    // only the wording of the middle option changes.
+    options: [
+      { v: "strongly_disagree", label: "Strongly disagree" },
+      { v: "disagree",          label: "Disagree" },
+      { v: "same",              label: "Sometimes" },
+      { v: "agree",             label: "Agree" },
+      { v: "strongly_agree",    label: "Strongly agree" },
+    ],
   },
   {
     key: "belonging",
