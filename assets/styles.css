@@ -30,6 +30,7 @@ button.ghost{background:transparent;border-color:transparent;color:var(--muted);
 button.ghost:hover{color:var(--accent);border-color:transparent}
 button.tiny{padding:3px 8px;font-size:12px;line-height:1.4}
 button.big{padding:15px 26px;font-size:17px;border-radius:10px}
+button.soft{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .spacer{flex:1}
 
