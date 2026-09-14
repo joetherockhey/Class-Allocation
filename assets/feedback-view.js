@@ -4,7 +4,7 @@
  * working if this breaks.
  */
 import { tutorialList, allFeedback, el, escapeHtml } from "./api.js";
-import { CHOICES, COMMENT_QUESTION, byTutorial } from "./feedback-stats.js";
+import { CHOICES, TEXT_QUESTIONS, byTutorial } from "./feedback-stats.js";
 
 const box = el("fbResults");
 if (box) render().catch((e) => { box.innerHTML = '<p class="sub" style="margin:0">Could not load feedback: ' + escapeHtml(e.message) + "</p>"; });
@@ -69,11 +69,14 @@ async function render() {
             '<span class="obar"><i style="width:' + ((o.n / c.answered) * 100) + '%"></i></span>' +
             '<span class="sub">' + o.n + "</span></li>").join("") + "</ul></div>";
       }).join("") +
-      (s.comments.length
-        ? '<h4 class="fbch">' + escapeHtml(COMMENT_QUESTION) +
-          " (" + s.comments.length + ")</h4>" +
-          '<ul class="fbcomments">' + s.comments.map((c) =>
-            "<li>" + escapeHtml(c.comment) + "</li>").join("") + "</ul>"
-        : '<p class="sub" style="margin:14px 0 0">Nobody wrote an answer for this one.</p>');
+      TEXT_QUESTIONS.map((q) => {
+        const answers = s.text[q.key] || [];
+        return '<h4 class="fbch">' + escapeHtml(q.question) +
+          (answers.length ? " (" + answers.length + ")" : "") + "</h4>" +
+          (answers.length
+            ? '<ul class="fbcomments">' + answers.map((a) =>
+                "<li>" + escapeHtml(a.answer) + "</li>").join("") + "</ul>"
+            : '<p class="sub" style="margin:6px 0 0">Nobody answered this one.</p>');
+      }).join("");
   }
 }

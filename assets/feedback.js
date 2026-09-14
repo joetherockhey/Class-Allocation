@@ -4,7 +4,7 @@
  * supabase/feedback.sql.
  */
 import { tutorialList, postFeedback, el, escapeHtml, mode } from "./api.js";
-import { CHOICES, COMMENT_QUESTION } from "./feedback-stats.js";
+import { CHOICES, TEXT_QUESTIONS } from "./feedback-stats.js";
 
 const DONE_KEY = "tutgroups.feedback.done";     // tutorials this phone has rated
 
@@ -24,7 +24,15 @@ el("choices").innerHTML = CHOICES.map((q) => `
     </div>
   </fieldset>`).join("");
 
-el("fbCommentQ").textContent = COMMENT_QUESTION;
+el("textQs").innerHTML = TEXT_QUESTIONS.map((q) => `
+  <section class="panel">
+    <h2><label for="t_${q.key}">${escapeHtml(q.question)}</label></h2>
+    <p class="sub" style="margin:2px 0 10px">Optional.</p>
+    <textarea id="t_${q.key}" rows="4" maxlength="1000"
+      placeholder="${escapeHtml(q.placeholder)}"></textarea>
+  </section>`).join("");
+
+const written = (key) => el("t_" + key).value.trim() || null;
 
 const picked = (key) => {
   const hit = form.querySelector(`input[name="${key}"]:checked`);
@@ -66,15 +74,16 @@ pick.addEventListener("change", () => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const comment = el("fbComment").value.trim();
   const row = {
     tutorial_id: pick.value,
-    comment: comment || null,
+    ...Object.fromEntries(TEXT_QUESTIONS.map((q) => [q.key, written(q.key)])),
     ...Object.fromEntries(CHOICES.map((q) => [q.key, picked(q.key)])),
   };
   if (!row.tutorial_id) { msg.textContent = "Pick your tutorial first."; return; }
-  if (CHOICES.every((q) => row[q.key] === null) && !comment) {
-    msg.textContent = "Answer something first — a question, or the box at the end.";
+  const blank = CHOICES.every((q) => row[q.key] === null) &&
+                TEXT_QUESTIONS.every((q) => row[q.key] === null);
+  if (blank) {
+    msg.textContent = "Answer something first — a question, or one of the boxes at the end.";
     return;
   }
 

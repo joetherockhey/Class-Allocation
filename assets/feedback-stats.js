@@ -21,7 +21,7 @@ const AGREE = [
 export const CHOICES = [
   {
     key: "study_help",
-    question: "Compared with before today’s session, I interacted with others to give or receive study help",
+    question: "Before today’s session, I interacted with others to give or receive study help",
     options: AGREE,
   },
   {
@@ -44,7 +44,7 @@ export const CHOICES = [
   },
   {
     key: "best_bit",
-    question: "What was the most useful part?",
+    question: "What was the most useful part of today’s session?",
     options: [
       { v: "examples",     label: "The examples and stories" },
       { v: "facilitators", label: "The fact that facilitators were BCom students as well" },
@@ -56,9 +56,21 @@ export const CHOICES = [
   },
 ];
 
-/** The free-text question at the end. */
-export const COMMENT_QUESTION =
-  "What is one thing you could do in your team this week to help someone feel they belong?";
+/** The written questions, in the order they appear on the form. `comment` is
+ *  the original column and keeps its meaning; anything already stored there is
+ *  an answer to the belonging question below. */
+export const TEXT_QUESTIONS = [
+  {
+    key: "comment",
+    question: "What is one thing you could do in your team this week to help someone feel they belong?",
+    placeholder: "One small thing you could actually do…",
+  },
+  {
+    key: "presenter_note",
+    question: "Any feedback you’d like to give the presenters today?",
+    placeholder: "What worked, what did not…",
+  },
+];
 
 /** How the pick-one answers fell. Anything not on the option list is ignored
  *  rather than shown - only the form writes here, and the database will not
@@ -73,10 +85,10 @@ export function summarise(rows) {
   return {
     responses: rows.length,
     choices: Object.fromEntries(CHOICES.map((q) => [q.key, choice(rows, q)])),
-    comments: rows
-      .filter((r) => r.comment && r.comment.trim())
+    text: Object.fromEntries(TEXT_QUESTIONS.map((q) => [q.key, rows
+      .filter((r) => r[q.key] && String(r[q.key]).trim())
       .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-      .map((r) => ({ comment: r.comment.trim(), created_at: r.created_at })),
+      .map((r) => ({ answer: String(r[q.key]).trim(), created_at: r.created_at }))])),
   };
 }
 

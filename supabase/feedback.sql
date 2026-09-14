@@ -34,3 +34,11 @@ create policy "write_feedback" on feedback for insert to anon, authenticated wit
 
 -- Nothing may be changed or removed once it is in.
 revoke update, delete on feedback from anon, authenticated;
+
+-- A second written question, added 14 Sep after feedback was already coming in.
+-- Additive and nullable, so every row already stored keeps its `comment` (which
+-- is the answer to the belonging question) and simply has no presenter note.
+alter table feedback add column if not exists presenter_note text;
+alter table feedback drop constraint if exists feedback_presenter_note_check;
+alter table feedback add  constraint feedback_presenter_note_check
+  check (presenter_note is null or length(trim(presenter_note)) between 1 and 1000);

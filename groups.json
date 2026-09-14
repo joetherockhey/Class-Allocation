@@ -456,7 +456,7 @@
         {
           "id": "50861b6b-621d-4afc-b845-a7678ec1b437",
           "name": "Ihan Samaraweera",
-          "is_vet": false,
+          "is_vet": true,
           "got_choice": 0,
           "load": 1
         }

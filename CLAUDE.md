@@ -16,7 +16,7 @@ into presentation groups. Static site on GitHub Pages, data in Supabase.
 | `index.html` + `assets/student.js` | student page: pick name, tap slots on a week grid |
 | `groups.html` | generated results page: by tutorial, by person, tutorial clashes |
 | `admin.html` | submission progress, slot coverage, export button |
-| `feedback.html` + `assets/feedback.js` | what the audience scans: pick a tutorial, four pick-one questions, a written answer |
+| `feedback.html` + `assets/feedback.js` | what the audience scans: pick a tutorial, four pick-one questions, two written answers |
 | `assets/feedback-stats.js` | the questions, and the sums behind the home-page panel. Pure, tested by `npm test` |
 | `assets/feedback-view.js` | the "Feedback per tutorial" panel on the home page |
 | `assets/config.js` | Supabase URL + anon key (public, committed), `MIN_PICKS*`, `SLIDES_URL` |
@@ -82,10 +82,12 @@ single page that does one thing. It is not secret, just isolated: the URL is
 public if someone types it. That page also asks for the timetable alone and
 never `loadCore()`, so a room full of strangers is not handed the roster.
 
-They pick their tutorial, answer four pick-one questions (three of them
-"compared with before today's session" scales), and can write an answer to
-"What is one thing you could do in your team this week to help someone feel
-they belong?". Results appear under **Feedback per
+They pick their tutorial, answer four pick-one questions (two of them
+"compared with before today's session" scales), and can write answers to two
+open questions - one about helping someone feel they belong, one for the
+presenters. The written ones live in `TEXT_QUESTIONS`; `comment` is the
+original column and must stay first, because everything already stored in it
+is an answer to the belonging question. Results appear under **Feedback per
 tutorial** on both the home page and the dashboard — the same
 `assets/feedback-view.js` drives both, keyed off the ids `fbResults` and
 `fbTotal`, so a page gets the panel by declaring those two ids.
@@ -99,7 +101,13 @@ sees until a student taps the new option and the insert is rejected.
 The 0-10 sliders the form used to open with (`useful`, `clear`, `engaging`,
 `confident`) and the `recommend` question were replaced in September 2026. The
 columns are still there and still nullable - nothing writes to them now, and
-the four rows collected under them stay readable.
+the rows collected under them stay readable.
+
+Wording has been changed once already while responses were coming in. That is
+safe: the labels are only what is drawn on screen, and the stored values are
+the slugs. Changing a *slug*, renaming a column, or reusing `comment` for a
+different question would silently orphan answers already given - do not.
+`backups/` holds a dated dump taken before the 14 Sep rewording.
 
 It is anonymous, and deliberately so: the audience is not on our roster and
 unsigned feedback is more honest. The costs of that are worth knowing.

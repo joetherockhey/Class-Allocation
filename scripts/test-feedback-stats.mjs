@@ -4,10 +4,10 @@
 // Run with `npm test`.
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { summarise, byTutorial, CHOICES } from "../assets/feedback-stats.js";
+import { summarise, byTutorial, CHOICES, TEXT_QUESTIONS } from "../assets/feedback-stats.js";
 
 const row = (o) => ({ tutorial_id: "T22", study_help: null, belonging: null,
-  teamwork: null, best_bit: null, comment: null,
+  teamwork: null, best_bit: null, comment: null, presenter_note: null,
   created_at: "2026-09-14T00:00:00Z", ...o });
 
 /* pick-one questions: counted per option, a skipped answer is not a vote */
@@ -46,16 +46,27 @@ const row = (o) => ({ tutorial_id: "T22", study_help: null, belonging: null,
   const s = summarise([]);
   assert.equal(s.responses, 0);
   for (const q of CHOICES) assert.equal(s.choices[q.key].answered, 0);
+  for (const q of TEXT_QUESTIONS) assert.equal(s.text[q.key].length, 0);
 }
 
-/* comments: only real ones, newest first */
+/* written answers: only real ones, newest first, and each question its own */
 {
   const s = summarise([
     row({ comment: "  ", created_at: "2026-09-14T01:00:00Z" }),
     row({ comment: "older", created_at: "2026-09-14T02:00:00Z" }),
-    row({ comment: "newer", created_at: "2026-09-14T03:00:00Z" }),
+    row({ comment: "newer", presenter_note: "to the presenters", created_at: "2026-09-14T03:00:00Z" }),
   ]);
-  assert.deepEqual(s.comments.map((c) => c.comment), ["newer", "older"]);
+  assert.deepEqual(s.text.comment.map((a) => a.answer), ["newer", "older"]);
+  assert.deepEqual(s.text.presenter_note.map((a) => a.answer), ["to the presenters"]);
+}
+
+/* the belonging answers already collected live in `comment` and must stay
+ * attached to that question, not drift onto the newer one */
+{
+  const s = summarise([row({ comment: "I will check in on the quiet one" })]);
+  assert.equal(TEXT_QUESTIONS[0].key, "comment", "comment must stay the first written question");
+  assert.equal(s.text.comment.length, 1);
+  assert.equal(s.text.presenter_note.length, 0);
 }
 
 /* grouping keeps tutorials apart */
