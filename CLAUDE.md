@@ -127,6 +127,28 @@ own bar, and the panel says how many. It still counts in `answered`. Timings com
 about a minute for Pages, and no response landed within 12 minutes of a
 change, so the split is not blurred by caching.
 
+**All tutorials** is the first button on the panel and what it opens on:
+`summariseAll()` pools every real tutorial into one set of percentages and
+re-runs every 30 seconds, so it keeps up while a session is still going.
+
+Two things it does not do naively. A question whose wording asked something
+materially different is left out of the pooled percentages for that question
+only - `summaryExclude` in `WORDING_HISTORY` marks it, and the panel says how
+many were left out. That is why T22's study-help answers are missing from the
+pooled bar: "Before today's session..." asks what they used to do, not whether
+today changed anything. And written answers are filtered by `isRealAnswer`
+before anything counts them, so "Nil", "n/a" and a lone "idk" do not, while
+"idk, talk to them, but..." does.
+
+`classify()` sorts written feedback into positive / constructive / critical on
+keywords - it turns on whether there is something to act on rather than tone,
+so a suggestion phrased negatively still reads as constructive. It is a
+heuristic and will misfile the unusual, which is why the panel prints the
+sentences under each heading: a wrong bucket is visible and costs nothing.
+Only `presenter_note` is bucketed. The belonging question is marked
+`sentiment: false` because its answers are things people intend to do, not
+opinions - sorting them by sentiment put twenty of twenty-one in one box.
+
 It is anonymous, and deliberately so: the audience is not on our roster and
 unsigned feedback is more honest. The costs of that are worth knowing.
 

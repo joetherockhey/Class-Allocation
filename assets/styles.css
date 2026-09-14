@@ -315,6 +315,26 @@ tr.msgrow.done{opacity:.45}
 tr.msgrow.done td{text-decoration:line-through;text-decoration-color:var(--line-strong)}
 input.tick{width:17px;height:17px;cursor:pointer;accent-color:var(--accent)}
 
+/* the all-tutorials summary ---------------------------------------------- */
+button.fbtut.fball{border-color:var(--accent);background:var(--accent-soft)}
+button.fbtut.fball b{color:var(--accent)}
+button.fbtut.fball.on{background:var(--accent);border-color:var(--accent)}
+button.fbtut.fball.on b,button.fbtut.fball.on .sub,button.fbtut.fball.on .fbcount{color:var(--accent-ink)}
+.fbcat{margin:12px 0 0;padding:10px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg)}
+.fbcat h5{margin:0 0 6px;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;
+  display:flex;align-items:center;gap:7px}
+.fbcat h5 span{font-weight:700;background:var(--panel);border:1px solid var(--line-strong);
+  border-radius:999px;padding:0 7px;font-size:11.5px;letter-spacing:0}
+.fbcat-positive{border-color:var(--ok);background:var(--ok-soft)}
+.fbcat-positive h5{color:var(--ok)}
+.fbcat-critical{border-color:var(--warn);background:var(--warn-soft)}
+.fbcat-critical h5{color:var(--warn)}
+.fbcat-constructive{border-color:var(--accent);background:var(--accent-soft)}
+.fbcat-constructive h5{color:var(--accent)}
+.fbcat .fbcomments{margin:0}
+.fbfrom{display:inline-block;margin-left:8px;font-size:11px;font-weight:700;color:var(--muted);
+  background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:1px 7px;vertical-align:1px}
+
 /* ---------------------------------------------------- audience feedback form */
 .wrap.narrow{max-width:640px}
 /* Big thumb and a tall hit area: this is used one-handed on a phone. */

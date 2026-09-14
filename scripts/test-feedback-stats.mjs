@@ -4,7 +4,8 @@
 // Run with `npm test`.
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { summarise, byTutorial, CHOICES, TEXT_QUESTIONS, askedAs } from "../assets/feedback-stats.js";
+import { summarise, byTutorial, CHOICES, TEXT_QUESTIONS, askedAs,
+         summariseAll, classify, isRealAnswer } from "../assets/feedback-stats.js";
 
 const row = (o) => ({ tutorial_id: "T22", study_help: null, belonging: null,
   teamwork: null, best_bit: null, comment: null, presenter_note: null,
@@ -143,6 +144,63 @@ const row = (o) => ({ tutorial_id: "T22", study_help: null, belonging: null,
   const s = summarise([row({ study_help: "agree", created_at: "2026-09-14T00:30:00Z" })]);
   assert.equal(s.choices.study_help.aside, 0);
   assert.equal(s.choices.study_help.asked.length, 1);
+}
+
+/* ---------------------------------------------- the all-tutorials summary */
+
+/* "n/a" and friends are not answers; something that merely starts like one is */
+{
+  for (const junk of ["", " ", "-", "..", "N/A", "na", "Nil", "no", "Nope", "idk", "none", "nothing"])
+    assert.equal(isRealAnswer(junk), false, JSON.stringify(junk) + " should not count");
+  assert.equal(isRealAnswer("idk, talk to them, but i like being quiet"), true,
+    "a real answer that happens to open with idk still counts");
+  assert.equal(isRealAnswer("Talk more"), true);
+}
+
+/* buckets turn on whether there is something to act on, not on tone */
+{
+  assert.equal(classify("Good presentation"), "positive");
+  assert.equal(classify("I liked the enthusiasm"), "positive");
+  assert.equal(classify("great enthusiasm, could improve on delivery"), "constructive");
+  assert.equal(classify("To make the question more specific, we didn't know who to evaluate"),
+    "constructive", "a suggestion is constructive even when it is phrased negatively");
+  assert.equal(classify("common sense knowledge and bad timing cause we have exams"), "critical");
+}
+
+/* the summary pools tutorials, drops the scratch one, and leaves out answers
+ * given to a question that was worded to ask something else */
+{
+  const early = "2026-09-14T00:30:00Z";   // "Compared with before..."  - counted
+  const odd   = "2026-09-14T04:26:00Z";   // "Before today's session..." - not
+  const a = summariseAll([
+    row({ tutorial_id: "T11", study_help: "agree", created_at: early }),
+    row({ tutorial_id: "T13", study_help: "agree", created_at: early }),
+    row({ tutorial_id: "T22", study_help: "same",  created_at: odd }),
+    row({ tutorial_id: "TEST01", study_help: "agree", created_at: early }),
+  ]);
+  assert.equal(a.responses, 3, "the scratch tutorial is not a class");
+  assert.equal(a.tutorials, 3);
+  assert.equal(a.choices.study_help.answered, 2, "only the comparable wording is pooled");
+  assert.equal(a.choices.study_help.excluded, 1, "and the odd one out is reported");
+  assert.equal(a.choices.study_help.counts.find((o) => o.v === "agree").n, 2);
+  assert.equal(a.choices.study_help.counts.find((o) => o.v === "same").n, 0,
+    "T22's answer must not leak into the pooled counts");
+}
+
+/* written answers: junk dropped, the rest bucketed, nothing double counted */
+{
+  const a = summariseAll([
+    row({ tutorial_id: "T11", presenter_note: "Great work" }),
+    row({ tutorial_id: "T13", presenter_note: "could be clearer" }),
+    row({ tutorial_id: "T13", presenter_note: "Nil" }),
+    row({ tutorial_id: "T21", comment: "Talk more" }),
+  ]);
+  const pn = a.text.presenter_note;
+  assert.equal(pn.total, 2);
+  assert.equal(pn.skipped, 1);
+  assert.equal(pn.byCategory.positive.length + pn.byCategory.constructive.length +
+               pn.byCategory.critical.length, pn.total, "every kept answer is in exactly one bucket");
+  assert.equal(a.text.comment.total, 1);
 }
 
 console.log("feedback stats: all good");

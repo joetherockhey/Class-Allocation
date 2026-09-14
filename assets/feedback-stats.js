@@ -64,11 +64,15 @@ export const TEXT_QUESTIONS = [
     key: "comment",
     question: "What is one thing you could do in your team this week to help someone feel they belong?",
     placeholder: "One small thing you could actually do…",
+    // Answers here are things people intend to do, not opinions - sorting them
+    // into positive/critical says nothing, so the summary just lists them.
+    sentiment: false,
   },
   {
     key: "presenter_note",
     question: "Any feedback you’d like to give the presenters today?",
     placeholder: "What worked, what did not…",
+    sentiment: true,
   },
 ];
 
@@ -94,6 +98,11 @@ export const WORDING_HISTORY = [
     questions: {
       study_help: "Before today’s session, I interacted with others to give or receive study help",
     },
+    // "Before today's session..." asks what they used to do; every other
+    // version asks whether today changed it. Not the same question, so these
+    // answers stay out of the all-tutorials summary (the tutorial's own panel
+    // still shows them, under the wording they were given).
+    summaryExclude: ["study_help"],
   },
   {
     from: "2026-09-14T01:31:29Z",
@@ -101,6 +110,7 @@ export const WORDING_HISTORY = [
       study_help: "Before today’s session, I interacted with others to give or receive study help",
     },
     labels: { study_help: { same: "Sometimes" } },
+    summaryExclude: ["study_help"],
   },
   {
     from: "2026-09-14T05:05:43Z",
@@ -118,6 +128,12 @@ function wordingAt(when) {
   let hit = {};
   for (const w of WORDING_HISTORY) if (when >= w.from) hit = w;
   return hit;
+}
+
+/** True when an answer given at `when` can be pooled with the rest. */
+export function inSummary(key, when) {
+  const w = wordingAt(when);
+  return !(w.summaryExclude || []).includes(key);
 }
 
 /** How question `key` was put to whoever answered at `when`. */
@@ -191,4 +207,91 @@ export function byTutorial(rows) {
     bins.get(r.tutorial_id).push(r);
   }
   return new Map([...bins].map(([id, rs]) => [id, summarise(rs)]));
+}
+
+/* ------------------------------------------------------- the written answers */
+
+/** Things people type to mean "nothing to say". Matched whole, after stripping
+ *  punctuation - "idk" is not an answer but "idk, talk to them, but..." is. */
+const NOT_AN_ANSWER = new Set([
+  "", "-", ".", "..", "...", "n a", "na", "nil", "no", "nope", "nah", "none",
+  "nothing", "idk", "dunno", "no comment", "nothing really", "not much",
+  "no thanks", "all good", "ok", "okay", "fine", "good", "n/a", "nil.",
+]);
+
+const normalise = (t) =>
+  String(t).toLowerCase().replace(/[^a-z0-9\s\/]/g, " ").replace(/\s+/g, " ").trim();
+
+/** Whether someone actually answered, rather than filling the box to move on. */
+export function isRealAnswer(text) {
+  const n = normalise(text);
+  if (NOT_AN_ANSWER.has(n)) return false;
+  if (n.replace(/\s/g, "").length < 3) return false;      // "ok", "..", "x"
+  return true;
+}
+
+const PRAISE = /\b(good|great|greate|nice|well done|enjoy(ed|able)?|like[d]?|love[d]?|helpful|clear|practical|fun|engaging|interesting|informative|excellent|amazing|awesome|best|thank|appreciat|enthusias|relatable|useful)\b/i;
+const SUGGESTION = /\b(could|should|would be|maybe|suggest|improve|next time|instead|more |less |better|clearer|add |longer|shorter|specific|prefer|recommend|need(s|ed)? to|try to|make (the|it|sure))/i;
+const NEGATIVE = /\b(bad|boring|confus(ing|ed)|unclear|hard to|too (long|short|fast|slow|much|many)|didn'?t|did not|not (very|really|that)?\s?(good|useful|helpful|clear)|waste|pointless|common sense|irrelevant|nothing new)/i;
+
+/** Rough bucket for a piece of written feedback.
+ *
+ *  ponytail: keyword rules, not a language model - it runs in the browser on
+ *  every refresh and there is nothing to call. It will misfile sarcasm and
+ *  anything unusual, which is why the panel prints the sentences underneath
+ *  the heading: a wrong bucket is visible and costs the reader nothing.
+ *  Swap in a real classifier offline if the volume ever justifies it. */
+export function classify(text) {
+  // Whether it names something to change is what separates useful feedback
+  // from a complaint - tone does not. "We didn't know who to evaluate, make
+  // the question more specific" is constructive despite the negative half.
+  if (SUGGESTION.test(text)) return "constructive";
+  if (NEGATIVE.test(text)) return "critical";
+  return PRAISE.test(text) ? "positive" : "constructive";
+}
+
+export const CATEGORIES = [
+  { key: "positive",     label: "Positive" },
+  { key: "constructive", label: "Constructive" },
+  { key: "critical",     label: "Critical" },
+];
+
+/** One summary across every real tutorial. Answers given under a wording that
+ *  asked something materially different are left out per question, so the
+ *  percentages are of people who were actually asked the same thing. */
+export function summariseAll(rows) {
+  const real = rows.filter((r) => !String(r.tutorial_id).startsWith("TEST"));
+  const choices = {};
+  for (const q of CHOICES) {
+    const usable = real.filter((r) => r[q.key] && inSummary(q.key, r.created_at));
+    const counts = q.options.map((o) => ({ ...o, n: usable.filter((r) => r[q.key] === o.v).length }));
+    const answered = counts.reduce((a, c) => a + c.n, 0);
+    choices[q.key] = {
+      answered,
+      counts,
+      excluded: real.filter((r) => r[q.key] && !inSummary(q.key, r.created_at)).length,
+    };
+  }
+  const text = {};
+  for (const q of TEXT_QUESTIONS) {
+    const answers = real
+      .filter((r) => r[q.key] && isRealAnswer(r[q.key]))
+      .map((r) => ({ answer: String(r[q.key]).trim(), tutorial: r.tutorial_id,
+                     category: classify(String(r[q.key])), created_at: r.created_at }))
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    const skipped = real.filter((r) => r[q.key] && !isRealAnswer(r[q.key])).length;
+    text[q.key] = {
+      total: answers.length,
+      skipped,
+      byCategory: Object.fromEntries(CATEGORIES.map((c) =>
+        [c.key, answers.filter((a) => a.category === c.key)])),
+      answers,
+    };
+  }
+  return {
+    responses: real.length,
+    tutorials: new Set(real.map((r) => r.tutorial_id)).size,
+    choices,
+    text,
+  };
 }

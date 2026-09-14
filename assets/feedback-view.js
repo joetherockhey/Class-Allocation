@@ -4,10 +4,21 @@
  * working if this breaks.
  */
 import { tutorialList, allFeedback, notTest, el, escapeHtml } from "./api.js";
-import { CHOICES, TEXT_QUESTIONS, byTutorial } from "./feedback-stats.js";
+import { CHOICES, TEXT_QUESTIONS, CATEGORIES, byTutorial, summariseAll } from "./feedback-stats.js";
 
 const box = el("fbResults");
-if (box) render().catch((e) => { box.innerHTML = '<p class="sub" style="margin:0">Could not load feedback: ' + escapeHtml(e.message) + "</p>"; });
+let chosen = "__all__";          // which button is selected, kept across refreshes
+
+const draw = () => render().catch((e) => {
+  box.innerHTML = '<p class="sub" style="margin:0">Could not load feedback: ' + escapeHtml(e.message) + "</p>";
+});
+
+if (box) {
+  draw();
+  // feedback lands while a tutorial is still running, so keep it current
+  setInterval(() => { if (!document.hidden) draw(); }, 30000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) draw(); });
+}
 
 async function render() {
   const [tutorials, res] = await Promise.all([tutorialList(), allFeedback()]);
@@ -34,8 +45,16 @@ async function render() {
     return;
   }
 
+  const all = summariseAll(rows);
+
   box.innerHTML =
-    '<div class="fbpicker" id="fbPicker">' + tutorials.map((t) => {
+    '<div class="fbpicker" id="fbPicker">' +
+    '<button type="button" class="fbtut fball" data-id="__all__">' +
+      "<b>All tutorials</b>" +
+      '<span class="sub">everyone so far</span>' +
+      '<span class="fbcount">' + all.responses + " response" + (all.responses === 1 ? "" : "s") +
+      " &middot; " + all.tutorials + " tutorial" + (all.tutorials === 1 ? "" : "s") + "</span></button>" +
+    tutorials.map((t) => {
       const s = stats.get(t.id);
       return '<button type="button" class="fbtut' + (s ? "" : " empty") + '" data-id="' +
         escapeHtml(t.id) + '"' + (s ? "" : " disabled") + '>' +
@@ -46,15 +65,16 @@ async function render() {
           : "no feedback") + "</span></button>";
     }).join("") + "</div><div id='fbDetail'></div>";
 
-  const first = tutorials.find((t) => stats.has(t.id));
   el("fbPicker").addEventListener("click", (e) => {
     const b = e.target.closest("button.fbtut");
-    if (b) show(b.dataset.id);
+    if (b) { chosen = b.dataset.id; show(chosen); }
   });
-  if (first) show(first.id);
+  if (chosen !== "__all__" && !stats.has(chosen)) chosen = "__all__";
+  show(chosen);
 
   function show(id) {
     for (const b of box.querySelectorAll("button.fbtut")) b.classList.toggle("on", b.dataset.id === id);
+    if (id === "__all__") { el("fbDetail").innerHTML = summaryHtml(all); return; }
     const t = tutorials.find((x) => x.id === id), s = stats.get(id);
     el("fbDetail").innerHTML =
       '<div class="fbhead"><h3>' + escapeHtml(t.label) + "</h3>" +
@@ -87,4 +107,54 @@ async function render() {
             : '<p class="sub" style="margin:6px 0 0">Nobody answered this one.</p>');
       }).join("");
   }
+}
+
+/* ------------------------------------------------- every tutorial at once */
+function summaryHtml(a) {
+  if (!a.responses) return '<p class="sub" style="margin:0">No feedback yet.</p>';
+
+  const bars = (counts, answered) =>
+    '<ul class="fbopts">' + counts.map((o) => {
+      const pct = answered ? Math.round((o.n / answered) * 100) : 0;
+      return '<li' + (o.n ? "" : ' class="zero"') + '><span class="n">' + pct + "%</span>" +
+        '<span class="ol">' + escapeHtml(o.label) + "</span>" +
+        '<span class="obar"><i style="width:' + (answered ? (o.n / answered) * 100 : 0) + '%"></i></span>' +
+        '<span class="sub">' + o.n + "</span></li>";
+    }).join("") + "</ul>";
+
+  const quotes = (list) => '<ul class="fbcomments">' + list.map((x) =>
+    "<li>" + escapeHtml(x.answer) +
+    '<span class="fbfrom">' + escapeHtml(String(x.tutorial).replace(/^T/, "Tut ")) + "</span></li>").join("") + "</ul>";
+
+  return '<div class="fbhead"><h3>Everyone so far</h3>' +
+    '<span class="badge ok">' + a.responses + " response" + (a.responses === 1 ? "" : "s") +
+    " across " + a.tutorials + " tutorial" + (a.tutorials === 1 ? "" : "s") + "</span></div>" +
+
+    CHOICES.map((q) => {
+      const c = a.choices[q.key];
+      if (!c.answered) return "";
+      return '<div class="fbmetric"><div class="fbq">' + escapeHtml(q.question) +
+        '<span class="sub">' + c.answered + " answered" +
+        (c.excluded ? " &middot; " + c.excluded + " left out, asked differently" : "") +
+        "</span></div>" + bars(c.counts, c.answered) + "</div>";
+    }).join("") +
+
+    TEXT_QUESTIONS.map((q) => {
+      const t = a.text[q.key];
+      if (!t.total) return "";
+      const head = '<div class="fbq">' + escapeHtml(q.question) +
+        '<span class="sub">' + t.total + " answered" +
+        (t.skipped ? " &middot; " + t.skipped + " blank or “n/a”" : "") + "</span></div>";
+
+      // only the question that actually asks for an opinion gets sorted by one
+      if (!q.sentiment) return '<div class="fbmetric">' + head + quotes(t.answers) + "</div>";
+
+      return '<div class="fbmetric">' + head +
+        CATEGORIES.map((c) => {
+          const list = t.byCategory[c.key];
+          if (!list.length) return "";
+          return '<div class="fbcat fbcat-' + c.key + '"><h5>' + escapeHtml(c.label) +
+            "<span>" + list.length + "</span></h5>" + quotes(list) + "</div>";
+        }).join("") + "</div>";
+    }).join("");
 }
