@@ -160,6 +160,12 @@ swaps one in and rebuilds the page.
   who were presenting three times came out of a six-person group and now
   present twice. Kenn Surya was protected, and pinned placements were kept.
 
+Since max5 was built, Washiella Jessica was added to T33 by hand (14 Sep) -
+she volunteered for it, it was the last tutorial down at two, and it is not on
+her list, so the pin is what keeps her there. `groups.json` is therefore max5
+plus that one placement; `plans/max5-plan.json` is still the untouched
+original. Editing the live plan beat re-running the allocator two days out.
+
 The tutorial-clashes tab is off. `npm run groups-page -- groups.json
 groups.html --with-clashes` brings it back; `clashes.json` is still on disk.
 
@@ -168,6 +174,13 @@ groups.html --with-clashes` brings it back; `clashes.json` is still on disk.
 50 students (11 vets), 23 tutorials, 45 submissions. Five students never
 submitted and are unplaced: Eleanor Forsyth, John El-Barhoun, Nhu Ngo,
 Stefan Ferster, Tara Stevens.
+
+Every tutorial now has two or three presenters, so the home page's "tutorials
+that need presenters" bar came out, and with it the form students used to
+volunteer. The "Send a message to Joe" box on `groups.html` took that job over
+and offers joining another tutorial as its first suggestion; those messages
+land in the same `tutor_messages` table, so `npm run inbox` still reads them.
+"Your presentations" moved into the sidebar the bar left free.
 
 Open threads:
 - Idea 2 (staggering Tut 12, 18, 24, 28 by 30 minutes) was measured and not
