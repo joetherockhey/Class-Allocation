@@ -103,11 +103,25 @@ The 0-10 sliders the form used to open with (`useful`, `clear`, `engaging`,
 columns are still there and still nullable - nothing writes to them now, and
 the rows collected under them stay readable.
 
-Wording has been changed once already while responses were coming in. That is
-safe: the labels are only what is drawn on screen, and the stored values are
-the slugs. Changing a *slug*, renaming a column, or reusing `comment` for a
-different question would silently orphan answers already given - do not.
-`backups/` holds a dated dump taken before the 14 Sep rewording.
+Wording has been changed several times while responses were coming in. That is
+safe for the data: the labels are only what is drawn on screen, and the stored
+values are the slugs. Changing a *slug*, renaming a column, or reusing
+`comment` for a different question would silently orphan answers already given
+- do not. `backups/` holds a dated dump taken before the 14 Sep rewording.
+
+It is not safe for *reading* the results, though, so `WORDING_HISTORY` in
+`assets/feedback-stats.js` records what the form said and when, and the panel
+shows each answer under the question that person was actually shown. Add an
+entry whenever a question or an option label changes while responses are in,
+or old answers quietly re-label themselves to wording nobody ever saw. A
+tutorial that answered either side of a change is shown split, with a note.
+
+T11 answered the original "Compared with before today's session..." (11 of
+them) and T22 answered "Before today's session..." with the middle option
+reading "Sometimes" - the wording live between 11:31 and 15:05 AEST on 14 Sep.
+One late T11 response falls in T22's window. Timings come from push time plus
+about a minute for Pages, and no response landed within 12 minutes of a
+change, so the split is not blurred by caching.
 
 It is anonymous, and deliberately so: the audience is not on our roster and
 unsigned feedback is more honest. The costs of that are worth knowing.

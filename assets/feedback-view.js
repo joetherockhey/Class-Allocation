@@ -60,14 +60,22 @@ async function render() {
         const c = s.choices[q.key];
         if (!c.answered) return '<div class="fbmetric"><div class="fbq">' + escapeHtml(q.question) +
           '<span class="sub">nobody answered</span></div></div>';
-        return '<div class="fbmetric"><div class="fbq">' + escapeHtml(q.question) +
-          '<span class="sub">' + c.answered + " answered</span></div>" +
-          '<ul class="fbopts">' + c.counts.map((o) =>
+        // the wording these people were actually shown, not today's
+        const split = c.asked.length > 1;
+        return c.asked.map((g, i) =>
+          '<div class="fbmetric"><div class="fbq">' + escapeHtml(g.question) +
+          '<span class="sub">' + g.answered + " answered" +
+            (split ? " &middot; wording " + (i + 1) + " of " + c.asked.length : "") + "</span></div>" +
+          (split && i === 0
+            ? '<p class="sub fbnote">This question was reworded partway through, so the answers are' +
+              " split by what each person was shown.</p>"
+            : "") +
+          '<ul class="fbopts">' + g.counts.map((o) =>
             '<li' + (o.n ? "" : ' class="zero"') + ">" +
-            '<span class="n">' + Math.round((o.n / c.answered) * 100) + "%</span>" +
+            '<span class="n">' + Math.round((o.n / g.answered) * 100) + "%</span>" +
             '<span class="ol">' + escapeHtml(o.label) + "</span>" +
-            '<span class="obar"><i style="width:' + ((o.n / c.answered) * 100) + '%"></i></span>' +
-            '<span class="sub">' + o.n + "</span></li>").join("") + "</ul></div>";
+            '<span class="obar"><i style="width:' + ((o.n / g.answered) * 100) + '%"></i></span>' +
+            '<span class="sub">' + o.n + "</span></li>").join("") + "</ul></div>").join("");
       }).join("") +
       TEXT_QUESTIONS.map((q) => {
         const answers = s.text[q.key] || [];

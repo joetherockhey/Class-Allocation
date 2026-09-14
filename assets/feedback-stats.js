@@ -72,12 +72,86 @@ export const TEXT_QUESTIONS = [
   },
 ];
 
+/** What the form actually said, so answers are shown under the question the
+ *  student read rather than the current wording. Each entry is what changed
+ *  from that moment; anything not named here was, and still is, as CHOICES has
+ *  it. `from` is when the change reached the site (push + about a minute for
+ *  Pages), in UTC.
+ *
+ *  Add an entry here whenever a question or an option label is reworded while
+ *  responses are already in - otherwise older answers quietly re-label
+ *  themselves to wording nobody was ever shown. */
+export const WORDING_HISTORY = [
+  {
+    from: "2026-09-13T23:53:08Z",
+    questions: {
+      study_help: "Compared with before today’s session, I interacted with others to give or receive study help",
+      best_bit: "What was the most useful part?",
+    },
+  },
+  {
+    from: "2026-09-14T01:02:46Z",
+    questions: {
+      study_help: "Before today’s session, I interacted with others to give or receive study help",
+    },
+  },
+  {
+    from: "2026-09-14T01:31:29Z",
+    questions: {
+      study_help: "Before today’s session, I interacted with others to give or receive study help",
+    },
+    labels: { study_help: { same: "Sometimes" } },
+  },
+  {
+    from: "2026-09-14T05:05:43Z",
+    labels: { study_help: { same: "Sometimes" } },
+  },
+  // 15:08:39 AEST - back to the current wording, so nothing to override
+  { from: "2026-09-14T05:08:39Z" },
+];
+
+/** The wording in force when a response was given. */
+function wordingAt(when) {
+  let hit = {};
+  for (const w of WORDING_HISTORY) if (when >= w.from) hit = w;
+  return hit;
+}
+
+/** How question `key` was put to whoever answered at `when`. */
+export function askedAs(key, when) {
+  const w = wordingAt(when);
+  const q = CHOICES.find((x) => x.key === key);
+  const labels = (w.labels && w.labels[key]) || {};
+  return {
+    question: (w.questions && w.questions[key]) || q.question,
+    options: q.options.map((o) => ({ ...o, label: labels[o.v] || o.label })),
+  };
+}
+
 /** How the pick-one answers fell. Anything not on the option list is ignored
  *  rather than shown - only the form writes here, and the database will not
  *  accept a value the constraint does not know. */
 function choice(rows, q) {
   const counts = q.options.map((o) => ({ ...o, n: rows.filter((r) => r[q.key] === o.v).length }));
-  return { answered: counts.reduce((a, c) => a + c.n, 0), counts };
+
+  // One group per distinct wording these particular people were shown. Usually
+  // there is exactly one; a tutorial answered either side of a rewording has two.
+  const groups = [];
+  for (const r of rows) {
+    if (!r[q.key]) continue;
+    const asked = askedAs(q.key, r.created_at);
+    const sig = asked.question + "|" + asked.options.map((o) => o.label).join("|");
+    let g = groups.find((x) => x.sig === sig);
+    if (!g) {
+      g = { sig, question: asked.question, answered: 0,
+            counts: asked.options.map((o) => ({ ...o, n: 0 })), first: r.created_at };
+      groups.push(g);
+    }
+    const hit = g.counts.find((o) => o.v === r[q.key]);
+    if (hit) { hit.n++; g.answered++; }
+  }
+  groups.sort((a, b) => new Date(a.first) - new Date(b.first));
+  return { answered: counts.reduce((a, c) => a + c.n, 0), counts, asked: groups };
 }
 
 /** Summarise every response for one tutorial. */

@@ -4,7 +4,7 @@
 // Run with `npm test`.
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { summarise, byTutorial, CHOICES, TEXT_QUESTIONS } from "../assets/feedback-stats.js";
+import { summarise, byTutorial, CHOICES, TEXT_QUESTIONS, askedAs } from "../assets/feedback-stats.js";
 
 const row = (o) => ({ tutorial_id: "T22", study_help: null, belonging: null,
   teamwork: null, best_bit: null, comment: null, presenter_note: null,
@@ -95,6 +95,29 @@ const row = (o) => ({ tutorial_id: "T22", study_help: null, belonging: null,
     }
     assert.equal(allowed.size, q.options.length, `${q.key}: constraint and form option lists differ`);
   }
+}
+
+/* answers are shown under the wording the student was actually shown, not
+ * whatever the question says today */
+{
+  const early = "2026-09-14T00:30:00Z";   // before the 01:02:46Z rewording
+  const mid   = "2026-09-14T04:26:00Z";   // T22's slot: "Before today's..." + "Sometimes"
+  assert.match(askedAs("study_help", early).question, /^Compared with before/);
+  assert.match(askedAs("study_help", mid).question, /^Before today/);
+  assert.equal(askedAs("study_help", mid).options.find((o) => o.v === "same").label, "Sometimes");
+  assert.equal(askedAs("study_help", early).options.find((o) => o.v === "same").label, "About the same");
+
+  // a tutorial answered either side of a rewording is split, and nothing is lost
+  const s = summarise([
+    row({ study_help: "same", created_at: early }),
+    row({ study_help: "same", created_at: mid }),
+  ]);
+  const c = s.choices.study_help;
+  assert.equal(c.answered, 2);
+  assert.equal(c.asked.length, 2, "two wordings were in play");
+  assert.equal(c.asked.reduce((n, g) => n + g.answered, 0), c.answered, "every answer lands in one group");
+  assert.deepEqual(c.asked.map((g) => g.counts.find((o) => o.v === "same").label),
+                   ["About the same", "Sometimes"]);
 }
 
 console.log("feedback stats: all good");
