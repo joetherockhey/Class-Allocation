@@ -23,7 +23,7 @@ const AGREE = [
 export const CHOICES = [
   {
     key: "study_help",
-    question: "Before today’s session, I interacted with others to give or receive study help",
+    question: "Compared with before today’s session, I interacted with others more to give or receive study help",
     // same slugs as AGREE - "same" already has answers stored against it, so
     // only the wording of the middle option changes.
     options: [
