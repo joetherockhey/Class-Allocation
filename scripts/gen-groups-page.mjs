@@ -198,8 +198,10 @@ ${planCard("Idea 2 &mdash; stagger by half an hour",
     Every moved slot still falls inside its own two-hour tutorial, so no room booking changes.
   </div>`;
 
-const loadLine = Object.entries(plan.loads || {}).sort()
-  .map(([k, v]) => `${v} student${v === 1 ? "" : "s"} &times; ${k}`).join(" &middot; ");
+const HOW_OFTEN = { 1: "present once", 2: "present twice" };
+const loadTiles = Object.entries(plan.loads || {}).sort()
+  .map(([k, v]) => `<div><b>${v}</b><span>${HOW_OFTEN[k] || `present ${k} times`}</span></div>`)
+  .join("    ");
 
 const html = `<!doctype html>
 <html lang="en">
@@ -290,7 +292,9 @@ details.tojoe summary{cursor:pointer;list-style:none;display:flex;align-items:ce
 details.tojoe summary::-webkit-details-marker{display:none}
 details.tojoe .btn{background:var(--accent);color:#fff;border-radius:9px;padding:9px 16px;
   font-weight:700;font-size:14px;white-space:nowrap}
-details.tojoe .gif{height:88px;width:auto;border-radius:9px;flex:none}
+details.tojoe .gif{height:190px;width:auto;border-radius:11px;flex:none;display:block}
+details.tojoe .joetext{display:flex;flex-direction:column;align-items:flex-start;gap:9px;
+  flex:1 1 200px;min-width:0}
 .topbar{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px}
 .topbar>.stats{flex:1 1 300px;margin-bottom:0;align-self:stretch}
 .topbar>details.tojoe{flex:1 1 340px;margin:0}
@@ -380,10 +384,10 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
     <div><b>${plan.groups.length}</b><span>tutorials</span></div>
     <div><b>${perPerson.size}</b><span>students</span></div>
     <div><b>${totalPlaces}</b><span>presentation slots</span></div>
-    <div><b>${loadLine || "&mdash;"}</b><span>tutorials each</span></div>
+    ${loadTiles}
   </div>
   <details class="tojoe">
-    <summary><span class="btn">Send a message to Joe</span><img class="gif" src="assets/guy-in-the-chair.webp" alt="" aria-hidden="true"><span class="hint">Want to join another tutorial, or something wrong with your schedule? Tell me here.</span></summary>
+    <summary><span class="joetext"><span class="btn">Send a message to Joe</span><span class="hint">Want to join another tutorial, or something wrong with your schedule? Tell me here.</span></span><img class="gif" src="assets/guy-in-the-chair.webp" alt="" aria-hidden="true"></summary>
     <form id="joeForm" autocomplete="off">
       <input id="joeName" type="text" placeholder="Your name" maxlength="60" required>
       <textarea id="joeBody" rows="4" maxlength="1000" required

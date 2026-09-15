@@ -87,7 +87,9 @@ details.tojoe summary{cursor:pointer;list-style:none;display:flex;align-items:ce
 details.tojoe summary::-webkit-details-marker{display:none}
 details.tojoe .btn{background:var(--accent);color:#fff;border-radius:9px;padding:9px 16px;
   font-weight:700;font-size:14px;white-space:nowrap}
-details.tojoe .gif{height:88px;width:auto;border-radius:9px;flex:none}
+details.tojoe .gif{height:190px;width:auto;border-radius:11px;flex:none;display:block}
+details.tojoe .joetext{display:flex;flex-direction:column;align-items:flex-start;gap:9px;
+  flex:1 1 200px;min-width:0}
 .topbar{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px}
 .topbar>.stats{flex:1 1 300px;margin-bottom:0;align-self:stretch}
 .topbar>details.tojoe{flex:1 1 340px;margin:0}
@@ -177,10 +179,10 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
     <div><b>23</b><span>tutorials</span></div>
     <div><b>46</b><span>students</span></div>
     <div><b>101</b><span>presentation slots</span></div>
-    <div><b>4 students &times; 1 &middot; 31 students &times; 2 &middot; 9 students &times; 3 &middot; 2 students &times; 4</b><span>tutorials each</span></div>
+    <div><b>4</b><span>present once</span></div>    <div><b>31</b><span>present twice</span></div>    <div><b>9</b><span>present 3 times</span></div>    <div><b>2</b><span>present 4 times</span></div>
   </div>
   <details class="tojoe">
-    <summary><span class="btn">Send a message to Joe</span><img class="gif" src="assets/guy-in-the-chair.webp" alt="" aria-hidden="true"><span class="hint">Want to join another tutorial, or something wrong with your schedule? Tell me here.</span></summary>
+    <summary><span class="joetext"><span class="btn">Send a message to Joe</span><span class="hint">Want to join another tutorial, or something wrong with your schedule? Tell me here.</span></span><img class="gif" src="assets/guy-in-the-chair.webp" alt="" aria-hidden="true"></summary>
     <form id="joeForm" autocomplete="off">
       <input id="joeName" type="text" placeholder="Your name" maxlength="60" required>
       <textarea id="joeBody" rows="4" maxlength="1000" required
