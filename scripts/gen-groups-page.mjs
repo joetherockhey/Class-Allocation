@@ -290,7 +290,10 @@ details.tojoe summary{cursor:pointer;list-style:none;display:flex;align-items:ce
 details.tojoe summary::-webkit-details-marker{display:none}
 details.tojoe .btn{background:var(--accent);color:#fff;border-radius:9px;padding:9px 16px;
   font-weight:700;font-size:14px;white-space:nowrap}
-details.tojoe .gif{height:40px;width:auto;border-radius:7px;flex:none}
+details.tojoe .gif{height:88px;width:auto;border-radius:9px;flex:none}
+.topbar{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px}
+.topbar>.stats{flex:1 1 300px;margin-bottom:0;align-self:stretch}
+.topbar>details.tojoe{flex:1 1 340px;margin:0}
 details.tojoe .hint{color:var(--muted);font-size:13px}
 details.tojoe[open] .btn{background:var(--ink)}
 #joeForm{display:grid;gap:8px;margin-top:12px}
@@ -371,6 +374,14 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
   <h2 style="margin:0 0 4px">Presentation groups</h2>
   <p class="sub">Everyone presents at two or three tutorials. <a href="index.html">Back to home</a></p>
 
+
+  <div class="topbar">
+  <div class="stats">
+    <div><b>${plan.groups.length}</b><span>tutorials</span></div>
+    <div><b>${perPerson.size}</b><span>students</span></div>
+    <div><b>${totalPlaces}</b><span>presentation slots</span></div>
+    <div><b>${loadLine || "&mdash;"}</b><span>tutorials each</span></div>
+  </div>
   <details class="tojoe">
     <summary><span class="btn">Send a message to Joe</span><img class="gif" src="assets/guy-in-the-chair.webp" alt="" aria-hidden="true"><span class="hint">Want to join another tutorial, or something wrong with your schedule? Tell me here.</span></summary>
     <form id="joeForm" autocomplete="off">
@@ -383,12 +394,6 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
       </div>
     </form>
   </details>
-
-  <div class="stats">
-    <div><b>${plan.groups.length}</b><span>tutorials</span></div>
-    <div><b>${perPerson.size}</b><span>students</span></div>
-    <div><b>${totalPlaces}</b><span>presentation slots</span></div>
-    <div><b>${loadLine || "&mdash;"}</b><span>tutorials each</span></div>
   </div>
 
   <div class="tools">
