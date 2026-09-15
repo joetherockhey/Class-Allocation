@@ -207,7 +207,7 @@
           "name": "Imani Qureshi",
           "is_vet": false,
           "got_choice": 1,
-          "load": 3
+          "load": 2
         },
         {
           "id": "c5fd23a7-5c8d-420c-bea2-21e800210490",
@@ -415,7 +415,7 @@
           "name": "Imani Qureshi",
           "is_vet": false,
           "got_choice": 2,
-          "load": 3
+          "load": 2
         },
         {
           "id": "a312826e-41db-4ce7-bcf7-1333a387e9b9",
@@ -699,13 +699,6 @@
       "location": "BHB 1140",
       "members": [
         {
-          "id": "c53411a5-7c9d-4da2-af2b-8df6320aacec",
-          "name": "Imani Qureshi",
-          "is_vet": false,
-          "got_choice": 4,
-          "load": 3
-        },
-        {
           "id": "6f6035be-c5a2-4c22-b0e5-93909d63f67c",
           "name": "Kenn Surya",
           "is_vet": false,
@@ -896,8 +889,8 @@
   ],
   "loads": {
     "1": 4,
-    "2": 31,
-    "3": 9,
+    "2": 32,
+    "3": 8,
     "4": 2
   },
   "not_submitted": [

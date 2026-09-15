@@ -228,6 +228,9 @@ swaps one in and rebuilds the page.
   who were presenting three times came out of a six-person group and now
   present twice. Kenn Surya was protected, and pinned placements were kept.
 
+Imani Qureshi was dropped from T27 by hand (16 Sep) at the tutor's request; she
+presents twice now, and T27 still has four including a vet.
+
 Seyeon Lim was dropped from T10 by hand (15 Sep) after she re-sent her
 availability without it; she presents twice now, and T10 still has four.
 
