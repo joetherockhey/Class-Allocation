@@ -226,6 +226,8 @@ a{color:var(--accent)}
   border-radius:12px;padding:14px 16px;margin-bottom:14px}
 .stats div b{display:block;font-size:22px;letter-spacing:-.02em;line-height:1.2}
 .stats div span{color:var(--muted);font-size:12px}
+.stats .lbl{flex:0 0 100%;color:var(--muted);font-size:12px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;margin:-2px 0 2px}
 .tools{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 12px;
   border-bottom:1px solid var(--line);margin-bottom:8px}
 .tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
@@ -288,13 +290,14 @@ footer.end{margin-top:30px;color:var(--muted);font-size:12.5px;text-align:center
 details.tojoe{background:var(--panel);border:1px solid var(--line);border-radius:12px;
   padding:12px 14px;margin:0 0 16px}
 details.tojoe summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;
-  flex-wrap:wrap;user-select:none}
+  user-select:none}
 details.tojoe summary::-webkit-details-marker{display:none}
 details.tojoe .btn{background:var(--accent);color:#fff;border-radius:9px;padding:9px 16px;
   font-weight:700;font-size:14px;white-space:nowrap}
-details.tojoe .gif{height:190px;width:auto;border-radius:11px;flex:none;display:block}
+details.tojoe .gif{width:40%;max-width:200px;min-width:100px;height:auto;
+  border-radius:11px;flex:0 1 auto;display:block}
 details.tojoe .joetext{display:flex;flex-direction:column;align-items:flex-start;gap:9px;
-  flex:1 1 200px;min-width:0}
+  flex:1 1 auto;min-width:0}
 .topbar{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px}
 .topbar>.statcol{flex:1 1 300px;display:flex;flex-direction:column;gap:14px}
 .topbar .stats{margin-bottom:0}
@@ -388,6 +391,7 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
       <div><b>${totalPlaces}</b><span>presentation slots</span></div>
     </div>
     <div class="stats">
+      <div class="lbl">Students</div>
       ${loadTiles}
     </div>
   </div>
