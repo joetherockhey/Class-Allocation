@@ -387,7 +387,7 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
     ${loadTiles}
   </div>
   <details class="tojoe">
-    <summary><span class="joetext"><span class="btn">Send a message to Joe</span><span class="hint">Want to join another tutorial, or something wrong with your schedule? Tell me here.</span></span><img class="gif" src="assets/guy-in-the-chair.webp" alt="" aria-hidden="true"></summary>
+    <summary><img class="gif" src="assets/guy-in-the-chair.webp" alt="" aria-hidden="true"><span class="joetext"><span class="btn">Send a message to Joe</span><span class="hint">Want to join another tutorial, or something wrong with your schedule? Tell me here.</span></span></summary>
     <form id="joeForm" autocomplete="off">
       <input id="joeName" type="text" placeholder="Your name" maxlength="60" required>
       <textarea id="joeBody" rows="4" maxlength="1000" required
