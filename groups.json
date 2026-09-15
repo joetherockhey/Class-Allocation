@@ -423,13 +423,6 @@
           "is_vet": true,
           "got_choice": 4,
           "load": 2
-        },
-        {
-          "id": "05621c59-5f42-4846-ba4d-1826f0889967",
-          "name": "Seyeon Lim",
-          "is_vet": false,
-          "got_choice": 5,
-          "load": 3
         }
       ]
     },
@@ -666,7 +659,7 @@
           "name": "Seyeon Lim",
           "is_vet": false,
           "got_choice": 2,
-          "load": 3
+          "load": 2
         }
       ]
     },
@@ -896,15 +889,15 @@
           "name": "Seyeon Lim",
           "is_vet": false,
           "got_choice": 4,
-          "load": 3
+          "load": 2
         }
       ]
     }
   ],
   "loads": {
     "1": 4,
-    "2": 30,
-    "3": 10,
+    "2": 31,
+    "3": 9,
     "4": 2
   },
   "not_submitted": [

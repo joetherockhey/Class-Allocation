@@ -227,6 +227,9 @@ swaps one in and rebuilds the page.
   who were presenting three times came out of a six-person group and now
   present twice. Kenn Surya was protected, and pinned placements were kept.
 
+Seyeon Lim was dropped from T10 by hand (15 Sep) after she re-sent her
+availability without it; she presents twice now, and T10 still has four.
+
 Since max5 was built, Washiella Jessica was added to T33 by hand (14 Sep) -
 she volunteered for it, it was the last tutorial down at two, and it is not on
 her list, so the pin is what keeps her there. `groups.json` is therefore max5
