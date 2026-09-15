@@ -296,7 +296,8 @@ details.tojoe .gif{height:190px;width:auto;border-radius:11px;flex:none;display:
 details.tojoe .joetext{display:flex;flex-direction:column;align-items:flex-start;gap:9px;
   flex:1 1 200px;min-width:0}
 .topbar{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px}
-.topbar>.stats{flex:1 1 300px;margin-bottom:0;align-self:stretch}
+.topbar>.statcol{flex:1 1 300px;display:flex;flex-direction:column;gap:14px}
+.topbar .stats{margin-bottom:0}
 .topbar>details.tojoe{flex:1 1 340px;margin:0}
 details.tojoe .hint{color:var(--muted);font-size:13px}
 details.tojoe[open] .btn{background:var(--ink)}
@@ -380,11 +381,15 @@ p.onlyonce.good{color:#15803d;background:#e7f6ec;border-color:#15803d}
 
 
   <div class="topbar">
-  <div class="stats">
-    <div><b>${plan.groups.length}</b><span>tutorials</span></div>
-    <div><b>${perPerson.size}</b><span>students</span></div>
-    <div><b>${totalPlaces}</b><span>presentation slots</span></div>
-    ${loadTiles}
+  <div class="statcol">
+    <div class="stats">
+      <div><b>${plan.groups.length}</b><span>tutorials</span></div>
+      <div><b>${perPerson.size}</b><span>students</span></div>
+      <div><b>${totalPlaces}</b><span>presentation slots</span></div>
+    </div>
+    <div class="stats">
+      ${loadTiles}
+    </div>
   </div>
   <details class="tojoe">
     <summary><img class="gif" src="assets/guy-in-the-chair.webp" alt="" aria-hidden="true"><span class="joetext"><span class="btn">Send a message to Joe</span><span class="hint">Want to join another tutorial, or something wrong with your schedule? Tell me here.</span></span></summary>
