@@ -198,7 +198,8 @@ One deck for the whole course, two ways to it from the home page:
   readable filename; that only works because it is same-origin.
 
 Replacing the deck means replacing that file: same path, and the link needs no
-change. The per-tutorial Menti link is gone — `data/menti.json` and the button
+change. Replaced 15 Sep with the newer 25-slide deck; a red note under the
+buttons tells presenters the room machines may still hold the old one. The per-tutorial Menti link is gone — `data/menti.json` and the button
 it put on every card came out.
 
 The stored URL is the `/view` form on purpose: the short link we were handed
