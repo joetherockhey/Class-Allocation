@@ -323,8 +323,11 @@ async function submitPost() {
       if (up.error) throw new Error(up.error.message);
       file_url = db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
       file_name = pending.name;
-      file_kind = (pending.type || "").startsWith("image/") ||
-                  /\.(jpe?g|png|gif|webp|avif)$/i.test(pending.name) ? "image" : "file";
+      // a .heic that got here is one the converter could not handle, so call it a
+      // file - marking it an image draws an empty frame nobody can click
+      file_kind = !isHeic(pending) &&
+                  ((pending.type || "").startsWith("image/") ||
+                   /\.(jpe?g|png|gif|webp|avif)$/i.test(pending.name)) ? "image" : "file";
     }
     out.textContent = "Posting…";
     const token = (crypto.randomUUID && crypto.randomUUID()) ||
