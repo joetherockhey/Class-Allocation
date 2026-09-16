@@ -713,6 +713,13 @@
           "load": 3
         },
         {
+          "id": "287ce2ba-7ace-4de4-81fc-313b477e123f",
+          "name": "Nhu Ngo",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 2
+        },
+        {
           "id": "d6337265-e9ee-46e1-bd03-84523f325c2e",
           "name": "Rohan Howard",
           "is_vet": true,
@@ -790,6 +797,13 @@
           "is_vet": true,
           "got_choice": 4,
           "load": 3
+        },
+        {
+          "id": "287ce2ba-7ace-4de4-81fc-313b477e123f",
+          "name": "Nhu Ngo",
+          "is_vet": false,
+          "got_choice": 1,
+          "load": 2
         },
         {
           "id": "261012a0-da7f-4822-b332-5f0949450275",
@@ -889,14 +903,13 @@
   ],
   "loads": {
     "1": 4,
-    "2": 32,
+    "2": 33,
     "3": 8,
     "4": 2
   },
   "not_submitted": [
     "Eleanor Forsyth",
     "John El-Barhoun",
-    "Nhu Ngo",
     "Stefan Ferster",
     "Tara Stevens"
   ],

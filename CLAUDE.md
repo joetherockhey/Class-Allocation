@@ -245,9 +245,15 @@ groups.html --with-clashes` brings it back; `clashes.json` is still on disk.
 
 ## Current state
 
-51 students (11 vets), 23 tutorials, 45 submissions. Five students never
-submitted and are unplaced: Eleanor Forsyth, John El-Barhoun, Nhu Ngo,
-Stefan Ferster, Tara Stevens.
+51 students (11 vets), 23 tutorials, 46 submissions. Four students never
+submitted and are unplaced: Eleanor Forsyth, John El-Barhoun, Stefan Ferster,
+Tara Stevens.
+
+Nhu Ngo submitted late (16 Sep) and was placed by hand in T27 and T30, both
+Thursday, at the tutor's request. That takes T30 to six - the second tutorial
+over the cap of five, after T14. Every Thursday pair on her list forces a six,
+because only T27, T28 and T30 run that day. Her preferences are not in
+`input.json`, so the pins are what hold her.
 
 Ihan Samaraweera joined after the roster was set (14 Sep) and was put in T16
 by hand. He is on `roster.csv` and in Supabase, but he never submitted
