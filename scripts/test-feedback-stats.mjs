@@ -203,4 +203,27 @@ const row = (o) => ({ tutorial_id: "T22", study_help: null, belonging: null,
   assert.equal(a.text.comment.total, 1);
 }
 
+/* the belonging answers cluster by the action named, specific rule first -
+   "communicate" is in most of them, so a greedy catch-all hides everything */
+{
+  const a = summariseAll([
+    row({ tutorial_id: "T11", comment: "I will invite quieter members to share their thoughts" }),
+    row({ tutorial_id: "T13", comment: "Communicate" }),
+    row({ tutorial_id: "T21", comment: "Get to know them outside of uni" }),
+    row({ tutorial_id: "T22", comment: "clarifying roles and the objectives" }),
+    row({ tutorial_id: "T30", comment: "Idk" }),
+    row({ tutorial_id: "T30", presenter_note: "no clusters on this one" }),
+  ]);
+  const c = a.text.comment;
+  const by = Object.fromEntries(c.byCluster.map((x) => [x.key, x.list.length]));
+  assert.equal(c.total, 4, "\"Idk\" is not an answer");
+  assert.equal(by.voice, 1);
+  assert.equal(by.outside, 1);
+  assert.equal(by.roles, 1);
+  assert.equal(by.talkmore, 1, "the bare one lands in the catch-all, not in a specific bucket");
+  assert.equal(c.byCluster.reduce((n, x) => n + x.list.length, 0), c.total,
+    "every answer is in exactly one cluster");
+  assert.equal(a.text.presenter_note.byCluster, null, "only the belonging question clusters");
+}
+
 console.log("feedback stats: all good");

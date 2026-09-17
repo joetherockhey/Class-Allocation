@@ -222,6 +222,26 @@ export function summaryHtml(a) {
         '<span class="sub">' + t.total + " answered" +
         (t.skipped ? " &middot; " + t.skipped + " blank or “n/a”" : "") + "</span></div>";
 
+      // What people said they would DO, not how they felt. One word -
+      // "communicate" - is in most of the answers, so the buckets are tried
+      // specific-first and the leftover bucket is the finding: how many named
+      // nothing concrete. See ACTION_CLUSTERS.
+      if (t.byCluster) {
+        const used = t.byCluster.map((c, i) => ({ ...c, fill: CATEGORICAL[i % CATEGORICAL.length] }));
+        return '<div class="fbmetric">' + head +
+          '<div class="ptw">' + used.filter((c) => c.list.length).map((c) =>
+            '<i style="width:' + pct(c.list.length, t.total) + '%;background:' + c.fill + '" title="' +
+            escapeHtml(c.label) + ": " + c.list.length + '"></i>').join("") + "</div>" +
+          '<ul class="ptw-key">' + used.map((c) =>
+            '<li' + (c.list.length ? "" : ' class="zero"') + '><span class="sw" style="background:' +
+            c.fill + '"></span><b>' + Math.round(pct(c.list.length, t.total)) + "%</b> " +
+            escapeHtml(c.label) + '<span class="sub">' + c.list.length + "</span></li>").join("") + "</ul>" +
+          used.filter((c) => c.list.length).map((c) =>
+            '<details class="fbmore"><summary>' + escapeHtml(c.label) +
+            " <span>" + c.list.length + "</span></summary>" + quotes(c.list) + "</details>").join("") +
+          "</div>";
+      }
+
       if (!q.sentiment)
         return '<div class="fbmetric">' + head +
           "<details class=\"fbmore\"><summary>Read all " + t.total + "</summary>" + quotes(t.answers) + "</details></div>";

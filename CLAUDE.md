@@ -156,6 +156,16 @@ today changed anything. And written answers are filtered by `isRealAnswer`
 before anything counts them, so "Nil", "n/a" and a lone "idk" do not, while
 "idk, talk to them, but..." does.
 
+The belonging question is bucketed instead by the *action* named, and only in
+the pooled **All tutorials** view - one tutorial's dozen answers are quicker to
+read than to bucket. `ACTION_CLUSTERS` in `assets/feedback-stats.js` holds the
+rules and they are tried in order, specific first: "communicate" appears in
+most of the answers, so a catch-all tried early swallows the lot and a word
+cloud of them just says COMMUNICATE. The last bucket before "Something else"
+is that catch-all, and its size is the finding - roughly a quarter named
+nothing concrete. Six buckets because the palette has six hues. Reword a label
+freely; changing a `key` is what breaks things.
+
 `classify()` sorts written feedback into positive / constructive / critical on
 keywords - it turns on whether there is something to act on rather than tone,
 so a suggestion phrased negatively still reads as constructive. It is a

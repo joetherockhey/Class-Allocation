@@ -65,8 +65,10 @@ export const TEXT_QUESTIONS = [
     question: "What is one thing you could do in your team this week to help someone feel they belong?",
     placeholder: "One small thing you could actually do…",
     // Answers here are things people intend to do, not opinions - sorting them
-    // into positive/critical says nothing, so the summary just lists them.
+    // into positive/critical says nothing (it put twenty of twenty-one in one
+    // box). What they are sorted by instead is the action named.
     sentiment: false,
+    clusters: true,
   },
   {
     key: "presenter_note",
@@ -250,6 +252,37 @@ export function classify(text) {
   return PRAISE.test(text) ? "positive" : "constructive";
 }
 
+/** Buckets for the belonging answers: what someone said they would actually do.
+ *
+ *  Order matters. The specific buckets must be tried before the catch-all, or
+ *  "communicate" swallows almost every answer - it appears in most of them, so
+ *  a word count of these says nothing but COMMUNICATE. What is worth seeing is
+ *  the answers that named something concrete, and how many did not.
+ *
+ *  ponytail: keyword rules like classify(), and shown with the sentences under
+ *  each heading, so a misfile is visible and costs the reader nothing. Six
+ *  buckets because the palette has six hues; a seventh would repeat one. */
+export const ACTION_CLUSTERS = [
+  { key: "voice", label: "Invite the quiet ones to speak",
+    re: /quiet|heard|includ|contribut|chance to|invite|engage|recogni[sz]|ask\w*\s.{0,24}(opinion|idea|input|everyone|question|concern)|everyone.{0,12}(voice|idea|opinion|say|decision)|all .{0,12}(opinion|idea)|share (their|ideas)/ },
+  { key: "outside", label: "Meet or talk outside the room",
+    re: /outside|group ?chat|\bgc\b|bond|meet ?up|meeting|social|tea\b|get to know|know them|background|in person|reach out/ },
+  { key: "roles", label: "Clarify roles and expectations",
+    re: /role|task|delegat|objectiv|expectation|strength|weakness|division|divide|labou?r|plan|brief|notice|deadline|goal/ },
+  { key: "care", label: "Check in, and be easy to talk to",
+    re: /check|need help|progress|how (they|everyone)|empath|life outside|comfortab|approachab|kind|judge|friendly|open.?mind|positiv|encourag|feedback|contact|regularly/ },
+  { key: "talkmore", label: "Just “communicate more”, no action named",
+    re: /communicat|commutativ|talk|chat|convo|conversation|speak/ },
+  { key: "other", label: "Something else", re: null },
+];
+
+/** Which bucket an answer falls in - first rule that matches. */
+export function cluster(text) {
+  const t = String(text).toLowerCase();
+  for (const c of ACTION_CLUSTERS) if (c.re && c.re.test(t)) return c.key;
+  return "other";
+}
+
 export const CATEGORIES = [
   { key: "positive",     label: "Positive" },
   // the slug stays "constructive" - it is the CSS class and the stored shape
@@ -286,6 +319,12 @@ export function summariseAll(rows) {
       skipped,
       byCategory: Object.fromEntries(CATEGORIES.map((c) =>
         [c.key, answers.filter((a) => a.category === c.key)])),
+      // only the pooled view clusters - one tutorial's dozen answers are
+      // quicker to read than to bucket
+      byCluster: q.clusters
+        ? ACTION_CLUSTERS.map((c) => ({ ...c, re: undefined,
+            list: answers.filter((a) => cluster(a.answer) === c.key) }))
+        : null,
       answers,
     };
   }
