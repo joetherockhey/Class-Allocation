@@ -335,7 +335,7 @@ button.fball.on b,button.fball.on .sub,button.fball.on .fbcount{color:var(--acce
 .dvg{margin:2px 0 18px}
 .dvg-row{margin-bottom:14px}
 .dvg-row:last-child{margin-bottom:0}
-.dvg-q{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:5px}
+.dvg-q{font-size:13px;font-weight:700;line-height:1.4;margin-bottom:5px}
 .dvg-q .sub{display:block;margin:1px 0 0;font-weight:400;font-size:11.5px}
 .dvg-bar{display:flex;height:20px;border-radius:4px;overflow:hidden}
 .dvg-bar i,.ptw i{display:block;height:100%;
