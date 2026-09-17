@@ -233,9 +233,12 @@ details.composerbox > .composer{padding:12px 18px 18px}
 .post .who{font-weight:700;font-size:14.5px}
 .post time{color:var(--muted);font-size:12px}
 .post .body{margin:0;white-space:pre-wrap;word-break:break-word;font-size:14.5px}
-.post .shot{display:block;margin-top:11px;border-radius:10px;overflow:hidden;line-height:0;
-  border:1px solid var(--line)}
-.post .shot img{width:100%;max-height:460px;object-fit:cover;display:block}
+.post .shot{display:block;width:fit-content;max-width:100%;margin:11px auto 0;
+  border-radius:10px;overflow:hidden;line-height:0;border:1px solid var(--line)}
+/* whole photo, never a crop - a portrait is capped by height instead of
+   being centre-cropped to a landscape box */
+.post .shot img{max-width:100%;max-height:70vh;width:auto;height:auto;
+  display:block;margin:0 auto}
 .post .fileline{display:inline-block;margin-top:10px;background:var(--bg);border:1px solid var(--line-strong);
   border-radius:8px;padding:7px 11px;font-size:13px;text-decoration:none}
 .post .acts{display:flex;align-items:center;gap:8px;margin-top:11px;padding-top:9px;
@@ -259,7 +262,7 @@ form.cform button{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;b
   border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
 @media (max-width:520px){
   form.cform .cname{flex:1 1 100%}
-  .post .shot img{max-height:320px}
+  .post .shot img{max-height:75vh}
 }
 
 /* upcoming tutorials sidebar -------------------------------------------- */
