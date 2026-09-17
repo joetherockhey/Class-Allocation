@@ -389,8 +389,9 @@ button.fbtut.empty .fbcount{color:var(--muted);font-weight:400}
 .fbhead{display:flex;align-items:center;gap:10px;margin:22px 0 4px;flex-wrap:wrap}
 .fbhead h3{font-size:15px;margin:0}
 .fbmetric{margin-top:14px}
-.fbq{display:flex;justify-content:space-between;gap:12px;font-size:13px;margin-bottom:5px;flex-wrap:wrap}
-.fbq .sub{margin:0;display:inline}
+.fbq{display:flex;justify-content:space-between;gap:12px;font-size:13px;margin-bottom:5px;
+  flex-wrap:wrap;font-weight:700}
+.fbq .sub{margin:0;display:inline;font-weight:400}
 .fbbar{display:flex;height:9px;border-radius:5px;overflow:hidden;background:var(--line)}
 .fbbar i{display:block}
 .fbbar i.good{background:var(--ok)}

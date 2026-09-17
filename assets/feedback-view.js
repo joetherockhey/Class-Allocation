@@ -237,8 +237,10 @@ export function summaryHtml(a) {
             c.fill + '"></span><b>' + Math.round(pct(c.list.length, t.total)) + "%</b> " +
             escapeHtml(c.label) + '<span class="sub">' + c.list.length + "</span></li>").join("") + "</ul>" +
           used.filter((c) => c.list.length).map((c) =>
-            '<details class="fbmore"><summary>' + escapeHtml(c.label) +
-            " <span>" + c.list.length + "</span></summary>" + quotes(c.list) + "</details>").join("") +
+            // same boxes as the sentiment buckets, tinted to match the bar
+            '<details class="fbcat" style="border-color:' + c.fill + '"><summary style="color:' +
+            c.fill + '">' + escapeHtml(c.label) + "<span>" + c.list.length + "</span></summary>" +
+            quotes(c.list) + "</details>").join("") +
           "</div>";
       }
 
