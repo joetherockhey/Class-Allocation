@@ -13,7 +13,7 @@ into presentation groups. Static site on GitHub Pages, data in Supabase.
 
 | Path | What |
 |---|---|
-| `index.html` + `assets/student.js` | student page: pick name, tap slots on a week grid |
+| `index.html` + `assets/student.js` | student page: the feed, and the preference picker behind `?prefs=1` |
 | `groups.html` | generated results page: by tutorial, by person, tutorial clashes |
 | `admin.html` | submission progress, slot coverage, export button |
 | `feedback.html` + `assets/feedback.js` | what the audience scans: pick a tutorial, four pick-one questions, two written answers |
@@ -208,8 +208,9 @@ One deck for the whole course, two ways to it from the home page:
   readable filename; that only works because it is same-origin.
 
 Replacing the deck means replacing that file: same path, and the link needs no
-change. Replaced 15 Sep with the newer 25-slide deck; a red note under the
-buttons tells presenters the room machines may still hold the old one. The per-tutorial Menti link is gone — `data/menti.json` and the button
+change. Replaced 15 Sep with the newer 25-slide deck; the red note under the
+buttons warning that room machines may still hold the old one came out once
+the week had run. The per-tutorial Menti link is gone — `data/menti.json` and the button
 it put on every card came out.
 
 The stored URL is the `/view` form on purpose: the short link we were handed
@@ -221,8 +222,15 @@ to view-only as well.
 
 The tutorials run once, in the week beginning `WEEK_START` in
 `assets/config.js` (Monday 14 September 2026). They are not weekly fixtures.
-The upcoming-tutorials panel dates everything from there; move that one value
-if the week moves.
+That week has now run. The upcoming-tutorials sidebar panel and
+`assets/upcoming.js` came out with it, and so did the "turn on notifications"
+prompt on the feed - already-granted browsers still get told about new posts,
+nothing asks any more.
+
+The "Set preferences" button came off the public page at the same time. The
+picker itself is untouched, still in `index.html`, and `?prefs=1` opens it -
+the dashboard's only link to it, under **Share with the class**. Anyone who
+knows the query string can still reach it; it is out of the way, not shut.
 
 ## Saved plans
 

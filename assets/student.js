@@ -2,7 +2,6 @@ import { loadCore, getPrefs, savePrefs, loadAllocations, el, escapeHtml, backend
   strandedPrefs, clearStranded, notTest } from "./api.js";
 import { COURSE_TITLE, INTRO, MIN_PICKS, MIN_PICKS_BY_NAME, SLIDES_URL } from "./config.js";
 import { initFeed } from "./feed.js";
-import { initUpcoming } from "./upcoming.js";
 
 const LS_KEY = "tutgroups.studentId";
 
@@ -42,8 +41,6 @@ async function init() {
 
   // the feed does not depend on the roster loading, so start it first
   initFeed().catch(() => {});
-  initUpcoming().catch(() => {});
-  el("openPrefs").addEventListener("click", showPrefs);
   el("closePrefs").addEventListener("click", () => { showFeed(); signOut(true); });
 
   ({ tutorials, students, settings, submitted } = await loadCore());
@@ -76,7 +73,9 @@ async function init() {
     if (dirty) { e.preventDefault(); e.returnValue = ""; }
   });
 
-  showFeed();
+  // The week is over, so nothing on the public page opens the picker any more.
+  // The dashboard keeps a way in, to show how it worked: index.html?prefs=1
+  if (new URLSearchParams(location.search).has("prefs")) showPrefs(); else showFeed();
 }
 
 const tut = (id) => tutorials.find((t) => t.id === id);

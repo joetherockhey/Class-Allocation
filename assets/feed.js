@@ -62,7 +62,6 @@ export async function initFeed() {
 
   el("postName").value = myName();
   el("postBtn").addEventListener("click", submitPost);
-  setupNotifications();
   el("postFile").addEventListener("change", pickFile);
   el("dropFile").addEventListener("click", () => el("postFile").click());
   el("clearFile").addEventListener("click", clearFile);
@@ -79,31 +78,6 @@ export async function initFeed() {
 function notifyState() {
   if (!("Notification" in window)) return "unsupported";
   return Notification.permission;                     // default | granted | denied
-}
-
-function setupNotifications() {
-  const bar = el("notifyBar");
-  if (!bar) return;
-  const state = notifyState();
-  if (state === "unsupported") { bar.hidden = true; return; }
-  if (state === "granted") {
-    bar.className = "notifybar on";
-    bar.innerHTML = '<span>Notifications are on. You will be told about new posts while this page is open in a tab.</span>';
-    return;
-  }
-  if (state === "denied") {
-    bar.className = "notifybar off";
-    bar.innerHTML = '<span>Notifications are blocked for this site. Turn them back on in your browser settings if you want them.</span>';
-    return;
-  }
-  bar.className = "notifybar";
-  bar.innerHTML = '<span>Want to know when someone posts? <b>Turn on notifications.</b> ' +
-    'They arrive while this page is open in a tab.</span>' +
-    '<button id="notifyBtn" class="tiny">Turn on</button>';
-  el("notifyBtn").addEventListener("click", async () => {
-    try { await Notification.requestPermission(); } catch { /* older browsers */ }
-    setupNotifications();
-  });
 }
 
 function tell(title, body) {
