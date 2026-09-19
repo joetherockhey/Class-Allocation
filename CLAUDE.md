@@ -78,7 +78,8 @@ reported rather than ignored.
 ## Audience feedback
 
 The BUS1000 students who *watch* a talk rate it at `feedback.html`. The only
-way in is the QR on `share.html?for=feedback` — nothing on the site links to
+way in is the QR on `share.html?for=feedback`, reached from the dashboard now
+that the home page's button to it has gone — nothing on the site links to
 the form, and the form links nowhere back, so what a scanned phone gets is a
 single page that does one thing. It is not secret, just isolated: the URL is
 public if someone types it. That page also asks for the timetable alone and
@@ -168,7 +169,10 @@ freely; changing a `key` is what breaks things.
 
 `classify()` sorts written feedback into positive / constructive / critical on
 keywords - it turns on whether there is something to act on rather than tone,
-so a suggestion phrased negatively still reads as constructive. It is a
+so a suggestion phrased negatively still reads as constructive. `hard to` in
+the negative list is qualified to what follows it (`hard to follow`, `hard to
+hear`): bare, it filed "they were great, it's hard to present to a sleepy
+Friday class" as criticism, when the hard thing was the room, not the talk. It is a
 heuristic and will misfile the unusual, which is why the panel prints the
 sentences under each heading: a wrong bucket is visible and costs nothing.
 Only `presenter_note` is bucketed. The belonging question is marked
@@ -200,17 +204,15 @@ something safe to point at; deleting the row removes its feedback with it.
 
 ## Slides
 
-One deck for the whole course, two ways to it from the home page:
+One deck for the whole course. **Present slides on Canva** — `SLIDES_URL` in
+`assets/config.js` — is the only way to it from the home page now.
 
-- **Present slides on Canva** — `SLIDES_URL` in `assets/config.js`
-- **Download slides as PowerPoint** — `assets/red-flag-green-flag.pptx`, 15MB,
-  committed so GitHub Pages serves it. The `download` attribute gives it a
-  readable filename; that only works because it is same-origin.
-
-Replacing the deck means replacing that file: same path, and the link needs no
-change. Replaced 15 Sep with the newer 25-slide deck; the red note under the
-buttons warning that room machines may still hold the old one came out once
-the week had run. The per-tutorial Menti link is gone — `data/menti.json` and the button
+`assets/red-flag-green-flag.pptx` (15MB) is still committed and still served,
+but nothing links to it: the download button came off once the week had run,
+along with the red note warning that room machines may hold the old deck.
+Pages will still hand the file to anyone with the path. Replacing the deck
+means replacing that file: same path, and any link put back needs no change.
+Replaced 15 Sep with the newer 25-slide deck. The per-tutorial Menti link is gone — `data/menti.json` and the button
 it put on every card came out.
 
 The stored URL is the `/view` form on purpose: the short link we were handed
@@ -284,7 +286,9 @@ that need presenters" bar came out, and with it the form students used to
 volunteer. The "Send a message to Joe" box on `groups.html` took that job over
 and offers joining another tutorial as its first suggestion; those messages
 land in the same `tutor_messages` table, so `npm run inbox` still reads them.
-"Your presentations" moved into the sidebar the bar left free.
+"See the tutorial groups" is now a button in the page header - the sidebar
+that held it emptied out when the upcoming-tutorials panel went, so it went
+too and the feed runs full width.
 
 Open threads:
 - Idea 2 (staggering Tut 12, 18, 24, 28 by 30 minutes) was measured and not

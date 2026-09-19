@@ -265,18 +265,6 @@ form.cform button{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;b
   .post .shot img{max-height:75vh}
 }
 
-/* sidebar --------------------------------------------------------------- */
-.home{display:grid;grid-template-columns:minmax(0,1fr) 302px;gap:16px;align-items:start}
-#upcomingBox{position:sticky;top:14px}
-#upcomingBox .panel{padding:15px}
-#upcomingBox .panel:not(:last-child){margin-bottom:14px}
-#upcomingBox h2{margin:0}
-#upcomingBox .none{color:var(--muted);font-size:13px;margin:0}
-@media (max-width:900px){
-  .home{grid-template-columns:1fr}
-  #upcomingBox{position:static}
-}
-
 /* post editing ---------------------------------------------------------- */
 .post .edited{color:var(--muted);font-size:11.5px;font-style:italic;margin-left:7px}
 form.editform{display:grid;gap:7px;margin:4px 0 2px}

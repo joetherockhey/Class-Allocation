@@ -234,7 +234,10 @@ export function isRealAnswer(text) {
 
 const PRAISE = /\b(good|great|greate|nice|well done|enjoy(ed|able)?|like[d]?|love[d]?|helpful|clear|practical|fun|engaging|interesting|informative|excellent|amazing|awesome|best|thank|appreciat|enthusias|relatable|useful)\b/i;
 const SUGGESTION = /\b(could|should|would be|maybe|suggest|improve|next time|instead|more |less |better|clearer|add |longer|shorter|specific|prefer|recommend|need(s|ed)? to|try to|make (the|it|sure))/i;
-const NEGATIVE = /\b(bad|boring|confus(ing|ed)|unclear|hard to|too (long|short|fast|slow|much|many)|didn'?t|did not|not (very|really|that)?\s?(good|useful|helpful|clear)|waste|pointless|common sense|irrelevant|nothing new)/i;
+// "hard to" is qualified: it was put here for "hard to follow", but bare it
+// also catches sympathy for the presenters - "they were great, it's hard to
+// present to a sleepy Friday class" is praise, and was filed as criticism.
+const NEGATIVE = /\b(bad|boring|confus(ing|ed)|unclear|hard to (follow|understand|hear|read|see|know|tell|engage)|too (long|short|fast|slow|much|many)|didn'?t|did not|not (very|really|that)?\s?(good|useful|helpful|clear)|waste|pointless|common sense|irrelevant|nothing new)/i;
 
 /** Rough bucket for a piece of written feedback.
  *

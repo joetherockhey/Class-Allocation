@@ -165,6 +165,10 @@ const row = (o) => ({ tutorial_id: "T22", study_help: null, belonging: null,
   assert.equal(classify("To make the question more specific, we didn't know who to evaluate"),
     "constructive", "a suggestion is constructive even when it is phrased negatively");
   assert.equal(classify("common sense knowledge and bad timing cause we have exams"), "critical");
+  assert.equal(classify("They were great, it's hard to present to a sleepy Friday class"),
+    "positive", "sympathy for the room is not criticism of the talk");
+  assert.equal(classify("hard to follow at times"), "critical",
+    "the phrase 'hard to' was qualified, not dropped");
 }
 
 /* the summary pools tutorials, drops the scratch one, and leaves out answers
