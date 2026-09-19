@@ -293,7 +293,7 @@ volunteer. The "Send a message to Joe" box on `groups.html` took that job over
 and offers joining another tutorial as its first suggestion; those messages
 land in the same `tutor_messages` table, so `npm run inbox` still reads them.
 "See the tutorial groups" is now a button in the page header. The sidebar
-beside the feed holds **The week's tutorials** instead - the whole week listed
+beside the feed holds **Tutorial groups** instead - the whole week listed
 in order, which is what the page is for now that the tutorials are a record
 rather than a schedule.
 
