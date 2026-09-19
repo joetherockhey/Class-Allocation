@@ -21,21 +21,21 @@ if (box) {
 }
 
 async function render() {
-  const [tutorials, res] = await Promise.all([tutorialList(), allFeedback()]);
+  let [tutorials, res] = await Promise.all([tutorialList(), allFeedback()]);
   if (res.error) {
     box.innerHTML = /feedback/.test(res.error)
       ? '<div class="notice">Not set up yet &mdash; run <code>supabase/feedback.sql</code>.</div>'
       : '<div class="notice warn">' + escapeHtml(res.error) + "</div>";
     return;
   }
-  const rows = res.data;
+  // The scratch tutorial is filtered out here, once, so nothing below it -
+  // the headline, the buttons, the pooled summary - can count it again.
+  const rows = res.data.filter((r) => notTest({ id: r.tutorial_id }));
+  tutorials = tutorials.filter(notTest);
   const stats = byTutorial(rows);
-  // TEST rows are the scratch tutorial - its panel still works, but it is not
-  // a class and does not belong in the headline count.
-  const real = rows.filter((r) => notTest({ id: r.tutorial_id }));
-  const realTuts = new Set(real.map((r) => r.tutorial_id)).size;
-  el("fbTotal").textContent = real.length
-    ? real.length + (real.length === 1 ? " response" : " responses") +
+  const realTuts = new Set(rows.map((r) => r.tutorial_id)).size;
+  el("fbTotal").textContent = rows.length
+    ? rows.length + (rows.length === 1 ? " response" : " responses") +
       " across " + realTuts + (realTuts === 1 ? " tutorial" : " tutorials")
     : "";
 

@@ -190,13 +190,13 @@ unsigned feedback is more honest. The costs of that are worth knowing.
   the browser. Use the service key if something has to go.
 
 `TEST01` is a scratch tutorial for trying the form (labelled just "Test"; the
-id is what the filtering keys off, so leave it alone). Its responses are left
-out of the headline "N responses across M tutorials", though its own panel
-still works. Anything whose id starts
-with `TEST` is filtered out of the preference grid and the dashboard counts by
-`notTest` in `assets/api.js` — it exists only so feedback has something safe to
-point at. Leaving it in costs nothing; deleting the row removes its feedback
-with it.
+id is what the filtering keys off, so leave it alone). Anything whose id starts
+with `TEST` is filtered out by `notTest` in `assets/api.js` — the preference
+grid, the dashboard counts, and now the whole feedback panel: since the week
+ran, `feedback-view.js` filters both the rows and the tutorial list once at the
+top of `render()`, so the scratch tutorial has no button and counts towards
+nothing. The row is still there and the form still accepts it, so there is
+something safe to point at; deleting the row removes its feedback with it.
 
 ## Slides
 
