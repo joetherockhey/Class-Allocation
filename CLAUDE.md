@@ -206,7 +206,10 @@ something safe to point at; deleting the row removes its feedback with it.
 ## Slides
 
 One deck for the whole course. **Present slides on Canva** — `SLIDES_URL` in
-`assets/config.js` — is the only way to it from the home page now.
+`assets/config.js` — is the only way to it from the home page now, and it sits
+in the header beside **See the tutorial groups**; the panel that used to hold
+it had nothing else in it. `student.js` still sets that link's href before
+anything else loads, so the deck survives the backend being down.
 
 `assets/red-flag-green-flag.pptx` (15MB) is still committed and still served,
 but nothing links to it: the download button came off once the week had run,
