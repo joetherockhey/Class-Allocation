@@ -2,6 +2,7 @@ import { loadCore, getPrefs, savePrefs, loadAllocations, el, escapeHtml, backend
   strandedPrefs, clearStranded, notTest } from "./api.js";
 import { COURSE_TITLE, INTRO, MIN_PICKS, MIN_PICKS_BY_NAME, SLIDES_URL } from "./config.js";
 import { initFeed } from "./feed.js";
+import { initWeek } from "./week.js";
 
 const LS_KEY = "tutgroups.studentId";
 
@@ -41,6 +42,7 @@ async function init() {
 
   // the feed does not depend on the roster loading, so start it first
   initFeed().catch(() => {});
+  initWeek().catch(() => {});
   el("closePrefs").addEventListener("click", () => { showFeed(); signOut(true); });
 
   ({ tutorials, students, settings, submitted } = await loadCore());

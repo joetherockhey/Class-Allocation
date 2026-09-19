@@ -14,6 +14,7 @@ into presentation groups. Static site on GitHub Pages, data in Supabase.
 | Path | What |
 |---|---|
 | `index.html` + `assets/student.js` | student page: the feed, and the preference picker behind `?prefs=1` |
+| `assets/week.js` | the sidebar list of the week's tutorials, read from `groups.json` |
 | `groups.html` | generated results page: by tutorial, by person, tutorial clashes |
 | `admin.html` | submission progress, slot coverage, export button |
 | `feedback.html` + `assets/feedback.js` | what the audience scans: pick a tutorial, four pick-one questions, two written answers |
@@ -224,10 +225,15 @@ to view-only as well.
 
 The tutorials run once, in the week beginning `WEEK_START` in
 `assets/config.js` (Monday 14 September 2026). They are not weekly fixtures.
-That week has now run. The upcoming-tutorials sidebar panel and
-`assets/upcoming.js` came out with it, and so did the "turn on notifications"
-prompt on the feed - already-granted browsers still get told about new posts,
-nothing asks any more.
+That week has now run, so nothing counts down to it any more. The
+upcoming-tutorials panel and `assets/upcoming.js` came out; `assets/week.js`
+took the sidebar over with the same dating code and no countdown - every
+tutorial Mon to Fri in order, with who presented, where and when. A tutorial
+whose `when` will not parse is listed at the bottom under "Time unclear"
+rather than dropped, because a group quietly missing from the record is the
+failure nobody would spot. The "turn on notifications" prompt went too -
+already-granted browsers still get told about new posts, nothing asks any
+more.
 
 The "Set preferences" button came off the public page at the same time. The
 picker itself is untouched, still in `index.html`, and `?prefs=1` opens it -
@@ -286,9 +292,10 @@ that need presenters" bar came out, and with it the form students used to
 volunteer. The "Send a message to Joe" box on `groups.html` took that job over
 and offers joining another tutorial as its first suggestion; those messages
 land in the same `tutor_messages` table, so `npm run inbox` still reads them.
-"See the tutorial groups" is now a button in the page header - the sidebar
-that held it emptied out when the upcoming-tutorials panel went, so it went
-too and the feed runs full width.
+"See the tutorial groups" is now a button in the page header. The sidebar
+beside the feed holds **The week's tutorials** instead - the whole week listed
+in order, which is what the page is for now that the tutorials are a record
+rather than a schedule.
 
 Open threads:
 - Idea 2 (staggering Tut 12, 18, 24, 28 by 30 minutes) was measured and not

@@ -265,6 +265,32 @@ form.cform button{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;b
   .post .shot img{max-height:75vh}
 }
 
+/* the week's tutorials, beside the feed ---------------------------------- */
+.home{display:grid;grid-template-columns:minmax(0,1fr) 302px;gap:16px;align-items:start}
+#weekBox{position:sticky;top:14px}
+#weekBox .panel{padding:15px}
+#weekBox h2{margin:0}
+#week{list-style:none;margin:0;padding:0;max-height:min(72vh,680px);overflow-y:auto;
+  border-top:1px solid var(--line)}
+#week li{padding:10px 2px;border-bottom:1px solid var(--line)}
+#week li:last-child{border-bottom:none}
+#week li.wkday{position:sticky;top:0;background:var(--panel);border-bottom:none;
+  padding:9px 2px 3px;font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--accent)}
+#week .hd{display:flex;align-items:baseline;gap:8px}
+#week .hd b{font-size:14px}
+#week .in{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--accent);white-space:nowrap}
+#week .wh{font-size:12.5px;color:var(--muted);margin-top:2px}
+#week .ppl{font-size:12px;margin-top:5px;line-height:1.5}
+#week .v{font-size:9px;font-weight:700;background:var(--accent-soft);color:var(--accent);
+  border-radius:999px;padding:0 5px;margin-left:3px}
+#week .none{color:var(--muted);font-size:13px;margin:0}
+@media (max-width:900px){
+  .home{grid-template-columns:1fr}
+  #weekBox{position:static}
+  #week{max-height:340px}
+}
+
 /* post editing ---------------------------------------------------------- */
 .post .edited{color:var(--muted);font-size:11.5px;font-style:italic;margin-left:7px}
 form.editform{display:grid;gap:7px;margin:4px 0 2px}
