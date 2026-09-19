@@ -265,6 +265,14 @@ form.cform button{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;b
   .post .shot img{max-height:75vh}
 }
 
+/* the two tabs on the home page ------------------------------------------ */
+.tabs{display:flex;gap:6px;margin:0 0 16px;border-bottom:1px solid var(--line)}
+.tabs button{border:none;background:none;border-radius:8px 8px 0 0;padding:9px 16px;
+  margin-bottom:-1px;color:var(--muted);font-weight:600;
+  border-bottom:2px solid transparent}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+
 /* the week's tutorials, beside the feed ---------------------------------- */
 .home{display:grid;grid-template-columns:minmax(0,1fr) 302px;gap:16px;align-items:start}
 #weekBox{position:sticky;top:14px}

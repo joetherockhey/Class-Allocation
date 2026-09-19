@@ -22,13 +22,29 @@ init().catch((e) => {
   b.classList.remove("hidden");
 });
 
+/* Two tabs over the same page: the feed with its sidebar, and the audience
+ * feedback panel. Only which one is visible changes - neither is unloaded or
+ * re-fetched on a switch, and both keep their own refresh running behind the
+ * other, so nothing posted or rated while you are on the far tab is missed. */
+let tab = "feed";
+function showTab(which) {
+  tab = which;
+  el("feedPane").classList.toggle("hidden", which !== "feed");
+  el("fbPanel").classList.toggle("hidden", which !== "feedback");
+  el("tabFeed").setAttribute("aria-selected", String(which === "feed"));
+  el("tabFb").setAttribute("aria-selected", String(which === "feedback"));
+}
+
 function showFeed() {
-  document.querySelector(".home").classList.remove("hidden");
+  el("mainTabs").classList.remove("hidden");
   el("feedArea").classList.remove("hidden");
   el("prefsArea").classList.add("hidden");
+  showTab(tab);                       // back to whichever tab was last open
 }
 function showPrefs() {
-  document.querySelector(".home").classList.add("hidden");
+  el("mainTabs").classList.add("hidden");
+  el("feedPane").classList.add("hidden");
+  el("fbPanel").classList.add("hidden");
   el("feedArea").classList.add("hidden");
   el("prefsArea").classList.remove("hidden");
   const known = students.find((s) => s.id === localStorage.getItem(LS_KEY));
@@ -44,6 +60,8 @@ async function init() {
   initFeed().catch(() => {});
   initWeek().catch(() => {});
   el("closePrefs").addEventListener("click", () => { showFeed(); signOut(true); });
+  el("tabFeed").addEventListener("click", () => showTab("feed"));
+  el("tabFb").addEventListener("click", () => showTab("feedback"));
 
   ({ tutorials, students, settings, submitted } = await loadCore());
   tutorials = tutorials.filter(notTest);

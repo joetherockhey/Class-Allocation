@@ -96,6 +96,16 @@ tutorial** on both the home page and the dashboard — the same
 `assets/feedback-view.js` drives both, keyed off the ids `fbResults` and
 `fbTotal`, so a page gets the panel by declaring those two ids.
 
+On the home page it is no longer at the bottom: two tabs, **Feed** and
+**Student feedback**, sit under the intro and swap which of `#feedPane` (the
+posts and the sidebar) and `#fbPanel` is visible. `showTab()` in `student.js`
+toggles `.hidden` and nothing else — neither pane is unloaded or re-fetched on
+a switch, and both keep their own polling running behind the other, so a post
+or a rating that lands while you are on the far tab is still there. The tab
+listeners are attached before `loadCore()` is awaited, so the tabs still work
+if the backend is down. The picker (`?prefs=1`) hides the tab bar and both
+panes while it is open.
+
 The questions live in `assets/feedback-stats.js`. Reword a label freely;
 adding or removing an *option* also means editing the check constraint in
 `supabase/feedback-choices.sql`, because the stored slugs are constrained.

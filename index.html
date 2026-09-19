@@ -20,8 +20,13 @@
 
   <div id="banner" class="notice hidden"></div>
 
+  <nav class="tabs" id="mainTabs" role="tablist" aria-label="What to look at">
+    <button role="tab" id="tabFeed" aria-controls="feedPane" aria-selected="true">Feed</button>
+    <button role="tab" id="tabFb" aria-controls="fbPanel" aria-selected="false">Student feedback</button>
+  </nav>
+
   <!-- ------------------------------------------------------------- the feed -->
-  <div class="home">
+  <div class="home" id="feedPane" role="tabpanel" aria-labelledby="tabFeed">
 
   <section id="feedArea">
     <details class="panel composerbox">
@@ -58,7 +63,7 @@
   </div>
 
   <!-- --------------------------------------------------- feedback per tutorial -->
-  <section class="panel" id="fbPanel">
+  <section class="panel hidden" id="fbPanel" role="tabpanel" aria-labelledby="tabFb">
     <div class="row" style="margin-bottom:4px">
       <h2 style="margin:0">Feedback per tutorial</h2>
       <span id="fbTotal" class="badge"></span>
