@@ -20,6 +20,7 @@ into presentation groups. Static site on GitHub Pages, data in Supabase.
 | `feedback.html` + `assets/feedback.js` | what the audience scans: pick a tutorial, four pick-one questions, two written answers |
 | `assets/feedback-stats.js` | the questions, and the sums behind the home-page panel. Pure, tested by `npm test` |
 | `assets/feedback-view.js` | the "Feedback per tutorial" panel on the home page |
+| `report.html` + `assets/feedback-report.js` | the printable all-tutorials report, saved as a PDF from the browser |
 | `assets/config.js` | Supabase URL + anon key (public, committed), `MIN_PICKS*`, `SLIDES_URL` |
 | `assets/api.js` | swaps between Supabase and a localStorage preview backend |
 | `.env` | **service-role key, gitignored, local only** — needed by every script below |
@@ -212,6 +213,42 @@ ran, `feedback-view.js` filters both the rows and the tutorial list once at the
 top of `render()`, so the scratch tutorial has no button and counts towards
 nothing. The row is still there and the form still accepts it, so there is
 something safe to point at; deleting the row removes its feedback with it.
+
+## The printable report
+
+**Export all-tutorials PDF** on the feedback panel (home page and dashboard)
+opens `report.html?print=1`, which builds the whole week's feedback as one
+document and calls `window.print()` once the photos have loaded. There is no
+PDF library: print CSS plus the browser's own "Save as PDF" keeps the text
+selectable and reuses the charts `feedback-view.js` already draws, which is why
+`divergingBars`, `partToWhole` and the palette are exported from it. Importing
+that module from the report is safe - its top-level work is guarded on
+`#fbResults`, which the report does not have.
+
+It is a snapshot and nothing polls: the week has run, so the only thing that
+changes it is changing the code. Page one is the summary and is held to a
+single page by `break-after: page` on `.sheet`; it measured 944px against a
+1017px A4 body, so there is room but not much - adding a chart to it means
+checking it still fits. After that come every note to the presenters in the
+three sentiment buckets, then the belonging answers in their action clusters,
+with one feed photo after each box and the remaining thirteen in a gallery at
+the end. Each photo carries the words posted with it and who posted them.
+
+Tut 22's study-help answers are out of the summary already, and not by anything
+the report does - `summariseAll()` drops them through `summaryExclude`, so the
+report inherits it. That also drops one late Tut 11 response given inside the
+same wording window, which is right: those eleven people were asked a different
+question.
+
+Two things are load-bearing in the photo URLs. `width=1400` keeps phone photos
+from going in at full resolution, and `format=origin` stops Supabase handing
+back WebP - a browser cannot embed WebP in a PDF, so it decodes every photo to
+a bitmap and the file comes out at 82MB instead of 8.6MB. If the transform
+endpoint is ever off, `data-full` on each `<img>` falls back to the original.
+
+Printing needs **background graphics** on, or every bar and tinted box comes out
+white. `print-color-adjust: exact` asks for it; the checkbox in the print dialog
+can still override.
 
 ## Slides
 

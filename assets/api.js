@@ -191,6 +191,16 @@ export async function allFeedback() {
   return error ? { error: error.message } : { data };
 }
 
+/** Feed posts that carry a photo, oldest first. The printable report scatters
+ *  these through itself; `body` is the caption that was posted with the shot. */
+export async function photoPosts() {
+  if (mode === "demo") return [];
+  const { data, error } = await db.from("posts")
+    .select("name,body,file_url,file_name,created_at")
+    .eq("file_kind", "image").order("created_at");
+  return error ? [] : data;
+}
+
 /** Tutorials whose id starts with TEST are scratch rows for trying the site
  *  out. They exist in the database so feedback can point at them, but they are
  *  not real classes: keep them out of anything that allocates or counts. */

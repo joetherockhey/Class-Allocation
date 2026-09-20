@@ -119,10 +119,10 @@ async function render() {
  * part-to-whole bar. Palette validated with the data-viz palette checker
  * against this page's white panel; every segment carries a visible label, which
  * is what the sub-3:1 fills are allowed on. */
-const NEG = ["#b3322f", "#e8716e"];        // far from neutral -> near
-const NEUTRAL = "#c9c8c3";
-const POS = ["#5598e7", "#1c5cab"];        // near neutral -> far
-const CATEGORICAL = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"];
+export const NEG = ["#b3322f", "#e8716e"];        // far from neutral -> near
+export const NEUTRAL = "#c9c8c3";
+export const POS = ["#5598e7", "#1c5cab"];        // near neutral -> far
+export const CATEGORICAL = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"];
 const OFF_SCALE = "not_sure";              // an opt-out, not a point on the scale
 
 /** Split a question's options into the two arms and the middle. */
@@ -135,7 +135,7 @@ function arms(counts) {
 
 const pct = (n, total) => (total ? (n / total) * 100 : 0);
 
-function divergingBars(questions) {
+export function divergingBars(questions) {
   // every bar is the full width of the track: the shape of the split is what
   // is being compared, not how many people answered each question
   const rows = questions.map(({ q, c }) => {
@@ -175,7 +175,7 @@ function divergingBars(questions) {
     "</div>";
 }
 
-function partToWhole(q, c) {
+export function partToWhole(q, c) {
   // ponytail: six hues for six options. A seventh would repeat one - fold the
   // tail into "Other" rather than inventing a colour, which never survives
   // colour-blind checking.
@@ -266,4 +266,4 @@ export function summaryHtml(a) {
 }
 
 /** Status-ish tones for the three feedback buckets, in the order they are shown. */
-const CATEGORICAL_TONE = [["positive", "#0ca30c"], ["constructive", "#2a78d6"], ["critical", "#d03b3b"]];
+export const CATEGORICAL_TONE = [["positive", "#0ca30c"], ["constructive", "#2a78d6"], ["critical", "#d03b3b"]];
