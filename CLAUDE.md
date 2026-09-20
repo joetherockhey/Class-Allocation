@@ -227,9 +227,11 @@ that module from the report is safe - its top-level work is guarded on
 
 It is a snapshot and nothing polls: the week has run, so the only thing that
 changes it is changing the code. Page one is the summary and is held to a
-single page by `break-after: page` on `.sheet`; it measured 944px against a
-1017px A4 body, so there is room but not much - adding a chart to it means
-checking it still fits. After that come every note to the presenters in the
+single page by `break-after: page` on `.sheet`; it measures 973px against a
+1017px A4 body, so adding anything to it means checking it still fits. The
+four quotes on it are named in `FRONT_QUOTES`, matched on their opening words -
+picked by hand because every rule tried put the longest notes on the page, and
+the longest notes are the ones asking for a change. After that come every note to the presenters in the
 three sentiment buckets, then the belonging answers in their action clusters,
 with one feed photo after each box and the remaining thirteen in a gallery at
 the end. Each photo carries the words posted with it and who posted them.

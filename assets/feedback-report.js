@@ -63,18 +63,30 @@ const figure = (p) => !p ? "" :
   '<span class="by">' + escapeHtml(p.name) + " &middot; " + escapeHtml(day(p.created_at)) +
   "</span></figcaption></figure>";
 
-/** A few lines worth putting on the front page: the longest answers that still
- *  fit in a box. Shorter ones are "great!", longer ones ramble, and a multi-line
- *  answer is usually one with a signature under it, which does not read as a
- *  pull quote.
+/** The four notes chosen for the front page, in the order they appear.
  *
- *  All three from the positive bucket. Sorting everything by length instead put
- *  three criticisms on the front of a report where 64% of the notes were
- *  positive - the notes that suggest a change are the ones that run long. */
-function standouts(text, n = 3) {
-  return text.byCategory.positive
-    .filter((x) => x.answer.length >= 60 && x.answer.length <= 200 && !/[\r\n]/.test(x.answer))
-    .slice().sort((a, b) => b.answer.length - a.answer.length).slice(0, n);
+ *  Picked by hand rather than ranked. Every rule tried here approximated the
+ *  same judgement badly: by length alone the page filled with the three longest
+ *  notes, which are the ones suggesting changes, on a report where 64% of the
+ *  notes were positive. The feedback is closed, so there is nothing for a rule
+ *  to keep up with.
+ *
+ *  Each line is matched on its opening words; the wording shown, the tutorial
+ *  it came from and its bucket all still come from the data. A line that stops
+ *  matching drops off the page rather than breaking it - so if the front page
+ *  looks short, it is this list that has drifted from the answers. */
+const FRONT_QUOTES = [
+  "They were very good and had very good people skills",
+  "The teamwork session was clear and practical",
+  "Super friendly and the red flag green flag game",
+  "they were great. very engaging and approachable",
+];
+
+function standouts(text) {
+  const opensWith = (a, b) => a.slice(0, b.length).toLowerCase() === b.toLowerCase();
+  return FRONT_QUOTES
+    .map((open) => text.answers.find((x) => opensWith(x.answer, open)))
+    .filter(Boolean);
 }
 
 /** The positive / developmental / critical split as one part-to-whole bar. */
