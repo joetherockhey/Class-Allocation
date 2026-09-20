@@ -40,11 +40,18 @@ const day = (d) => new Date(d).toLocaleDateString("en-AU",
  *  photo to a bitmap and the file comes out bigger than the originals. Asking
  *  for the source format keeps them JPEG, and JPEG goes in untouched.
  *
+ *  Both bounds and `resize=contain` are needed together. Given a width alone
+ *  the endpoint resizes the width and leaves the height, so a 4896x2754
+ *  landscape came back 1400x2754 - every landscape photo squashed into a
+ *  portrait frame. A 1400 box with contain fits the longest side either way
+ *  and keeps the shape, and it rotates by EXIF, so a photo lands in the PDF
+ *  the way the feed shows it.
+ *
  *  If the transform endpoint is ever off, the original still loads - a heavy
  *  report beats a report of broken frames. */
 const thumb = (url) => url.includes("/storage/v1/object/public/")
   ? url.replace("/storage/v1/object/public/", "/storage/v1/render/image/public/") +
-    "?width=1400&quality=72&format=origin"
+    "?width=1400&height=1400&resize=contain&quality=72&format=origin"
   : url;
 
 /** One photo from the feed, with what was posted alongside it. */
@@ -57,16 +64,17 @@ const figure = (p) => !p ? "" :
   "</span></figcaption></figure>";
 
 /** A few lines worth putting on the front page: the longest answers that still
- *  fit in a box. Shorter ones are "great!", longer ones ramble.
+ *  fit in a box. Shorter ones are "great!", longer ones ramble, and a multi-line
+ *  answer is usually one with a signature under it, which does not read as a
+ *  pull quote.
  *
- *  Two praised and one to act on, rather than the three longest of everything -
- *  the notes that suggest a change run longer, so length alone puts three
- *  criticisms on the front of a report where 64% of the notes were positive. */
-function standouts(text) {
-  const pick = (key, n) => text.byCategory[key]
-    .filter((x) => x.answer.length >= 60 && x.answer.length <= 200)
+ *  All three from the positive bucket. Sorting everything by length instead put
+ *  three criticisms on the front of a report where 64% of the notes were
+ *  positive - the notes that suggest a change are the ones that run long. */
+function standouts(text, n = 3) {
+  return text.byCategory.positive
+    .filter((x) => x.answer.length >= 60 && x.answer.length <= 200 && !/[\r\n]/.test(x.answer))
     .slice().sort((a, b) => b.answer.length - a.answer.length).slice(0, n);
-  return pick("positive", 2).concat(pick("constructive", 1));
 }
 
 /** The positive / developmental / critical split as one part-to-whole bar. */

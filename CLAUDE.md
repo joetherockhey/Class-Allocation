@@ -240,11 +240,15 @@ report inherits it. That also drops one late Tut 11 response given inside the
 same wording window, which is right: those eleven people were asked a different
 question.
 
-Two things are load-bearing in the photo URLs. `width=1400` keeps phone photos
-from going in at full resolution, and `format=origin` stops Supabase handing
-back WebP - a browser cannot embed WebP in a PDF, so it decodes every photo to
-a bitmap and the file comes out at 82MB instead of 8.6MB. If the transform
-endpoint is ever off, `data-full` on each `<img>` falls back to the original.
+Three things are load-bearing in the photo URLs, and all three were found the
+hard way. `width=1400&height=1400&resize=contain` keeps phone photos from going
+in at full resolution *and* keeps their shape: a width on its own resizes the
+width and leaves the height, which turned every landscape shot into a squashed
+portrait. `format=origin` stops Supabase handing back WebP - a browser cannot
+embed WebP in a PDF, so it decodes every photo to a bitmap and the file comes
+out at 82MB instead of 8MB. The endpoint rotates by EXIF, so what lands in the
+PDF is what the feed shows. If it is ever off, `data-full` on each `<img>`
+falls back to the original.
 
 Printing needs **background graphics** on, or every bar and tinted box comes out
 white. `print-color-adjust: exact` asks for it; the checkbox in the print dialog
