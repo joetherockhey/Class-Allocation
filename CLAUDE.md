@@ -233,8 +233,11 @@ four quotes on it are named in `FRONT_QUOTES`, matched on their opening words -
 picked by hand because every rule tried put the longest notes on the page, and
 the longest notes are the ones asking for a change. After that come every note to the presenters in the
 three sentiment buckets, then the belonging answers in their action clusters,
-with one feed photo after each box and the remaining thirteen in a gallery at
-the end. Each photo carries the words posted with it and who posted them.
+with one feed photo after each box and the rest in a gallery at the end. Each
+photo carries the words posted with it and who posted them. Two of the feed's
+photos are not in it - the post that opened the thread and the dog someone put
+up once the week was over - both named in `NOT_IN_REPORT` by file name, since a
+caption can be edited from the feed and the list would quietly stop matching.
 
 Tut 22's study-help answers are out of the summary already, and not by anything
 the report does - `summariseAll()` drops them through `summaryExclude`, so the

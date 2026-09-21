@@ -54,6 +54,17 @@ const thumb = (url) => url.includes("/storage/v1/object/public/")
     "?width=1400&height=1400&resize=contain&quality=72&format=origin"
   : url;
 
+/** Feed photos that are not pictures of a tutorial, and so are not in the
+ *  report: the post that opened the thread, and the dog someone put up once the
+ *  week was over. Both are fine posts; neither shows what a session looked
+ *  like. Matched on the stored file name rather than the caption, because a
+ *  caption is editable from the feed and this list would quietly stop working.
+ *  Everything else in the feed goes in. */
+const NOT_IN_REPORT = [
+  "7d866617-6523-48c4-9f74-f34ca5842d73.jpg",   // "Hey guys, feel free to post in this thread..."
+  "Milky resting.jpeg",                          // the dog, after the last tutorial
+];
+
 /** One photo from the feed, with what was posted alongside it. */
 const figure = (p) => !p ? "" :
   '<figure class="shot-fig">' +
@@ -106,7 +117,8 @@ function toneBar(t) {
 /* ---------------------------------------------------------------- build */
 
 async function build() {
-  const [res, photos] = await Promise.all([allFeedback(), photoPosts()]);
+  const [res, posted] = await Promise.all([allFeedback(), photoPosts()]);
+  const photos = posted.filter((p) => !NOT_IN_REPORT.includes(p.file_name));
   if (res.error) throw new Error(res.error);
   const rows = res.data.filter((r) => !String(r.tutorial_id).startsWith("TEST"));
   if (!rows.length) { out.innerHTML = '<p class="sub">No feedback to report.</p>'; return; }
@@ -140,7 +152,7 @@ async function build() {
     "Collected anonymously on a QR at the end of each tutorial.</p>" +
     '<div class="tiles">' +
       tile(a.responses, "responses") + tile(a.tutorials, "tutorials") +
-      tile(notes.total + belong.total, "written answers") + tile(photos.length, "photos posted") +
+      tile(notes.total + belong.total, "written answers") + tile(photos.length, "photos") +
     "</div>" +
 
     '<p class="sub dvg-legend"><span class="sw" style="background:' + NEG[0] + '"></span>less' +
