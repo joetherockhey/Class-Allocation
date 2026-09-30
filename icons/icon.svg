@@ -1,1 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#E64626"/><g fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 24 32 13l20 11z"/><path d="M12 28.5h40"/><path d="M18 33v10M26 33v10M38 33v10M46 33v10"/><path d="M12 47.5h40M9 52.5h46"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F26A43"/><stop offset="1" stop-color="#D7381E"/></linearGradient>
+    <radialGradient id="sheen" cx=".5" cy="0" r=".9"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <filter id="lift" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#7a1c0a" flood-opacity=".35"/></filter>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#sheen)"/>
+  <g fill="#fff" filter="url(#lift)">
+    <path d="M512 196 L812 356 Q828 366 818 382 Q812 392 798 392 H226 Q212 392 206 382 Q196 366 212 356 Z"/>
+    <rect x="236" y="418" width="552" height="40" rx="14"/>
+    <rect x="286" y="484" width="64" height="254" rx="22"/>
+    <rect x="410" y="484" width="64" height="254" rx="22"/>
+    <rect x="550" y="484" width="64" height="254" rx="22"/>
+    <rect x="674" y="484" width="64" height="254" rx="22"/>
+    <rect x="236" y="764" width="552" height="40" rx="14"/>
+    <rect x="196" y="826" width="632" height="44" rx="16"/>
+  </g>
+  <circle cx="512" cy="318" r="30" fill="#E24B2A"/>
+</svg>
