@@ -208,6 +208,7 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="icons/icon.svg"><link rel="apple-touch-icon" href="icons/icon-180.png">
 <title>Groups &middot; ${esc(COURSE_TITLE)}</title>
 <style>
 :root{color-scheme:light;
