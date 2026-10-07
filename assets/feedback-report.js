@@ -204,12 +204,4 @@ async function build() {
   for (const img of out.querySelectorAll("img[data-full]")) {
     img.onerror = () => { img.onerror = null; img.src = img.dataset.full; };
   }
-
-  // Opened from the export button: print once the photos are actually there,
-  // or the first pass prints empty frames.
-  if (new URLSearchParams(location.search).has("print")) {
-    await Promise.all([...document.images].map((i) =>
-      i.complete ? null : new Promise((r) => { i.onload = i.onerror = r; })));
-    window.print();
-  }
 }

@@ -217,8 +217,9 @@ something safe to point at; deleting the row removes its feedback with it.
 ## The printable report
 
 **Export all-tutorials PDF** on the feedback panel (home page and dashboard)
-opens `report.html?print=1`, which builds the whole week's feedback as one
-document and calls `window.print()` once the photos have loaded. There is no
+opens `report.html`, which builds the whole week's feedback as one document;
+its "Save as PDF" button calls `window.print()`. It used to auto-print on load
+(`?print=1`), which froze the tab, so the user prints by hand now. There is no
 PDF library: print CSS plus the browser's own "Save as PDF" keeps the text
 selectable and reuses the charts `feedback-view.js` already draws, which is why
 `divergingBars`, `partToWhole` and the palette are exported from it. Importing
